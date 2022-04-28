@@ -1,18 +1,52 @@
+import React from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet,TouchableWithoutFeedback,Alert, Button, Text, View, Image, SafeAreaView,TouchableOpacity, TouchableNativeFeedback } from 'react-native';
+import { NavigationContainer, StackRouter } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import 'react-native-gesture-handler';
+
+import RegestrationScreen from './app/screens/RegistrationScreen';
+import LoginScreen from './app/screens/LoginScreen';
+import Header from './app/components/Header';
+import StackNavigator from './app/components/StackNavigator';
+import TabNavigator from './app/components/TabNavigator';
+
 
 export default function App() {
+  const [auth] = React.useState(false)
+  
+    if (auth == true) {
+      console.log("TabNav");
+      return(
+        <NavigationContainer styles={styles.container}>
+          <TabNavigator/>
+        </NavigationContainer>
+
+      );
+    }
+    else
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    
+      <NavigationContainer styles={styles.container}>
+    <StackNavigator/>
+    </NavigationContainer>
+    
   );
 }
 
+
+
 const styles = StyleSheet.create({
+  headerContainer:{
+    flex: 1,
+    width:"100%",
+    height:"100%",
+    justifyContent: 'flex-start'
+  },
   container: {
     flex: 1,
+    width:"100%",
+    height:"100%",
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
