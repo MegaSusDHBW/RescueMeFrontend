@@ -1,16 +1,56 @@
-import React   from 'react';
+import React, {useState}   from 'react';
 import { StyleSheet,TextInput, SafeAreaView,Button,View} from 'react-native';
+
 import Header from '../components/Header';
+
 function RegestrationScreen(props) {
   //const account = [email, password]
+  const user = {
+    email: '',
+    password:'',
+    passwordConfirm:'',
+};
+
+  const handleSubmit= async () => {
+    try {
+        const requestOptions = 
+{
+
+method: 'POST',
+headers: {'Content-Type': 'application/json'},
+body: JSON.stringify(user)
+};
+        console.log("POST")
+        console.log(JSON.stringify(user))
+        console.log(requestOptions.body);
+      await fetch(
+        'http://10.0.2.2:5000/sign-up',
+        requestOptions,
+      ).then(response => {
+        response.json().then(data => {
+          Alert.alert('Post created at : ');
+        });
+      }).then(props.navigation.navigate('Login'));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+console.log("Login");
+const [password,setPassword] = useState(null);
+const [passwordConfirm, setPasswordConfirm] = useState(null)
+const [email, setEmail] = useState(null);
+user.email = email;
+user.password = password;
+user.passwordConfirm = password
   console.log("renderdRegestration");
   return (
     <SafeAreaView style={styles.container}>    
     <View>
-    <TextInput placeholder='Email' />
-    <TextInput placeholder='Passwort' />
-    <TextInput placeholder='Passwort wiederholen'/>
-    <Button title='Regestrieren'/>
+    <TextInput placeholder='Email' onChangeText={(value) => setEmail(value )} value={email} />
+    <TextInput placeholder='Passwort' onChangeText={(value) => setPassword(value )} value={password} secureTextEntry={true}/>
+    <TextInput placeholder='Passwort wiederholen' onChangeText={(value) => setPasswordConfirm(value)} value={passwordConfirm} />
+    <Button title='Regestrieren' onPress={handleSubmit}/>
     </View>
     </SafeAreaView>
   );

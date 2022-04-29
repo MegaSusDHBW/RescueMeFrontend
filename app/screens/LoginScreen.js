@@ -5,44 +5,40 @@ function LoginScreen({navigation}) {
 
     function handleNavigationRegistry () {navigation.navigate('Regestrieren')};
     function handleNavigationForgotPassword () {navigation.navigate('Passwort Vergessen')};
-    const requestOptions = 
-    {
-        
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(user)
-    };
+    
     const user = {
         email: '',
         password:'',
-        passwordConfirm:'',
     };
 
     const handleSubmit= async () => {
             try {
-                console.log("POST")
-                console.log(email);
-                console.log(JSON.stringify(user))
-                console.log(requestOptions.body);
-              await fetch(
-                'http://10.0.2.2:5000/sign-up',
+        const requestOptions = 
+        {
+        
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(user)
+        };
+            console.log("POST")
+            console.log(JSON.stringify(user))
+            console.log(requestOptions.body);
+            await fetch(
+               'http://10.0.2.2:5000/login',
                 requestOptions,
               ).then(response => {
                 response.json().then(data => {
-                  Alert.alert('Post created at : ');
-                });
+                Alert.alert('Post created at : ');
+                }).then(console.log('loged in'));
               });
             } catch (error) {
               console.error(error);
             }
           };
-    
-    console.log("Login");
     const [password,setPassword] = useState(null);
     const [email, setEmail] = useState(null);
     user.email = email;
     user.password = password;
-    user.passwordConfirm = password
     return (        
        <View style={styles.container}>
        <TextInput placeholder='Email'  
@@ -60,7 +56,8 @@ function LoginScreen({navigation}) {
     );
 }
 const styles = StyleSheet.create({
-    container: {
+    container:
+    {
         flex: 1,
         width:"100%",        
         justifyContent: 'center',
