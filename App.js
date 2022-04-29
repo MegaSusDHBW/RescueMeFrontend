@@ -28,7 +28,7 @@ export default function App() {
     else
   return (
     
-      <NavigationContainer styles={styles.container}>
+      <NavigationContainer styles={styles.container} auth={auth}>
     <StackNavigator/>
     </NavigationContainer>
     

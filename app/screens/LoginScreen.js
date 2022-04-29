@@ -1,7 +1,9 @@
+import { setStatusBarHidden } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
+import App from '../../App';
 
-function LoginScreen({navigation}) {
+function LoginScreen({navigation},{auth}) {
 
     function handleNavigationRegistry () {navigation.navigate('Regestrieren')};
     function handleNavigationForgotPassword () {navigation.navigate('Passwort Vergessen')};
@@ -29,7 +31,7 @@ function LoginScreen({navigation}) {
               ).then(response => {
                 response.json().then(data => {
                 Alert.alert('Post created at : ');
-                }).then(console.log('loged in'));
+                }).then(console.log('loged in')).then(() => setLogin(true));
               });
             } catch (error) {
               console.error(error);
@@ -37,6 +39,8 @@ function LoginScreen({navigation}) {
           };
     const [password,setPassword] = useState(null);
     const [email, setEmail] = useState(null);
+    const [logedIn,setLogin] = useState(false);
+    auth = logedIn;
     user.email = email;
     user.password = password;
     return (        
