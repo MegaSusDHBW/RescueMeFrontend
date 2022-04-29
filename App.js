@@ -13,7 +13,8 @@ import TabNavigator from './app/components/TabNavigator';
 
 
 export default function App() {
-  const [auth] = React.useState(false)
+
+  const [auth,setAuth] = React.useState(false)
   
     if (auth == true) {
       console.log("TabNav");
