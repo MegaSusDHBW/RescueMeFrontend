@@ -2,8 +2,8 @@ import React, {useState,useEffect} from 'react';
 import * as Location from 'expo-location';
 
 
-function getLocation(){
-    const [location, setLocation] = useState('test');
+export function getLocation(){
+    const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
     console.log('entered function');
@@ -29,8 +29,6 @@ function getLocation(){
   } else if (location) {
     text = JSON.stringify(location);
     console.log(text);
+    return(text)
   }
 }
-const location = getLocation();
-
-export default location;

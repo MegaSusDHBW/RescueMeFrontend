@@ -3,16 +3,17 @@ import React, {useState} from 'react';
 import { StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
 import App from '../../App';
 
+
 function LoginScreen({navigation},{auth}) {
 
     function handleNavigationRegistry () {navigation.navigate('Regestrieren')};
     function handleNavigationForgotPassword () {navigation.navigate('Passwort Vergessen')};
-    
+    function handleNavigationHome() {navigation.navigate('TabNav')}
     const user = {
         email: '',
         password:'',
     };
-
+    //const handleSubmit1 =  httpHelper.Post('',user);
     const handleSubmit= async () => {
             try {
         const requestOptions = 
@@ -31,7 +32,7 @@ function LoginScreen({navigation},{auth}) {
               ).then(response => {
                 response.json().then(data => {
                 Alert.alert('Post created at : ');
-                }).then(console.log('loged in')).then(() => setLogin(true));
+                }).then(console.log('loged in')).then(handleNavigationHome());
               });
             } catch (error) {
               console.error(error);
