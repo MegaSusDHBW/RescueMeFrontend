@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
 
 
-function ForgotPasswordScreen(props) {
+function ChangePasswordScreen(props) {
     const [password,setPassword] = useState(null);
     const [passwordConfirm, setPasswordConfirm] = useState(null)
     const [email,setEmail]= useState(null)
@@ -14,7 +14,7 @@ function ForgotPasswordScreen(props) {
     newPassword.password = password
     newPassword.passwordConfirm = passwordConfirm
     newPassword.email = email
-    //TODO add URL
+
     const handleSubmit= async () => {
         try {
     const requestOptions = 
@@ -24,6 +24,7 @@ function ForgotPasswordScreen(props) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(newPassword)
     };
+    //TODO add URL
         console.log("POST")
         console.log(JSON.stringify(newPassword))
         console.log(requestOptions.body);
@@ -52,7 +53,7 @@ function ForgotPasswordScreen(props) {
     );
 }
 
-export default ForgotPasswordScreen;
+export default ChangePasswordScreen;
 
 const styles = StyleSheet.create({
     container: {

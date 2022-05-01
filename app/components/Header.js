@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
+import { StyleSheet,View,Button,Text} from 'react-native';
 function Header({title}) {
     return (
         <View>
