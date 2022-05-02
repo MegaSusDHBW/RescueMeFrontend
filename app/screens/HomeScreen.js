@@ -10,7 +10,6 @@ function HomeScreen(props) {
 
     
    const loc = Location.getLocation();
-
     return (
         <View>
         <Text>{loc}</Text>
