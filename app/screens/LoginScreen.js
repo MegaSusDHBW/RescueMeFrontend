@@ -2,6 +2,9 @@ import { setStatusBarHidden } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
 import App from '../../App';
+//import styles from '../components/GlobalStyles';
+import * as HTTP from '../helper/HttpRequestHelper';
+import * as SecureStore from 'expo-secure-store';
 
 
 function LoginScreen({navigation},{auth}) {
@@ -14,6 +17,7 @@ function LoginScreen({navigation},{auth}) {
         password:'',
     };
     //const handleSubmit1 =  httpHelper.Post('',user);
+    const handleSubmit1 = async () => HTTP.Post('http://10.0.2.2:5000/login',user).then().then(handleNavigationHome())
     const handleSubmit= async () => {
             try {
         const requestOptions = 
@@ -29,10 +33,12 @@ function LoginScreen({navigation},{auth}) {
             await fetch(
                'http://10.0.2.2:5000/login',
                 requestOptions,
-              ).then(response => {
+              ).then(response => { if(response.ok){
                 response.json().then(data => {
                 Alert.alert('Post created at : ');
-                }).then(console.log('loged in')).then(handleNavigationHome());
+                }).then(console.log('loged in')).then(SecureStore.setItemAsync('email',email))
+                .then(console.log(SecureStore.getItemAsync('email'))).then(handleNavigationHome())
+              };
               });
             } catch (error) {
               console.error(error);
@@ -45,7 +51,7 @@ function LoginScreen({navigation},{auth}) {
     user.email = email;
     user.password = password;
     return (        
-       <View style={styles.container}>
+       <View style={style.container}>
        <TextInput placeholder='Email'  
        onChangeText={(value) => setEmail(value )} 
        value={email}/>
@@ -54,13 +60,13 @@ function LoginScreen({navigation},{auth}) {
         onChangeText={(value) => setPassword(value )} 
         value={password} 
         secureTextEntry={true} />
-       <Button title='Login' style={styles.loginButton} onPress={handleSubmit}/>
-       <Button title='Registrieren' style={styles.loginButton} onPress={handleNavigationRegistry}/>
-       <Button title='Passwort' style={styles.loginButton} onPress={handleNavigationForgotPassword}/>
+       <Button title='Login' style={style.loginButton} onPress={handleSubmit}/>
+       <Button title='Registrieren' style={style.loginButton} onPress={handleNavigationRegistry}/>
+       <Button title='Passwort' style={style.loginButton} onPress={handleNavigationForgotPassword}/>
        </View>
     );
 }
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
     container:
     {
         flex: 1,

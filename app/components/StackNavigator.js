@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import TabNavigator from './TabNavigator';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import DeleteUserScreen from '../screens/DeleteUserScreen';
 
 
 
@@ -18,11 +19,12 @@ function StackNavigator(props) {
     return (
         
         <Stack.Navigator>
-          <Stack.Screen name="Login"component={LoginScreen}/>
+          <Stack.Screen name="Login"component={LoginScreen} options ={{headerShown: false}}/>
           <Stack.Screen name="Regestrieren" component={RegestrationScreen} />
           <Stack.Screen name='Passwort Vergessen' component={ForgotPasswordScreen}/>
           <Stack.Screen name='TabNav' options={{headerShown: false}} component={TabNavigator}/>
           <Stack.Screen name='Passwort ändern'  component={ChangePasswordScreen}/>
+          <Stack.Screen name= 'Konto löschen' component={DeleteUserScreen}/>
         </Stack.Navigator>
       
     );

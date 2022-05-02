@@ -9,12 +9,12 @@ import { Permissions} from 'expo'
 function ProfileScreen({navigation}) {
 
   function handleChangePassword () {navigation.navigate('Passwort ändern')};
-   
+  function handleDeleteUser () {navigation.navigate('Konto löschen')}
       
     return (
         <View>
         <Button title='Passwort ändern' onPress={handleChangePassword}/>
-        <Button title='Konto Löschen' />
+        <Button title='Konto Löschen'  onPress={handleDeleteUser}/>
         </View>
     );
 }

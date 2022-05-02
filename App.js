@@ -4,6 +4,7 @@ import { StyleSheet,TouchableWithoutFeedback,Alert, Button, Text, View, Image, S
 import { NavigationContainer, StackRouter } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
+import * as SecureStore from 'expo-secure-store';
 
 import RegestrationScreen from './app/screens/RegistrationScreen';
 import LoginScreen from './app/screens/LoginScreen';
@@ -16,7 +17,8 @@ export default function App() {
 
   const [auth,setAuth] = React.useState(false)
   
-    if (auth == true) {
+    
+    if (auth) {
       console.log("TabNav");
       return(
         <NavigationContainer styles={styles.container}>
