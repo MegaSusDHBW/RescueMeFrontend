@@ -1,18 +1,18 @@
 import { setStatusBarHidden } from 'expo-status-bar';
 import React, {useState,useEffect,useCallback} from 'react';
-import { StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
+import { Alert, StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
 import App from '../../App';
 //import styles from '../components/GlobalStyles';
 import * as HTTP from '../helper/HttpRequestHelper';
 import * as SecureStore from 'expo-secure-store';
-import { Alert } from 'react-native-web';
+
 
 
 function LoginScreen({navigation}) {
      
     const [auth, setAuth] = useState(null);
     useEffect( async () => {
-      await SecureStore.deleteItemAsync('email')
+      
       async function checkAuth(){
         let store = await SecureStore.getItemAsync('email');
         console.log('store ' + store);
@@ -58,8 +58,8 @@ function LoginScreen({navigation}) {
                'http://10.0.2.2:5000/login',
                 requestOptions,
               ).then(response => { if(response.ok){
-                console.log(Promise.resolve(response.ok)).then(console.log('loged in')).then(SecureStore.setItemAsync('email',email))
-                .then(console.log(SecureStore.getItemAsync('email'))).then(handleNavigationHome())
+                SecureStore.setItemAsync('email',email);
+                handleNavigationHome();
               }else{
                 Alert.alert('Nutzername oder Passwort falsch')
               };
@@ -70,7 +70,7 @@ function LoginScreen({navigation}) {
           };
     const [password,setPassword] = useState(null);
     const [email, setEmail] = useState(null);
-    const [error,setError] = useState(false);
+  
     user.email = email;
     user.password = password;
     return (        

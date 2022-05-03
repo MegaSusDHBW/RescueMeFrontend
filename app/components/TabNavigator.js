@@ -7,6 +7,7 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import DeleteUserScreen from '../screens/DeleteUserScreen';
 import StackNavigator from './StackNavigator';
 import LoginScreen from '../screens/LoginScreen';
+import EmergencyContact from '../screens/EmergencyContact';
 
 
 
@@ -20,6 +21,7 @@ function TabNavigator(props) {
         <Tab.Navigator>
             <Tab.Screen  name="Home" component={HomeScreen}/>
             <Tab.Screen name="Data" component={DataScreen}/>
+            <Tab.Screen name='Notfallkontakt' component={EmergencyContact}/>
             <Tab.Screen name="Profil" component={ProfileScreen}/>
         </Tab.Navigator>
       

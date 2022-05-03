@@ -1,5 +1,6 @@
 import React, {useState}   from 'react';
-import { StyleSheet,TextInput, SafeAreaView,Button,View} from 'react-native';
+import {Alert, StyleSheet,TextInput, SafeAreaView,Button,View} from 'react-native';
+
 
 import Header from '../components/Header';
 
@@ -13,6 +14,7 @@ function RegestrationScreen(props) {
 
   const handleSubmit= async () => {
     try {
+      if(password != passwordConfirm){Alert.alert('Passwörter stimmen nicht überein')};
         const requestOptions = 
 {
 

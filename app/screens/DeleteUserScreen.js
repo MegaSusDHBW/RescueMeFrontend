@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
+import { Alert,StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 
 
@@ -7,35 +7,38 @@ function DeleteUserScreen({navigation}) {
     const [password,setPassword] = useState(null);
     const [passwordConfirm, setPasswordConfirm] = useState(null)
     const [email,setEmail]= useState(null)
-    const newPassword = {
+    const user = {
         email:'',
         password:'',
         passwordConfirm:'',
     };
-    newPassword.password = password
-    newPassword.passwordConfirm = passwordConfirm
-    newPassword.email = email
+    user.password = password
+    user.passwordConfirm = passwordConfirm
+    user.email = email
     //TODO add URL
     const handleSubmit= async () => {
         try {
+          if(user.password =! password){Alert.alert('Passwörter stimmen nicht überein')}
     const requestOptions = 
     {
     
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(newPassword)
+        
     };
         console.log("POST")
-        console.log(JSON.stringify(newPassword))
+        console.log(JSON.stringify(user))
         console.log(requestOptions.body);
         await fetch(
-           '',
+          
+           'http://10.0.2.2:5000/delete-user?email='+email,
             requestOptions,
           ).then(response => {
             response.json().then(data => {
             Alert.alert('Post created at : ');
             }).then(SecureStore.deleteItemAsync('email')).then(navigation.navigate('Login'));
           });
+
         } catch (error) {
           console.error(error);
         }
