@@ -40,6 +40,7 @@ console.log("Login");
 const [password,setPassword] = useState(null);
 const [passwordConfirm, setPasswordConfirm] = useState(null)
 const [email, setEmail] = useState(null);
+const [error,setError] = useState(null);
 user.email = email;
 user.password = password;
 user.passwordConfirm = password

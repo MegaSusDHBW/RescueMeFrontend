@@ -15,22 +15,11 @@ import TabNavigator from './app/components/TabNavigator';
 
 export default function App() {
 
-  const [auth,setAuth] = React.useState(false)
   
-    
-    if (auth) {
-      console.log("TabNav");
-      return(
-        <NavigationContainer styles={styles.container}>
-          <TabNavigator/>
-        </NavigationContainer>
-
-      );
-    }
-    else
+  
   return (
     
-      <NavigationContainer styles={styles.container} auth={auth}>
+      <NavigationContainer styles={styles.container}>
     <StackNavigator/>
     </NavigationContainer>
     

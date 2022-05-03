@@ -3,6 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import DataScreen from '../screens/DataScreen';
 import ProfileScreen from '../screens/ProfileScreen'
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import DeleteUserScreen from '../screens/DeleteUserScreen';
+import StackNavigator from './StackNavigator';
+import LoginScreen from '../screens/LoginScreen';
 
 
 

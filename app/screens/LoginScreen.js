@@ -1,13 +1,36 @@
 import { setStatusBarHidden } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, {useState,useEffect,useCallback} from 'react';
 import { StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
 import App from '../../App';
 //import styles from '../components/GlobalStyles';
 import * as HTTP from '../helper/HttpRequestHelper';
 import * as SecureStore from 'expo-secure-store';
+import { Alert } from 'react-native-web';
 
 
-function LoginScreen({navigation},{auth}) {
+function LoginScreen({navigation}) {
+     
+    const [auth, setAuth] = useState(null);
+    useEffect( async () => {
+      await SecureStore.deleteItemAsync('email')
+      async function checkAuth(){
+        let store = await SecureStore.getItemAsync('email');
+        console.log('store ' + store);
+        if(store === null){
+          setAuth(false);
+        }
+        else{
+          return setAuth(true)
+        } 
+      }
+      SecureStore.getItemAsync('email').then((value) => console.log(value));
+      await checkAuth()
+      console.log(auth);
+      if(auth){
+        console.log('user was already loged in');
+        navigation.navigate('TabNav')
+      }
+    });
 
     function handleNavigationRegistry () {navigation.navigate('Regestrieren')};
     function handleNavigationForgotPassword () {navigation.navigate('Passwort Vergessen')};
@@ -17,7 +40,7 @@ function LoginScreen({navigation},{auth}) {
         password:'',
     };
     //const handleSubmit1 =  httpHelper.Post('',user);
-    const handleSubmit1 = async () => HTTP.Post('http://10.0.2.2:5000/login',user).then().then(handleNavigationHome())
+    
     const handleSubmit= async () => {
             try {
         const requestOptions = 
@@ -30,14 +53,15 @@ function LoginScreen({navigation},{auth}) {
             console.log("POST")
             console.log(JSON.stringify(user))
             console.log(requestOptions.body);
+             
             await fetch(
                'http://10.0.2.2:5000/login',
                 requestOptions,
               ).then(response => { if(response.ok){
-                response.json().then(data => {
-                Alert.alert('Post created at : ');
-                }).then(console.log('loged in')).then(SecureStore.setItemAsync('email',email))
+                console.log(Promise.resolve(response.ok)).then(console.log('loged in')).then(SecureStore.setItemAsync('email',email))
                 .then(console.log(SecureStore.getItemAsync('email'))).then(handleNavigationHome())
+              }else{
+                Alert.alert('Nutzername oder Passwort falsch')
               };
               });
             } catch (error) {
@@ -46,8 +70,7 @@ function LoginScreen({navigation},{auth}) {
           };
     const [password,setPassword] = useState(null);
     const [email, setEmail] = useState(null);
-    const [logedIn,setLogin] = useState(false);
-    auth = logedIn;
+    const [error,setError] = useState(false);
     user.email = email;
     user.password = password;
     return (        
