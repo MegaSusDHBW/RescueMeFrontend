@@ -12,6 +12,7 @@ function LoginScreen({navigation}) {
      
     const [auth, setAuth] = useState(null);
     useEffect( async () => {
+      SecureStore.deleteItemAsync('email')
       async function checkAuth(){
         let store = await SecureStore.getItemAsync('email');
         console.log('store ' + store);

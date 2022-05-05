@@ -1,28 +1,41 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {Alert ,View,Text, TextInput,Button } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+
+
 
 
 function EmergencyContact({navigation}) {
     
+    useEffect( async () => {
+        getUserMail();
+    });
+
+    async function getUserMail(){
+        let store = await SecureStore.getItemAsync('email');
+        console.log('store ' + store);
+          return setUsermail(store) 
+      }    
     const contact={
         firstName:'',
         lastName:'',
         birthDate:'',
         phoneNumber:'',
         email:'',
+        userMail: ''
     }
     const [firstName,setFirstname] = useState(null);
     const [lastName, setLastname] = useState(null);
     const [birthDate,setBirthDate] =useState(null);
     const [phoneNumber, setPhoneNumber] =useState(null);
     const [email,setEmail] = useState(null);
-
+    const [userMail,setUsermail] =useState(null);
     contact.firstName = firstName;
     contact.lastName = lastName;
     contact.birthDate = birthDate;
     contact.phoneNumber = phoneNumber;
     contact.email = email;
-
+    contact.userMail = userMail;
     function handleNavigationHome(){
         navigation.navigate('Home')
     }

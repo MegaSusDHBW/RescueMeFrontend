@@ -1,28 +1,44 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Alert, StyleSheet,Text,TextInput,View,Button, Switch} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { NavigationContainer } from '@react-navigation/native';
-
+import * as SecureStore from 'expo-secure-store';
 
 function DataScreen({navigation}) {
 
    function handleNavigationHome(){
        navigation.navigate('Home')
    }
+   
+   useEffect( async () => {
+    getUserMail();
+});
+
+async function getUserMail(){
+    let store = await SecureStore.getItemAsync('email');
+    console.log('store ' + store);
+      return setUsermail(store) 
+  }
+   
+
+
     const healthData = {
         firstName: '',
         lastName: '',
         organDonorState:'',
         bloodGroup:'',
+        userMail:'' ,
     }
     const [firstName,setFristName]= useState(null)
     const [lastName,setLastName]= useState(null)
     const [organDonorState,setOrganDonorState] = useState(false)
     const [bloodGroup, setBloodGroup] = useState(null)
+    const [userMail,setUsermail] = useState(null)
     healthData.firstName = firstName;
     healthData.lastName = lastName;
     healthData.organDonorState = organDonorState;
     healthData.bloodGroup = bloodGroup;
+    healthData.userMail = userMail;
     const handleSubmit= async () => {
         try {
     const requestOptions = 
