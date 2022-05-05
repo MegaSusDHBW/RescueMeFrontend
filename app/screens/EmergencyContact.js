@@ -1,8 +1,8 @@
 import React,{useState} from 'react';
-import { View,Text, TextInput,Button } from 'react-native';
+import {Alert ,View,Text, TextInput,Button } from 'react-native';
 
 
-function EmergencyContact(props) {
+function EmergencyContact({navigation}) {
     
     const contact={
         firstName:'',
@@ -22,6 +22,41 @@ function EmergencyContact(props) {
     contact.birthDate = birthDate;
     contact.phoneNumber = phoneNumber;
     contact.email = email;
+
+    function handleNavigationHome(){
+        navigation.navigate('Home')
+    }
+
+    const handleSubmit = async () => {
+        console.log(JSON.stringify(contact));
+
+        try {
+            const requestOptions = 
+            {
+            
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(contact)
+            };
+                console.log("POST")
+                console.log(JSON.stringify(contact))
+
+                await fetch(
+                   'http://10.0.2.2:5000/encrypt/notfallkontakt',
+                    requestOptions,
+                  ).then(response => { if(response.ok){
+                    handleNavigationHome();
+                  }else{
+                    Alert.alert('Upps')
+                  };
+                  });
+                } catch (error) {
+                  console.error(error);
+                }
+              };
+
+     
+    
     return (
      <View>
          <TextInput placeholder='Vorname' onChangeText={(value) => setFirstname(value)} value={firstName} />
@@ -29,7 +64,7 @@ function EmergencyContact(props) {
          <TextInput placeholder='Geburtsdatum' onChangeText={(value) => setBirthDate(value)} value={birthDate} />
          <TextInput placeholder='Telefonnummer' onChangeText={(value) => setPhoneNumber(value)} value={phoneNumber} />
          <TextInput placeholder='Email' onChangeText={(value) => setEmail(value)} value={email} />
-         <Button title='Bestätigen' />
+         <Button title='Bestätigen'  onPress={handleSubmit}/>
      </View>
     );
 }
