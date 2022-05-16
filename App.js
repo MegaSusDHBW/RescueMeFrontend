@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native';
+import { StyleSheet,View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import * as SecureStore from 'expo-secure-store';
@@ -8,6 +8,7 @@ import * as SecureStore from 'expo-secure-store';
 import StackNavigator from './app/components/StackNavigator';
 import TabNavigator from './app/components/TabNavigator';
 import {NativeBaseProvider,extendTheme}from 'native-base'
+import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 const newColorTheme = {
   brand:{
@@ -22,11 +23,14 @@ export default function App() {
   
   
   return (
-    <NativeBaseProvider theme={theme}>
-    <NavigationContainer >
+   <NativeBaseProvider>
+
+   <NavigationContainer >
     <StackNavigator/>
     </NavigationContainer>
-    </NativeBaseProvider>   
+    
+   </NativeBaseProvider>
+
     
     );
 }
@@ -47,5 +51,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
 });

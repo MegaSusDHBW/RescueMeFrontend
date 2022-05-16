@@ -1,10 +1,11 @@
 import { setStatusBarHidden } from 'expo-status-bar';
 import React, {useState,useEffect,useCallback} from 'react';
-import { Alert, StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
+import { Alert, StyleSheet,TextInput,View, SafeAreaView,Text} from 'react-native';
 import App from '../../App';
 import styles from '../components/GlobalStyles';
 import * as HTTP from '../helper/HttpRequestHelper';
 import * as SecureStore from 'expo-secure-store';
+import {Button} from 'native-base'
 
 
 
@@ -84,9 +85,9 @@ function LoginScreen({navigation}) {
         onChangeText={(value) => setPassword(value )} 
         value={password} 
         secureTextEntry={true} />
-       <Button title='Login' style={style.loginButton} onPress={handleSubmit}/>
-       <Button title='Registrieren' style={style.loginButton} onPress={handleNavigationRegistry}/>
-       <Button title='Passwort' style={style.loginButton} onPress={handleNavigationForgotPassword}/>
+       <Button title='Login' style={style.loginButton} onPress={handleSubmit}> Login</Button>
+       <Button title='Registrieren' style={style.loginButton} onPress={handleNavigationRegistry}>Registrieren</Button>
+       <Button title='Passwort' style={style.loginButton} onPress={handleNavigationForgotPassword}>Passwort Vergessen</Button>
        </View>
     );
 }
@@ -101,8 +102,7 @@ const style = StyleSheet.create({
       },
     loginButton: {
           width:"100%",
-          height: 70,
-          backgroundColor: "#fc5c55"
+          
       },
     })
 export default LoginScreen;
