@@ -95,8 +95,9 @@ function LoginScreen({navigation}) {
             <Button onPress={handleSubmit} colorScheme="primary"> Login</Button>
             <Button
                 onPress={handleNavigationRegistry}>Registrieren</Button>
-            <Button onPress={handleNavigationForgotPassword}>Passwort
-                Vergessen</Button>
+
+            <Button colorScheme="secondary" onPress={handleNavigationForgotPassword}>Passwort
+                vergessen</Button>
         </View>
     );
 }

@@ -2,9 +2,7 @@ import React, {useState}   from 'react';
 import {Alert, StyleSheet,TextInput, SafeAreaView,Button,View} from 'react-native';
 
 
-import Header from '../components/Header';
-
-function RegestrationScreen(props) {
+function RegistrationScreen(props) {
   //const account = [email, password]
   const user = {
     email: '',
@@ -67,6 +65,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 })
-export default RegestrationScreen;
+export default RegistrationScreen;
 
   
