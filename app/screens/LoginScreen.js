@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, TextInput } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import { Box, Button, View, Center } from 'native-base'
-
+import { Input, Button, View, Text, Image, Icon } from 'native-base';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 function LoginScreen({ navigation }) {
   const style = require('../components/Styles.js');
@@ -80,22 +80,44 @@ function LoginScreen({ navigation }) {
   };
   const [password, setPassword] = useState(null);
 
-
   user.email = email;
   user.password = password;
   return (
-    <View style={style.wrapper}>
-      <TextInput style={style.child} placeholder='Email'
-        onChangeText={(value) => setEmail(value)}
-        value={email} />
-      <TextInput style={style.child}
-        placeholder='Passwort'
-        onChangeText={(value) => setPassword(value)}
-        value={password}
-        secureTextEntry={true} />
-      <Button borderRadius={'lg'} style={style.child} onPress={handleSubmit}>Login</Button>
-      <Button style={style.child} onPress={handleNavigationRegistry}>Registrieren</Button>
-      <Button style={style.child} colorScheme="secondary" onPress={handleNavigationForgotPassword}>Passwort vergessen</Button>
+    <View style={[style.wrapper, style.flex]}>
+      <Image source={require('../assets/LogoText.png')}
+        alt="Rescue Me Logo" size={'1/2'} />
+      <View style={[style.fullWidth, style.marginForm]}>
+        <Text>E-Mail</Text>
+        <Input style={style.fullWidth}
+          variant="custom"
+          onChangeText={(value) => setEmail(value)}
+          value={email} />
+      </View>
+      <View style={[style.fullWidth, style.marginForm]}>
+        <Text>Passwort</Text>
+        <Input style={style.fullWidth}
+          variant="custom"
+          onChangeText={(value) => setPassword(value)}
+          value={password}
+          secureTextEntry={true} />
+      </View>
+      <View style={style.fullWidth}>
+        <Button style={style.marginForm} onPress={handleSubmit}><Text>Login</Text></Button>
+        <Button
+          style={[style.marginForm]}
+          variant={'unstyled'}
+          onPress={handleNavigationRegistry}
+          leftIcon={<Ionicons name="key" size={24} color="#fafafa" />}>
+          <Text>Registrieren</Text>
+        </Button>
+        <Button
+          style={[style.marginForm]}
+          variant={'unstyled'}
+          onPress={handleNavigationForgotPassword}
+          leftIcon={<FontAwesome name="lock" size={24} color="#fafafa" />}>
+          <Text>Passwort vergessen</Text>
+        </Button>
+      </View>
     </View>
   );
 }
