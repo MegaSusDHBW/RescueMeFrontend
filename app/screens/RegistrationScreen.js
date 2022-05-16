@@ -51,7 +51,7 @@ user.passwordConfirm = password
     <TextInput placeholder='Email' onChangeText={(value) => setEmail(value )} value={email} />
     <TextInput placeholder='Passwort' onChangeText={(value) => setPassword(value )} value={password} secureTextEntry={true}/>
     <TextInput placeholder='Passwort wiederholen' onChangeText={(value) => setPasswordConfirm(value)} value={passwordConfirm} />
-    <Button title='Regestrieren' onPress={handleSubmit}/>
+    <Button title='Registrieren' onPress={handleSubmit}/>
     </View>
     </SafeAreaView>
   );

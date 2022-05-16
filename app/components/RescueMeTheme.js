@@ -1,4 +1,4 @@
-import {extendTheme} from "native-base";
+import {extendTheme, HStack, Switch, Text, useColorMode} from "native-base";
 
 export const RescueMeTheme = extendTheme({
     colors: {
@@ -36,7 +36,24 @@ export const RescueMeTheme = extendTheme({
         }
     },
     config: {
-// Changing initialColorMode to 'dark'
-        initialColorMode: 'dark'
+        // Changing initialColorMode to 'dark'
+        initialColorMode: 'dark',
     }
 });
+
+export function ToggleDarkMode() {
+    const { colorMode, toggleColorMode } = useColorMode();
+    return (
+        <HStack space={2}>
+            <Text>Dark</Text>
+            <Switch
+                isChecked={colorMode === "light"}
+                onToggle={toggleColorMode}
+                aria-label={
+                    colorMode === "light" ? "switch to dark mode" : "switch to light mode"
+                }
+            />
+            <Text>Light</Text>
+        </HStack>
+    );
+}

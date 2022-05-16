@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, TextInput, View} from 'react-native';
+import {Alert, TextInput} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import {Button} from 'native-base'
+import {Box, Button, View} from 'native-base'
 
 
 function LoginScreen({navigation}) {
@@ -31,7 +31,7 @@ function LoginScreen({navigation}) {
     });
 
     function handleNavigationRegistry() {
-        navigation.navigate('Regestrieren')
+        navigation.navigate('Registrieren')
     };
 
     function handleNavigationForgotPassword() {
@@ -83,22 +83,28 @@ function LoginScreen({navigation}) {
     user.email = email;
     user.password = password;
     return (
-        <View>
-            <TextInput placeholder='Email'
-                       onChangeText={(value) => setEmail(value)}
-                       value={email}/>
-            <TextInput
-                placeholder='Passwort'
-                onChangeText={(value) => setPassword(value)}
-                value={password}
-                secureTextEntry={true}/>
-            <Button onPress={handleSubmit} colorScheme="primary"> Login</Button>
-            <Button
-                onPress={handleNavigationRegistry}>Registrieren</Button>
 
-            <Button colorScheme="secondary" onPress={handleNavigationForgotPassword}>Passwort
-                vergessen</Button>
+        <View _light={{bg: "coolGray.50"}}
+              _dark={{bg: "coolGray.900"}}>
+
+
+                <TextInput placeholder='Email'
+                           onChangeText={(value) => setEmail(value)}
+                           value={email}/>
+                <TextInput
+                    placeholder='Passwort'
+                    onChangeText={(value) => setPassword(value)}
+                    value={password}
+                    secureTextEntry={true}/>
+                <Button onPress={handleSubmit} colorScheme="primary"> Login</Button>
+                <Button
+                    onPress={handleNavigationRegistry}>Registrieren</Button>
+
+                <Button colorScheme="secondary" onPress={handleNavigationForgotPassword}>Passwort
+                    vergessen</Button>
         </View>
+
+
     );
 }
 
