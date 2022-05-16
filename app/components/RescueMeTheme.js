@@ -1,4 +1,4 @@
-import {extendTheme, HStack, Switch, Text, useColorMode} from "native-base";
+import { extendTheme, HStack, Switch, Text, useColorMode } from "native-base";
 
 export const RescueMeTheme = extendTheme({
     colors: {
@@ -30,9 +30,25 @@ export const RescueMeTheme = extendTheme({
             800: '#e4002b',
             900: '#e4002b',
         },
-// Redefinig only one shade, rest of the color will remain same.
+        // Redefinig only one shade, rest of the color will remain same.
         amber: {
             400: '#d97706'
+        }
+    },
+    components: {
+        Button: {
+            baseStyle: {
+                rounded: 'lg',
+            },
+        },
+    },
+    fonts: {
+        heading: 'Montserrat',
+        body: 'Montserrat',
+        mono: 'Montserrat',
+    },
+    fontConfig: {
+        Montserrat: {
         }
     },
     config: {
