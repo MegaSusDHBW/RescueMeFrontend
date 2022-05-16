@@ -5,6 +5,7 @@ import { Permissions} from 'expo'
 import * as Location from '../helper/LocationHelper';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store'
+import * as Style from '../components/GlobalStyles'
 
 function HomeScreen({navigation}) {
 
@@ -59,7 +60,7 @@ function HomeScreen({navigation}) {
 
    function handleNavQR() {navigation.navigate('QRCodeScanner')};
     return (
-        <View>
+        <View >
         
         <Text>{what3Wrods}</Text>
         <Text>{email}</Text>

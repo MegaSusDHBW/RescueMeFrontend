@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
-
+import {NativeBaseProvider,Box}from 'native-base'
 
 function ChangePasswordScreen(props) {
     const [password,setPassword] = useState(null);
