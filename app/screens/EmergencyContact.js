@@ -9,7 +9,7 @@ function EmergencyContact({navigation}) {
        
     useEffect( async () => {
         await getUserMail()
-        
+     if(birthDate === null){   
       const response = await fetch(
           'http://10.0.2.2:5000/get-emergencycontact?email=' + userMail,
          );
@@ -24,12 +24,12 @@ function EmergencyContact({navigation}) {
         setLastname(lastName)
         let phone = data.emergencyPhone
         setPhoneNumber(phone)         
-        
+      }    
     });
-
+  
     async function getUserMail(){
         let store = await SecureStore.getItemAsync('email');
-        console.log('store ' + store);
+        
           return setUsermail(store) 
       }    
     const contact={

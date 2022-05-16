@@ -12,7 +12,7 @@ function DataScreen({navigation}) {
    
    useEffect( async () => {
     getUserMail();
-
+    if(bloodGroup === null) {
     const response = await fetch(
       'http://10.0.2.2:5000/get-healthdata?email=' + userMail,
      );
@@ -32,6 +32,7 @@ function DataScreen({navigation}) {
       else{
         setOrganDonorState(false)
       }
+    }
 });
 
 async function getUserMail(){
@@ -59,7 +60,10 @@ async function getUserMail(){
     healthData.organDonorState = organDonorState;
     healthData.bloodGroup = bloodGroup;
     healthData.userMail = userMail;
-    const handleSubmit= async () => {
+        const handleSubmit= async () => {
+
+    
+
         try {
     const requestOptions = 
     {
