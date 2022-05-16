@@ -12,6 +12,26 @@ function DataScreen({navigation}) {
    
    useEffect( async () => {
     getUserMail();
+
+    const response = await fetch(
+      'http://10.0.2.2:5000/get-healthdata?email=' + userMail,
+     );
+    const data = await response.json();
+
+    
+    let bloodGroup = data.bloodgroup
+    setBloodGroup(bloodGroup)
+    let firstName = data.firstname
+    setFristName(firstName)
+    let lastName = data.lastname
+    setLastName(lastName)
+    let organDonorState = data.organDonorState
+    if(organDonorState==1){
+        setOrganDonorState(true)
+      }
+      else{
+        setOrganDonorState(false)
+      }
 });
 
 async function getUserMail(){
@@ -53,7 +73,7 @@ async function getUserMail(){
         
          
         await fetch(
-           'http://10.0.2.2:5000/encrypt/gesundheitsdaten',
+           'http://10.0.2.2:5000/set-healthdata',
             requestOptions,
           ).then(response => { if(response.ok){
             
@@ -87,6 +107,7 @@ async function getUserMail(){
                 <Picker.Item label='0+' value={"0+"}/>
                 <Picker.Item label='0-' value={"0-"}/>
             </Picker>
+            
              
         <Button title='Data' onPress={handleSubmit}/>
         </View>

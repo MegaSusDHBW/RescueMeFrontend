@@ -6,34 +6,25 @@ import * as SecureStore from 'expo-secure-store';
 
 
 function EmergencyContact({navigation}) {
-    
+       
     useEffect( async () => {
         await getUserMail()
-        console.log(userMail);
-        await fetch(
-          //'http://10.0.2.2:5000/getGeodata',
+        
+      const response = await fetch(
           'http://10.0.2.2:5000/get-emergencycontact?email=' + userMail,
-         ).then(response => { if(response.ok){
-          console.log('response '+ response.toString);
-          console.log(JSON.stringify('respons as Json '+response)); 
-
-          
-        //let object =   response.json().then(json => json)
-        console.log(object);
+         );
+        const data = await response.json();
+        let birthDate =  data.emergencyBirthday
+        setBirthDate(birthDate)
+        let email =  data.emergencyEmail
+        setEmail(email)
+        let firstName = data.emergencyFirstname
+        setFirstname(firstName)
+        let lastName = data.emergencyLastname
+        setLastname(lastName)
+        let phone = data.emergencyPhone
+        setPhoneNumber(phone)         
         
-        console.log(birthDate);
-        console.log(object);
-        
-
-            console.log(object);
-           
-         }else{
-           Alert.alert('Ups')
-         };
-         });
-       
-         
-
     });
 
     async function getUserMail(){

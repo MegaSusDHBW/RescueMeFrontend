@@ -1,8 +1,8 @@
 import React, {useState,useEffect} from 'react';
 import {Alert,Image,StyleSheet,TextInput,View, SafeAreaView,Button,Text,PermissionsAndroid} from 'react-native';
 import { Permissions} from 'expo'
-import * as Location from 'expo-location';
-//import * as Location from '../helper/LocationHelper';
+//import * as Location from 'expo-location';
+import * as Location from '../helper/LocationHelper';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store'
 
@@ -11,6 +11,9 @@ function HomeScreen({navigation}) {
     const [what3Wrods, set3Words] = useState(null);
     const [email,setEmail] = useState('test'); 
     const [loc,setLocation] = useState(null);
+    let location = Location.getLocation();
+    
+    
     useEffect( async () => {
         try {
             
@@ -57,7 +60,7 @@ function HomeScreen({navigation}) {
    function handleNavQR() {navigation.navigate('QRCodeScanner')};
     return (
         <View>
-        <Text>{loc}</Text>
+        
         <Text>{what3Wrods}</Text>
         <Text>{email}</Text>
         <Image key={new Date().getTime()} source={{ uri: 'http://10.0.2.2:5000/create-qrcode?email=' +email+'&date='+ new Date, cache:'reload'}} style={{width: '50%', height: '50%'}}/>
