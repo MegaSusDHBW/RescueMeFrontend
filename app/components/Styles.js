@@ -3,13 +3,29 @@ import { StyleSheet } from 'react-native';
 module.exports = StyleSheet.create({
     wrapper:
     {
-        flex: 1,
-        width: "100%",
-        justifyContent: 'center',
+        width: '100%',
         padding: 20,
     },
-    child:
-    {
-        margin: 4,
+    flex: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    fullWidth: {
+        width: '100%',
+    },
+    fullHeight: {
+        height: '100%',
+    },
+    marginForm: {
+        marginHorizontal: 0,
+        marginVertical: 5,
+    },
+    flexHorizontal: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    textLeft: {
+        textAlign: 'left',
     }
 })
