@@ -8,7 +8,32 @@ import * as SecureStore from 'expo-secure-store';
 function EmergencyContact({navigation}) {
     
     useEffect( async () => {
-        getUserMail();
+        await getUserMail()
+        console.log(userMail);
+        await fetch(
+          //'http://10.0.2.2:5000/getGeodata',
+          'http://10.0.2.2:5000/get-emergencycontact?email=' + userMail,
+         ).then(response => { if(response.ok){
+          console.log('response '+ response.toString);
+          console.log(JSON.stringify('respons as Json '+response)); 
+
+          
+        //let object =   response.json().then(json => json)
+        console.log(object);
+        
+        console.log(birthDate);
+        console.log(object);
+        
+
+            console.log(object);
+           
+         }else{
+           Alert.alert('Ups')
+         };
+         });
+       
+         
+
     });
 
     async function getUserMail(){
@@ -55,7 +80,7 @@ function EmergencyContact({navigation}) {
                 console.log(JSON.stringify(contact))
 
                 await fetch(
-                   'http://10.0.2.2:5000/encrypt/notfallkontakt',
+                   'http://10.0.2.2:5000/set-emergencycontact',
                     requestOptions,
                   ).then(response => { if(response.ok){
                     handleNavigationHome();

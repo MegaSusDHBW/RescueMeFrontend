@@ -14,7 +14,7 @@ function RegestrationScreen(props) {
 
   const handleSubmit= async () => {
     try {
-      if(password != passwordConfirm){Alert.alert('Passwörter stimmen nicht überein')};
+      if(password != passwordConfirm){Alert.alert('Passwörter stimmen nicht überein'); return};
         const requestOptions = 
 {
 

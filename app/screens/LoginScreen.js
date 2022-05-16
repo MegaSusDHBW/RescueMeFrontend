@@ -9,13 +9,14 @@ import * as SecureStore from 'expo-secure-store';
 
 
 function LoginScreen({navigation}) {
-     
+  const [email, setEmail] = useState(null); 
     const [auth, setAuth] = useState(null);
     useEffect( async () => {
-      SecureStore.deleteItemAsync('email')
+      SecureStore.deleteItemAsync('email')      
       async function checkAuth(){
-        let store = await SecureStore.getItemAsync('email');
-        console.log('store ' + store);
+        
+        console.log('mail from store '+ store);
+        console.log('mail in var '+  email);
         if(store === null){
           setAuth(false);
         }
@@ -69,7 +70,7 @@ function LoginScreen({navigation}) {
             }
           };
     const [password,setPassword] = useState(null);
-    const [email, setEmail] = useState(null);
+    
   
     user.email = email;
     user.password = password;

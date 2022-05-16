@@ -1,30 +1,40 @@
 import React, {useState,useEffect} from 'react';
 import {Alert,Image,StyleSheet,TextInput,View, SafeAreaView,Button,Text,PermissionsAndroid} from 'react-native';
 import { Permissions} from 'expo'
-//import * as Location from 'expo-location';
-import * as Location from '../helper/LocationHelper';
+import * as Location from 'expo-location';
+//import * as Location from '../helper/LocationHelper';
 import { NavigationContainer } from '@react-navigation/native';
-
+import * as SecureStore from 'expo-secure-store'
 
 function HomeScreen({navigation}) {
 
     const [what3Wrods, set3Words] = useState(null);
+    const [email,setEmail] = useState('test'); 
+    const [loc,setLocation] = useState(null);
     useEffect( async () => {
         try {
+            
+            
+                
+            
+            
+            let storeEmail = await SecureStore.getItemAsync('email');
+            console.log('store '+  storeEmail);
+            console.log(email)
+            setEmail(storeEmail);
             const requestOptions = 
             {
-            
+                
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},               
-                 body: JSON.stringify( {"timestamp":1651249739395,"mocked":false,"coords":
-                {"altitude":492.6000061035156,"heading":188.02468872070312,"altitudeAccuracy":1,"latitude":48.3467175,"speed":0.15243065357208252,"longitude":8.4118659,"accuracy":14.265999794006348}})
-            };
+                 body: JSON.stringify(loc)
+                };
                 console.log("POST")
                 console.log(loc)
                 
                  
                 await fetch(
-                   'http://10.0.2.2:5000/getGeodata',
+                   'http://10.0.2.2:5000/get-geodata',
                     requestOptions,
                   ).then(response => { if(response.ok){
                       console.log(JSON.parse(response.body,'words'));
@@ -42,15 +52,15 @@ function HomeScreen({navigation}) {
 
     });
     
-   const loc = Location.getLocation();
-
+    
 
    function handleNavQR() {navigation.navigate('QRCodeScanner')};
     return (
         <View>
+        <Text>{loc}</Text>
         <Text>{what3Wrods}</Text>
-        <Image source={{ uri: 'http://10.0.2.2:5000/encrypt/qrcode' }} style={{width: '50%', height: '50%'}}/>
-        <Button title='Home'/>
+        <Text>{email}</Text>
+        <Image key={new Date().getTime()} source={{ uri: 'http://10.0.2.2:5000/create-qrcode?email=' +email+'&date='+ new Date, cache:'reload'}} style={{width: '50%', height: '50%'}}/>
         <Button title='QR' onPress={handleNavQR}/>
         </View>
     );
