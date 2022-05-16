@@ -1,29 +1,34 @@
 import React from 'react'
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet,TouchableWithoutFeedback,Alert, Button, Text, View, Image, SafeAreaView,TouchableOpacity, TouchableNativeFeedback } from 'react-native';
-import { NavigationContainer, StackRouter } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import * as SecureStore from 'expo-secure-store';
 
-import RegestrationScreen from './app/screens/RegistrationScreen';
-import LoginScreen from './app/screens/LoginScreen';
-import Header from './app/components/Header';
+
 import StackNavigator from './app/components/StackNavigator';
 import TabNavigator from './app/components/TabNavigator';
+import {NativeBaseProvider,extendTheme}from 'native-base'
 
-
+const newColorTheme = {
+  brand:{
+    900: '#8287af',
+    800: '#7c83db',
+    700: '#b3bef6',
+  },
+};
+const theme = extendTheme({colors: newColorTheme})
 export default function App() {
 
   
   
   return (
-    
-      <NavigationContainer styles={styles.container}>
+    <NativeBaseProvider theme={theme}>
+    <NavigationContainer >
     <StackNavigator/>
     </NavigationContainer>
+    </NativeBaseProvider>   
     
-  );
+    );
 }
 
 

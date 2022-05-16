@@ -2,7 +2,7 @@ import { setStatusBarHidden } from 'expo-status-bar';
 import React, {useState,useEffect,useCallback} from 'react';
 import { Alert, StyleSheet,TextInput,View, SafeAreaView,Button,Text} from 'react-native';
 import App from '../../App';
-//import styles from '../components/GlobalStyles';
+import styles from '../components/GlobalStyles';
 import * as HTTP from '../helper/HttpRequestHelper';
 import * as SecureStore from 'expo-secure-store';
 
@@ -75,7 +75,7 @@ function LoginScreen({navigation}) {
     user.email = email;
     user.password = password;
     return (        
-       <View style={style.container}>
+       <View style={s.container}>
        <TextInput placeholder='Email'  
        onChangeText={(value) => setEmail(value )} 
        value={email}/>
@@ -90,6 +90,7 @@ function LoginScreen({navigation}) {
        </View>
     );
 }
+const s = require('../components/GlobalStyles')
 const style = StyleSheet.create({
     container:
     {
