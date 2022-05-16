@@ -29,7 +29,7 @@ function ChangePasswordScreen(props) {
         console.log(JSON.stringify(newPassword))
         console.log(requestOptions.body);
         await fetch(
-           '',
+           'http://10.0.2.2:5000/change-password',
             requestOptions,
           ).then(response => {
             response.json().then(data => {
