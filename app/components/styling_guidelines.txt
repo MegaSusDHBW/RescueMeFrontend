@@ -1,0 +1,18 @@
+Darkmode bg:    #1a1a1a
+Lightmode bg:   #fafafa
+Snake fill secondary
+Snake outline primary
+
+Primary:	#246c17
+Secondary:	#6c1717
+Text Color:	#fafafa
+Border: 	#c4c4c4
+
+Font Headline / Logo: Lexend Zetta
+Font Text: Montserrat (SemiBold)
+
+tablericons.com
+https://icons.expo.fyi/
+
+h1: 24px
+h2: 16px
