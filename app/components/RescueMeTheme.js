@@ -48,8 +48,18 @@ export const RescueMeTheme = extendTheme({
             variants: {
                 unstyled: {
                     borderWidth: 0,
-                }
-            }
+                    _light: {
+                        _icon: {
+                            color: Colors.textColorDark,
+                        },
+                    },
+                    _dark: {
+                        _icon: {
+                            color: Colors.textColorLight,
+                        },
+                    },
+                },
+            },
         },
         Input: {
             baseStyle: {
@@ -67,7 +77,13 @@ export const RescueMeTheme = extendTheme({
         },
         Text: {
             baseStyle: {
-                fontSize: 'lg'
+                fontSize: 'lg',
+                _light: {
+                    color: Colors.textColorDark,
+                },
+                _dark: {
+                    color: Colors.textColorLight,
+                },
             },
         },
     },

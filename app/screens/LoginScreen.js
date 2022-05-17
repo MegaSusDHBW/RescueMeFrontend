@@ -88,14 +88,14 @@ function LoginScreen({ navigation }) {
       <Image source={require('../assets/LogoText.png')}
         alt="Rescue Me Logo" size={'1/2'} />
       <View style={[style.fullWidth, style.marginForm]}>
-        <Text color={Colors.textColor}>E-Mail</Text>
+        <Text>E-Mail</Text>
         <Input style={style.fullWidth}
           variant="custom"
           onChangeText={(value) => setEmail(value)}
           value={email} />
       </View>
       <View style={[style.fullWidth, style.marginForm]}>
-        <Text color={Colors.textColor}>Passwort</Text>
+        <Text>Passwort</Text>
         <Input style={style.fullWidth}
           variant="custom"
           onChangeText={(value) => setPassword(value)}
@@ -104,21 +104,21 @@ function LoginScreen({ navigation }) {
       </View>
       <View style={style.fullWidth}>
         <Button style={style.marginForm} onPress={handleSubmit}>
-          <Text color={Colors.textColor}>Login</Text>
+          <Text>Login</Text>
         </Button>
         <Button
           style={[style.marginForm]}
           variant={'unstyled'}
           onPress={handleNavigationRegistry}
-          leftIcon={<Ionicons name="key" size={24} color={Colors.textColor} />}>
-          <Text color={Colors.textColor}>Registrieren</Text>
+          leftIcon={<Ionicons name="key" size={24} />}>
+          <Text>Registrieren</Text>
         </Button>
         <Button
           style={[style.marginForm]}
           variant={'unstyled'}
           onPress={handleNavigationForgotPassword}
-          leftIcon={<FontAwesome name="lock" size={24} color={Colors.textColor} />}>
-          <Text color={Colors.textColor}>Passwort vergessen</Text>
+          leftIcon={<FontAwesome name="lock" size={24} />}>
+          <Text>Passwort vergessen</Text>
         </Button>
       </View>
     </View>
