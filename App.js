@@ -25,8 +25,8 @@ function Example() {
         components: {
             Text: {
                 baseStyle: {
-                    color: 'primary.600',
-                    bg: 'primary.400',
+                    color: 'primary.400',
+                    bg: 'primary.500',
                 },
                 defaultProps: {
                     size: 'lg'
@@ -48,6 +48,7 @@ function Example() {
             }
         }
     });
+    //console.log(theme['components']['Text']);
     return <NativeBaseProvider theme={theme}>
         <Center flex={1}>
             <Text>NativeBase</Text>
