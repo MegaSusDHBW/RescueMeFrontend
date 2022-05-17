@@ -24,11 +24,13 @@ function Example() {
         },
         components: {
             Text: {
-                baseStyle: ({ colorMode }) => {
-                    return {
-                        color: colorMode === 'dark' ? "red.300" : "blue.300",
-                        bg: colorMode === 'dark' ? "blue.300" : "red.300",
-                    };
+                baseStyle: {
+                    _light: {
+                        color: 'primary.400',
+                    },
+                    _dark: {
+                        color: 'primary.600',
+                    },
                 },
                 defaultProps: {
                     size: 'lg'
