@@ -43,7 +43,7 @@ export const RescueMeTheme = extendTheme({
                 fontSize: 'lg',
                 rounded: 'lg',
                 borderWidth: 2,
-                borderColor: 'muted.700',
+                borderColor: Colors.borderColor,
             },
             variants: {
                 unstyled: {
@@ -66,9 +66,19 @@ export const RescueMeTheme = extendTheme({
                 //fontSize: 'lg',
                 rounded: 'lg',
                 borderWidth: 2,
-                borderColor: 'error.600', // WTF NOT WORKING!?!?!?!?!?
+                _light: {
+                    borderColor: Colors.borderColor,
+                },
+                _dark: {
+                    borderColor: Colors.borderColor,
+                },
                 _focus: {
-                    borderColor: '#ff00ff',
+                    _light: {
+                        borderColor: 'primary.500',
+                    },
+                    _dark: {
+                        borderColor: 'primary.500',
+                    }
                 }
             },
             defaultProps: {
