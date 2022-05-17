@@ -16,6 +16,9 @@ module.exports = StyleSheet.create({
     fullWidth: {
         width: '100%',
     },
+    halfWidth: {
+        width: '50%',
+    },
     fullHeight: {
         height: '100%',
     },
@@ -32,6 +35,11 @@ module.exports = StyleSheet.create({
     },
     flexStart: {
         justifyContent: 'flex-start',
+    },
+    flexBetween: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     textLeft: {
         textAlign: 'left',

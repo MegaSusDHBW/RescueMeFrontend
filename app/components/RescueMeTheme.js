@@ -106,6 +106,22 @@ export const RescueMeTheme = extendTheme({
                 }
             },
         },
+        Select: {
+            baseStyle: {
+                rounded: 'lg',
+                borderWidth: 1,
+                _light: {
+                    color: Colors.textColorDark,
+                    bg: Colors.backgroundColorLight,
+                    borderColor: Colors.borderColor,
+                },
+                _dark: {
+                    color: Colors.textColorLight,
+                    bg: Colors.backgroundColorDark,
+                    borderColor: Colors.borderColor,
+                },
+            }
+        }
     },
     fontConfig: {
         Montserrat: {
