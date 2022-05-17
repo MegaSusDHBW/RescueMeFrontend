@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 // import { Alert } from 'react-native';
-import { Alert, Button, Center, CloseIcon, HStack, IconButton, Image, Text, View, VStack, Stack } from 'native-base';
+import { Button, Image, Text, View, useToast } from 'native-base';
 import * as Location from '../helper/LocationHelper';
-import * as SecureStore from 'expo-secure-store'
+import * as SecureStore from 'expo-secure-store';
+import Message from '../components/Message';
 import style from "../components/Styles";
 
 function HomeScreen({ navigation }) {
@@ -12,7 +13,7 @@ function HomeScreen({ navigation }) {
   const [loc, setLocation] = useState(null);
   let location = Location.getLocation();
   const [errorMessage, setErrorMessage] = useState(null);
-  var errorMessages = [];
+  const toast = useToast();
 
   useEffect(async () => {
     try {
@@ -49,7 +50,7 @@ function HomeScreen({ navigation }) {
             };
             setErrorMessage(errorMessage);
             // Alert.alert(errorMessage.title);
-            errorMessages.push(errorMessage);
+            // toast.show({ description: errorMessage.title });
           }
         });
       }
@@ -58,8 +59,8 @@ function HomeScreen({ navigation }) {
     }
   });
 
-  function handleNavQR() {
-    navigation.navigate('QRCodeScanner')
+  function handleNavigationData() {
+    navigation.navigate('Data')
   };
 
   return (
@@ -73,38 +74,18 @@ function HomeScreen({ navigation }) {
         cache: 'reload'
       }} style={[{ width: 'auto', height: '55%' }, style.fullWidth, style.marginForm]} />
       <Button
-        onPress={handleNavQR}
+        onPress={handleNavigationData}
         style={[style.fullWidth, style.marginForm]}>
         <Text>Gesundheitsdaten hinzufügen</Text>
       </Button>
-      {/* </View> */}
-      <View style={style.fullWidth}>
-        <Text style={style.textCenter}>GPS-Position</Text>
-        <Text>what3words:</Text>
-        <Text>///{what3Words}</Text>
-      </View>
-      {errorMessage !== null &&
-        <View style={style.marginForm}>
-          <Stack>
-            <Alert w="100%" h="55%" status={errorMessage.status}>
-              <VStack space={2} flexShrink={1} w="100%">
-                <HStack flexShrink={1} space={2} justifyContent="space-between">
-                  <HStack space={2} flexShrink={1}>
-                    <Alert.Icon mt="1" />
-                    <Text fontSize="md" color="coolGray.800">
-                      {errorMessage.title}
-                    </Text>
-                  </HStack>
-                  <IconButton variant="unstyled" _focus={{
-                    borderWidth: 0
-                  }}
-                    icon={<CloseIcon size="3" color="coolGray.600" />} />
-                </HStack>
-              </VStack>
-            </Alert>
-          </Stack>
+      {errorMessage === null &&
+        <View style={style.fullWidth}>
+          <Text style={style.textCenter}>GPS-Position</Text>
+          <Text>what3words:</Text>
+          <Text>///{what3Words}</Text>
         </View>
       }
+      {errorMessage !== null && Message(errorMessage)}
     </View>
   )
 }
