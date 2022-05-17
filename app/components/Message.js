@@ -12,6 +12,7 @@ function Message(message) {
               <Text fontSize="md" color="coolGray.800">
                 {message.title}
               </Text>
+              <Alert.Icon mt="1" />
             </HStack>
             {/* <IconButton
               variant="unstyled"
