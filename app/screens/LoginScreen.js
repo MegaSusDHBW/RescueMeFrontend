@@ -3,6 +3,7 @@ import { Alert, TextInput } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { Input, Button, View, Text, Image, Icon } from 'native-base';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { Colors } from '../components/Colors';
 
 function LoginScreen({ navigation }) {
   const style = require('../components/Styles.js');
@@ -107,14 +108,14 @@ function LoginScreen({ navigation }) {
           style={[style.marginForm]}
           variant={'unstyled'}
           onPress={handleNavigationRegistry}
-          leftIcon={<Ionicons name="key" size={24} color="#fafafa" />}>
+          leftIcon={<Ionicons name="key" size={24} color={Colors.textColor} />}>
           <Text>Registrieren</Text>
         </Button>
         <Button
           style={[style.marginForm]}
           variant={'unstyled'}
           onPress={handleNavigationForgotPassword}
-          leftIcon={<FontAwesome name="lock" size={24} color="#fafafa" />}>
+          leftIcon={<FontAwesome name="lock" size={24} color={Colors.textColor} />}>
           <Text>Passwort vergessen</Text>
         </Button>
       </View>

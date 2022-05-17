@@ -1,5 +1,6 @@
 import { Montserrat_600SemiBold } from "@expo-google-fonts/montserrat";
 import { extendTheme, HStack, Switch, Text, useColorMode } from "native-base";
+import { Colors } from './Colors';
 
 
 export const RescueMeTheme = extendTheme({
@@ -7,33 +8,33 @@ export const RescueMeTheme = extendTheme({
         // Add new color
         //submit button
         primary: {
-            50: '#246c17',
-            100: '#246c17',
-            200: '#246c17',
-            300: '#246c17',
-            400: '#246c17',
-            500: '#246c17',
-            600: '#246c17',
-            700: '#246c17',
-            800: '#246c17',
-            900: '#246c17',
+            50: Colors.primary,
+            100: Colors.primary,
+            200: Colors.primary,
+            300: Colors.primary,
+            400: Colors.primary,
+            500: Colors.primary,
+            600: Colors.primary,
+            700: Colors.primary,
+            800: Colors.primary,
+            900: Colors.primary,
         },
         muted: {
             // border color
-            700: '#c4c4c4',
+            700: Colors.borderColor,
         },
         //cancel button
         secondary: {
-            50: '#6c1717',
-            100: '#6c1717',
-            200: '#6c1717',
-            300: '#6c1717',
-            400: '#6c1717',
-            500: '#6c1717',
-            600: '#6c1717',
-            700: '#6c1717',
-            800: '#6c1717',
-            900: '#6c1717',
+            50: Colors.secondary,
+            100: Colors.secondary,
+            200: Colors.secondary,
+            300: Colors.secondary,
+            400: Colors.secondary,
+            500: Colors.secondary,
+            600: Colors.secondary,
+            700: Colors.secondary,
+            800: Colors.secondary,
+            900: Colors.secondary,
         },
     },
     components: {
