@@ -1,5 +1,5 @@
 import React from 'react'
-import { NativeBaseProvider, Center, Text, extendTheme } from 'native-base'
+import { NativeBaseProvider, Center, Text, extendTheme, themeTools } from 'native-base'
 
 
 function Example() {
@@ -24,9 +24,11 @@ function Example() {
         },
         components: {
             Text: {
-                baseStyle: {
-                    color: 'primary.400',
-                    bg: 'primary.500',
+                baseStyle: ({ colorMode }) => {
+                    return {
+                        color: colorMode === 'dark' ? "red.300" : "blue.300",
+                        bg: colorMode === 'dark' ? "blue.300" : "red.300",
+                    };
                 },
                 defaultProps: {
                     size: 'lg'
