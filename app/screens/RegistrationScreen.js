@@ -54,8 +54,8 @@ function RegistrationScreen({ navigation }) {
   return (
     <SafeAreaView>
       <View style={[style.wrapper, style.flex]}>
-        <Image source={require('../assets/LogoText.png')}
-          alt="Rescue Me Logo" size={'1/2'} />
+        {/* <Image source={require('../assets/LogoText.png')}
+          alt="Rescue Me Logo" size={'1/2'} /> */}
         <View style={[style.fullWidth, style.marginForm]}>
           <Text>E-Mail</Text>
           <Input style={style.fullWidth}

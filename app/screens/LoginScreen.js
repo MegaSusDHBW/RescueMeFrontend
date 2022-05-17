@@ -37,7 +37,7 @@ function LoginScreen({ navigation }) {
   };
 
   function handleNavigationForgotPassword() {
-    navigation.navigate('Passwort Vergessen')
+    navigation.navigate('Passwort vergessen')
   };
 
   function handleNavigationHome() {

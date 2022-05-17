@@ -7,7 +7,8 @@ import TabNavigator from './TabNavigator';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import DeleteUserScreen from '../screens/DeleteUserScreen';
 import QRCodeScannerScreen from '../screens/QRCodeScannerScreen';
-import { Box } from "native-base";
+import { Colors } from './Colors';
+import { useColorMode } from 'native-base';
 
 
 console.log("entered Container");
@@ -16,17 +17,20 @@ console.log("created Stack" + Stack);
 
 
 function StackNavigator(props) {
-    let bgColor = '#1a1a1a';
+    let bgColor = useColorMode()['colorMode'] === 'dark' ? Colors.backgroundColorDark : Colors.backgroundColorLight;
+    let textColor = useColorMode()['colorMode'] === 'dark' ? Colors.textColorLight : Colors.textColorDark;
+    const weight = 'bold';
+
     return (
         <Stack.Navigator _light={{ bg: "danger.600" }}
             _dark={{ bg: "danger.500" }}>
-            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name="Registrieren" component={RegistrationScreen} options={{ headerShown: false, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name='Passwort Vergessen' component={ForgotPasswordScreen} options={{ headerShown: true, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name='TabNav' component={TabNavigator} options={{ headerShown: false, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name='Passwort ändern' component={ChangePasswordScreen} options={{ headerShown: true, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name='Konto löschen' component={DeleteUserScreen} options={{ headerShown: true, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name='QRCodeScanner' component={QRCodeScannerScreen} options={{ headerShown: true, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name="Registrieren" component={RegistrationScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name='Passwort vergessen' component={ForgotPasswordScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name='TabNav' component={TabNavigator} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name='Passwort ändern' component={ChangePasswordScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name='Konto löschen' component={DeleteUserScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name='QRCodeScanner' component={QRCodeScannerScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
         </Stack.Navigator>
     );
 }
