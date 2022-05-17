@@ -68,14 +68,16 @@ function RegistrationScreen({ navigation }) {
           <Input style={style.fullWidth}
             variant="custom"
             onChangeText={(value) => setPassword(value)}
-            value={password} />
+            value={password}
+            secureTextEntry={true} />
         </View>
         <View style={[style.fullWidth, style.marginForm]}>
           <Text>Passwort wiederholen</Text>
           <Input style={style.fullWidth}
             variant="custom"
             onChangeText={(value) => setPasswordConfirm(value)}
-            value={passwordConfirm} />
+            value={passwordConfirm}
+            secureTextEntry={true} />
         </View>
         <View style={style.fullWidth}>
           <Button onPress={handleSubmit} style={style.marginForm}>
