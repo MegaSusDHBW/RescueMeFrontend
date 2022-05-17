@@ -1,29 +1,65 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native';
-import 'react-native-gesture-handler';
-import StackNavigator from './app/components/StackNavigator';
-import AppLoading from 'expo-app-loading';
-import { NativeBaseProvider } from 'native-base'
-import { RescueMeTheme, ToggleDarkMode } from './app/components/RescueMeTheme'
-import { useFonts, Montserrat_600SemiBold } from '@expo-google-fonts/montserrat'
+import { NativeBaseProvider, Center, Text, extendTheme } from 'native-base'
 
 
-export default function App() {
-    let [fontsLoaded] = useFonts({ Montserrat_600SemiBold });
+function Example() {
+    // let [fontsLoaded] = useFonts({ Montserrat_600SemiBold });
+    // if (!fontsLoaded) {
+    //     return <AppLoading />;
+    // }
+    // return (
+    //     <NativeBaseProvider theme={RescueMeTheme}>
 
-    if (!fontsLoaded) {
-        return <AppLoading />;
-    }
+    //         <NavigationContainer>
+    //             <StackNavigator />
+    //         </NavigationContainer>
 
-    return (
-        <NativeBaseProvider theme={RescueMeTheme}>
-
-            <NavigationContainer>
-                <StackNavigator />
-            </NavigationContainer>
-
-        </NativeBaseProvider>
-
-
-    );
+    //     </NativeBaseProvider>
+    // );
+    const theme = extendTheme({
+        colors: {
+            primary: {
+                400: '#00f',
+            },
+        },
+        components: {
+            Text: {
+                baseStyle: {
+                    color: 'primary.600',
+                    bg: 'primary.400',
+                },
+                defaultProps: {
+                    size: 'lg'
+                },
+                sizes: {
+                    xl: {
+                        fontSize: '64px'
+                    },
+                    lg: {
+                        fontSize: '32px'
+                    },
+                    md: {
+                        fontSize: '16px'
+                    },
+                    sm: {
+                        fontSize: '12px'
+                    }
+                }
+            }
+        }
+    });
+    return <NativeBaseProvider theme={theme}>
+        <Center flex={1}>
+            <Text>NativeBase</Text>
+        </Center>
+    </NativeBaseProvider>;
 }
+export default () => {
+    return (
+        <NativeBaseProvider>
+            <Center flex={1} px="3">
+                <Example />
+            </Center>
+        </NativeBaseProvider>
+    );
+};
