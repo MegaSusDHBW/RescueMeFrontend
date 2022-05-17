@@ -23,11 +23,20 @@ module.exports = StyleSheet.create({
         marginHorizontal: 0,
         marginVertical: 5,
     },
+    paddingTop: {
+        paddingTop: 70,
+    },
     flexHorizontal: {
         display: 'flex',
         flexDirection: 'row',
     },
+    flexStart: {
+        justifyContent: 'flex-start',
+    },
     textLeft: {
         textAlign: 'left',
+    },
+    textCenter: {
+        textAlign: 'center',
     }
 })

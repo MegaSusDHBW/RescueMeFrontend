@@ -96,6 +96,16 @@ export const RescueMeTheme = extendTheme({
                 },
             },
         },
+        View: {
+            baseStyle: {
+                _light: {
+                    bg: Colors.backgroundColorLight,
+                },
+                _dark: {
+                    bg: Colors.backgroundColorDark,
+                }
+            },
+        },
     },
     fontConfig: {
         Montserrat: {
