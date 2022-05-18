@@ -42,7 +42,6 @@ function DataScreen({ navigation }) {
 
   async function getUserMail() {
     let store = await SecureStore.getItemAsync('email');
-    console.log('store ' + store);
     return setUsermail(store)
   }
 
@@ -53,6 +52,9 @@ function DataScreen({ navigation }) {
     bloodGroup: '',
     userMail: '',
     birthDate: '',
+    diseases:'',
+    allergies:'',
+    vaccines:'',
   }
 
   const [firstName, setFirstName] = useState(null)
@@ -72,7 +74,10 @@ function DataScreen({ navigation }) {
   healthData.organDonorState = organDonorState;
   healthData.bloodGroup = bloodGroup;
   healthData.userMail = userMail;
-
+  healthData.birthDate = birthDate;
+  healthData.diseases = diseases;
+  healthData.allergies = allergies;
+  healthData.vaccines= vaccines;
   const handleSubmit = async () => {
     try {
       const requestOptions =
@@ -81,7 +86,7 @@ function DataScreen({ navigation }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(healthData)
       };
-      console.log("POST")
+      
       console.log(JSON.stringify(healthData))
 
       await fetch(

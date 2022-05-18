@@ -13,13 +13,15 @@ function HomeScreen({ navigation }) {
   const [loc, setLocation] = useState(null);
   let location = Location.getLocation();
   const [errorMessage, setErrorMessage] = useState(null);
+  const [jwt, setJwt] = useState(null)
   const toast = useToast();
 
   useEffect(async () => {
     try {
       let storeEmail = await SecureStore.getItemAsync('email');
-      // console.log('store ' + storeEmail);
-      // console.log(email)
+      let jwt = await SecureStore.getItemAsync('jwt');
+      console.log('jwt '+jwt)
+      setJwt(jwt)
       setEmail(storeEmail);
       if (errorMessage === null && what3Words === null) {
         const requestOptions =
@@ -74,7 +76,8 @@ function HomeScreen({ navigation }) {
           key={new Date().getTime()}
           source={{
             uri: 'http://10.0.2.2:5000/create-qrcode?email=' + email + '&date=' + new Date,
-            cache: 'reload'
+            cache: 'reload', 
+            //headers:{jwt: jwt}
           }}
           style={[style.marginForm]}
           alt={'Encrypted QR Code'} />
