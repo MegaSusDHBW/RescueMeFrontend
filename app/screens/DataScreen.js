@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Switch } from 'react-native';
-import { Input, Button, View, Text, Select, VStack, ScrollView } from 'native-base';
+import { Input, Button, View, Text, Select, HStack, VStack, ScrollView, IconButton, Icon } from 'native-base';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
+import { EvilIcons, FontAwesome } from '@expo/vector-icons';
 
 function DataScreen({ navigation }) {
   const style = require('../components/Styles');
@@ -53,18 +54,21 @@ function DataScreen({ navigation }) {
     userMail: '',
     birthDate: '',
   }
+
   const [firstName, setFirstName] = useState(null)
   const [lastName, setLastName] = useState(null)
   const [birthDate, setBirthDate] = useState(null)
   const [organDonorState, setOrganDonorState] = useState(false)
   const [bloodGroup, setBloodGroup] = useState(null)
   const [userMail, setUsermail] = useState(null)
-  const [diseases, setDisease] = useState([])
+  const [diseases, setDisease] = useState([]);
+  const [inputValue, setInputValue] = useState("")
   healthData.firstName = firstName;
   healthData.lastName = lastName;
   healthData.organDonorState = organDonorState;
   healthData.bloodGroup = bloodGroup;
   healthData.userMail = userMail;
+
   const handleSubmit = async () => {
     try {
       const requestOptions =
@@ -90,6 +94,26 @@ function DataScreen({ navigation }) {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const addItem = title => {
+    if (title === "") {
+      console.log("EMPTY");
+      return;
+    }
+
+    setDisease(prevList => {
+      return [...prevList, {
+        title: title
+      }];
+    });
+  };
+
+  const handleDelete = index => {
+    setDisease(prevList => {
+      const temp = prevList.filter((_, itemI) => itemI !== index);
+      return temp;
+    });
   };
 
   return (
@@ -134,11 +158,28 @@ function DataScreen({ navigation }) {
           </CollapseHeader>
           <CollapseBody>
             <View style={style.marginForm}>
-              <Text>- Keine Einträge</Text>
+              {diseases.length == 0 && <Text>- Keine Einträge -</Text>}
+              {diseases.map((item, itemI) => <HStack
+                key={item.title}
+                display={'flex'}
+                flexDirection={'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}>
+                <Text>- {item.title}</Text>
+                <IconButton
+                  size="sm"
+                  icon={
+                    <Icon as={FontAwesome} name="trash" size='md' color='danger.600' />
+                  }
+                  onPress={() => handleDelete(itemI)} />
+              </HStack>)}
               <View style={[style.fullWidth, style.marginForm]}>
                 <Text>Neuer Eintrag</Text>
-                <Input onChangeText={(value) => setFirstName(value)} value={firstName} />
-                <Button onPress={handleSubmit} style={[style.fullWidth, style.marginForm]}>
+                <Input onChangeText={(value) => setInputValue(value)} value={inputValue} />
+                <Button onPress={() => {
+                  addItem(inputValue);
+                  setInputValue("");
+                }} style={[style.fullWidth, style.marginForm]}>
                   <Text>Hinzufügen</Text>
                 </Button>
               </View>
