@@ -70,10 +70,14 @@ function HomeScreen({ navigation }) {
           <Text style={style.textCenter}>Willkommen,</Text>
           <Text style={style.textCenter}>{email}!</Text>
         </VStack>
-        <Image key={new Date().getTime()} source={{
-          uri: 'http://10.0.2.2:5000/create-qrcode?email=' + email + '&date=' + new Date,
-          cache: 'reload'
-        }} style={[style.marginForm]} />
+        <Image
+          key={new Date().getTime()}
+          source={{
+            uri: 'http://10.0.2.2:5000/create-qrcode?email=' + email + '&date=' + new Date,
+            cache: 'reload'
+          }}
+          style={[style.marginForm]}
+          alt={'Encrypted QR Code'} />
         <Button
           onPress={handleNavigationData}
           style={[style.marginForm]}>
