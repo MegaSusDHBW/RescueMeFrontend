@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import style from "../components/Styles";
-import { Button, Input, Text, View } from "native-base";
+import { Button, Input, Text, View, ScrollView } from "native-base";
 import DatePicker from "react-native-date-picker";
 
 
@@ -89,7 +89,7 @@ function EmergencyContact({ navigation }) {
   };
 
   return (
-    <View style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
+    <ScrollView style={[style.wrapper, style.paddingTop]}>
       <View style={[style.fullWidth, style.marginForm]}>
         <Text>Vorname</Text>
         <Input style={style.fullWidth}
@@ -131,9 +131,9 @@ function EmergencyContact({ navigation }) {
         />
       </View>
       <View style={style.fullWidth}>
-        <Button style={style.marginForm} onPress={handleSubmit}><Text>Bestätigen</Text></Button>
+        <Button style={[style.marginForm, style.marginBottom]} onPress={handleSubmit}><Text>Bestätigen</Text></Button>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
