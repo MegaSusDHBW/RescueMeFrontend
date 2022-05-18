@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { Colors } from './Colors';
 
 module.exports = StyleSheet.create({
     wrapper:
@@ -26,6 +27,10 @@ module.exports = StyleSheet.create({
         marginHorizontal: 0,
         marginVertical: 5,
     },
+    paddingForm: {
+        paddingHorizontal: 0,
+        paddingVertical: 5,
+    },
     paddingTop: {
         paddingTop: 70,
     },
@@ -46,5 +51,9 @@ module.exports = StyleSheet.create({
     },
     textCenter: {
         textAlign: 'center',
+    },
+    dividerTop: {
+        borderTopColor: Colors.primary,
+        borderTopWidth: 3,
     }
 })

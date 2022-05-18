@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Switch } from 'react-native';
-import { Input, Button, View, Text, Image, Select, FormControl, WarningOutlineIcon } from 'native-base';
+import { Input, Button, View, Text, Select, VStack, ScrollView } from 'native-base';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import * as SecureStore from 'expo-secure-store';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 
 function DataScreen({ navigation }) {
   const style = require('../components/Styles');
@@ -51,6 +51,7 @@ function DataScreen({ navigation }) {
     organDonorState: '',
     bloodGroup: '',
     userMail: '',
+    birthDate: '',
   }
   const [firstName, setFirstName] = useState(null)
   const [lastName, setLastName] = useState(null)
@@ -58,13 +59,13 @@ function DataScreen({ navigation }) {
   const [organDonorState, setOrganDonorState] = useState(false)
   const [bloodGroup, setBloodGroup] = useState(null)
   const [userMail, setUsermail] = useState(null)
+  const [diseases, setDisease] = useState([])
   healthData.firstName = firstName;
   healthData.lastName = lastName;
   healthData.organDonorState = organDonorState;
   healthData.bloodGroup = bloodGroup;
   healthData.userMail = userMail;
   const handleSubmit = async () => {
-
     try {
       const requestOptions =
       {
@@ -92,44 +93,63 @@ function DataScreen({ navigation }) {
   };
 
   return (
-    <View style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
-      <View style={[style.fullWidth, style.marginForm]}>
-        <Text>Vorname</Text>
-        <Input onChangeText={(value) => setFirstName(value)} value={firstName} />
-      </View>
-      <View style={[style.fullWidth, style.marginForm]}>
-        <Text>Nachname</Text>
-        <Input onChangeText={(value) => setLastName(value)} value={lastName} />
-      </View>
-      <View style={[style.fullWidth, style.marginForm]}>
-        <Text>Geburtsdatum</Text>
-        <Input onChangeText={(value) => setBirthDate(value)} value={birthDate} />
-        {/* <RNDateTimePicker mode='date' onChange={(value) => setBirthDate(value)} value={new Date()} /> */}
-      </View>
-      <View isRequired style={[style.flexBetween, style.flexHorizontal, style.fullWidth, style.marginForm]}>
-        <Text>Blutgruppe</Text>
-        <Select w='100' selectedValue={bloodGroup} placeholder="Blutgruppe auswählen" onValueChange={(value, index) => setBloodGroup(value)}>
-          {/* <Select.Item label='Blutgruppe Auswählen' /> */}
-          <Select.Item label='A+' value={"A+"} />
-          <Select.Item label='A-' value={"A-"} />
-          <Select.Item label='B+' value={"B+"} />
-          <Select.Item label='B-' value={"B-"} />
-          <Select.Item label='AB+' value={"AB+"} />
-          <Select.Item label='AB-' value={"AB-"} />
-          <Select.Item label='0+' value={"0+"} />
-          <Select.Item label='0-' value={"0-"} />
-        </Select>
-      </View>
-      <View style={[style.flexBetween, style.flexHorizontal, style.fullWidth, style.marginForm]}>
-        <Text>Organspender</Text>
-        <Switch title="Organd Spender" onValueChange={(value) => setOrganDonorState(value)} value={organDonorState} />
-      </View>
-      <View style={[style.fullWidth, style.marginForm]}>
-        <Button onPress={handleSubmit}>
+    <ScrollView style={[style.wrapper, style.paddingTop]}>
+      <VStack>
+        <View style={[style.fullWidth, style.marginForm]}>
+          <Text>Vorname</Text>
+          <Input onChangeText={(value) => setFirstName(value)} value={firstName} />
+        </View>
+        <View style={[style.fullWidth, style.marginForm]}>
+          <Text>Nachname</Text>
+          <Input onChangeText={(value) => setLastName(value)} value={lastName} />
+        </View>
+        <View style={[style.fullWidth, style.marginForm]}>
+          <Text>Geburtsdatum</Text>
+          <Input onChangeText={(value) => setBirthDate(value)} value={birthDate} />
+          {/* <RNDateTimePicker mode='date' onChange={(value) => setBirthDate(value)} value={new Date()} /> */}
+        </View>
+        <View style={[style.flexBetween, style.flexHorizontal, style.fullWidth, style.marginForm]}>
+          <Text>Blutgruppe</Text>
+          <Select w='100' selectedValue={bloodGroup} placeholder='' onValueChange={(value, index) => setBloodGroup(value)}>
+            {/* <Select.Item label='Blutgruppe Auswählen' /> */}
+            <Select.Item label='A+' value={"A+"} />
+            <Select.Item label='A-' value={"A-"} />
+            <Select.Item label='B+' value={"B+"} />
+            <Select.Item label='B-' value={"B-"} />
+            <Select.Item label='AB+' value={"AB+"} />
+            <Select.Item label='AB-' value={"AB-"} />
+            <Select.Item label='0+' value={"0+"} />
+            <Select.Item label='0-' value={"0-"} />
+          </Select>
+        </View>
+        <View style={[style.flexBetween, style.flexHorizontal, style.fullWidth, style.marginForm]}>
+          <Text>Organspender</Text>
+          <Switch title="Organd Spender" onValueChange={(value) => setOrganDonorState(value)} value={organDonorState} />
+        </View>
+        <Collapse>
+          <CollapseHeader>
+            <View style={[style.paddingForm, style.dividerTop]}>
+              <Text>Vorerkrankungen</Text>
+            </View>
+          </CollapseHeader>
+          <CollapseBody>
+            <View style={style.marginForm}>
+              <Text>- Keine Einträge</Text>
+              <View style={[style.fullWidth, style.marginForm]}>
+                <Text>Neuer Eintrag</Text>
+                <Input onChangeText={(value) => setFirstName(value)} value={firstName} />
+                <Button onPress={handleSubmit} style={[style.fullWidth, style.marginForm]}>
+                  <Text>Hinzufügen</Text>
+                </Button>
+              </View>
+            </View>
+          </CollapseBody>
+        </Collapse>
+        <Button onPress={handleSubmit} style={[style.fullWidth, style.marginForm]}>
           <Text>Speichern</Text>
         </Button>
-      </View>
-    </View>
+      </VStack>
+    </ScrollView>
   );
 }
 
