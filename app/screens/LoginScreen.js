@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, TextInput } from 'react-native';
+import { Alert, Dimensions, SafeAreaView } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import { Input, Button, View, Text, Image, Icon } from 'native-base';
+import { Input, Button, View, Text, Image, Icon, VStack, ScrollView } from 'native-base';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../components/Colors';
 
@@ -81,47 +81,50 @@ function LoginScreen({ navigation }) {
   };
   const [password, setPassword] = useState(null);
 
+  const width = Dimensions.get('window').width;
   user.email = email;
   user.password = password;
   return (
-    <View style={[style.wrapper, style.flex]}>
-      <Image source={require('../assets/LogoText.png')}
-        alt="Rescue Me Logo" size={'1/2'} />
-      <View style={[style.fullWidth, style.marginForm]}>
-        <Text>E-Mail</Text>
-        <Input style={style.fullWidth}
-          variant="custom"
-          onChangeText={(value) => setEmail(value)}
-          value={email} />
-      </View>
-      <View style={[style.fullWidth, style.marginForm]}>
-        <Text>Passwort</Text>
-        <Input style={style.fullWidth}
-          variant="custom"
-          onChangeText={(value) => setPassword(value)}
-          value={password}
-          secureTextEntry={true} />
-      </View>
-      <View style={style.fullWidth}>
-        <Button style={style.marginForm} onPress={handleSubmit}>
-          <Text>Login</Text>
-        </Button>
-        <Button
-          style={[style.marginForm]}
-          variant={'unstyled'}
-          onPress={handleNavigationRegistry}
-          leftIcon={<Ionicons name="key" size={24} />}>
-          <Text>Registrieren</Text>
-        </Button>
-        <Button
-          style={[style.marginForm]}
-          variant={'unstyled'}
-          onPress={handleNavigationForgotPassword}
-          leftIcon={<FontAwesome name="lock" size={24} />}>
-          <Text>Passwort vergessen</Text>
-        </Button>
-      </View>
-    </View>
+    <ScrollView>
+      <VStack style={[style.wrapper, style.flex]}>
+        <Image source={require('../assets/LogoText.png')}
+          alt="Rescue Me Logo" resizeMode='contain' />
+        <View style={[style.fullWidth, style.marginForm]}>
+          <Text>E-Mail</Text>
+          <Input style={style.fullWidth}
+            variant="custom"
+            onChangeText={(value) => setEmail(value)}
+            value={email} />
+        </View>
+        <View style={[style.fullWidth, style.marginForm]}>
+          <Text>Passwort</Text>
+          <Input style={style.fullWidth}
+            variant="custom"
+            onChangeText={(value) => setPassword(value)}
+            value={password}
+            secureTextEntry={true} />
+        </View>
+        <View style={style.fullWidth}>
+          <Button style={style.marginForm} onPress={handleSubmit}>
+            <Text>Login</Text>
+          </Button>
+          <Button
+            style={[style.marginForm]}
+            variant={'unstyled'}
+            onPress={handleNavigationRegistry}
+            leftIcon={<Ionicons name="key" size={24} />}>
+            <Text>Registrieren</Text>
+          </Button>
+          <Button
+            style={[style.marginForm]}
+            variant={'unstyled'}
+            onPress={handleNavigationForgotPassword}
+            leftIcon={<FontAwesome name="lock" size={24} />}>
+            <Text>Passwort vergessen</Text>
+          </Button>
+        </View>
+      </VStack>
+    </ScrollView>
   );
 }
 
