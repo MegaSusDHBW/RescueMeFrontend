@@ -77,7 +77,7 @@ function HomeScreen({ navigation }) {
           source={{
             uri: 'http://10.0.2.2:5000/create-qrcode?email=' + email + '&date=' + new Date,
             cache: 'reload', 
-            //headers:{jwt: jwt}
+            headers:{jwt: jwt}
           }}
           style={[style.marginForm]}
           alt={'Encrypted QR Code'} />
