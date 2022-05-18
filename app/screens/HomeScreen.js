@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-// import { Alert } from 'react-native';
-import { Button, Image, Text, View, useToast, VStack } from 'native-base';
+import { Dimensions } from 'react-native';
+import { Button, Image, Text, View, useToast, VStack, ScrollView } from 'native-base';
 import * as Location from '../helper/LocationHelper';
 import * as SecureStore from 'expo-secure-store';
 import Message from '../components/Message';
@@ -64,7 +64,7 @@ function HomeScreen({ navigation }) {
   };
 
   return (
-    <View>
+    <ScrollView>
       <VStack style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
         <VStack style={style.marginForm}>
           <Text style={style.textCenter}>Willkommen,</Text>
@@ -73,10 +73,10 @@ function HomeScreen({ navigation }) {
         <Image key={new Date().getTime()} source={{
           uri: 'http://10.0.2.2:5000/create-qrcode?email=' + email + '&date=' + new Date,
           cache: 'reload'
-        }} style={[{ width: 'auto', height: '55%' }, style.fullWidth, style.marginForm]} />
+        }} style={[style.marginForm]} />
         <Button
           onPress={handleNavigationData}
-          style={[style.fullWidth, style.marginForm]}>
+          style={[style.marginForm]}>
           <Text>Gesundheitsdaten hinzufügen</Text>
         </Button>
         {errorMessage === null &&
@@ -88,7 +88,7 @@ function HomeScreen({ navigation }) {
         }
         {errorMessage !== null && Message(errorMessage)}
       </VStack>
-    </View>
+    </ScrollView>
   )
 }
 

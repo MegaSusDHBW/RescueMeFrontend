@@ -1,7 +1,11 @@
 import { Montserrat_600SemiBold } from "@expo-google-fonts/montserrat";
+import { Dimensions } from 'react-native';
 import { extendTheme, HStack, Switch, Text, useColorMode } from "native-base";
 import { Colors } from './Colors';
 
+
+const width = Dimensions.get('window').width * .9;
+const height = width;
 
 export const RescueMeTheme = extendTheme({
     colors: {
@@ -40,6 +44,7 @@ export const RescueMeTheme = extendTheme({
     components: {
         Button: {
             baseStyle: {
+                width: width,
                 fontSize: 'lg',
                 rounded: 'lg',
                 borderWidth: 2,
@@ -106,6 +111,16 @@ export const RescueMeTheme = extendTheme({
                 }
             },
         },
+        ScrollView: {
+            baseStyle: {
+                _light: {
+                    bg: Colors.backgroundColorLight,
+                },
+                _dark: {
+                    bg: Colors.backgroundColorDark,
+                }
+            },
+        },
         Select: {
             baseStyle: {
                 rounded: 'lg',
@@ -121,7 +136,13 @@ export const RescueMeTheme = extendTheme({
                     borderColor: Colors.borderColor,
                 },
             }
-        }
+        },
+        Image: {
+            baseStyle: {
+                width: width,
+                height: height,
+            }
+        },
     },
     fontConfig: {
         Montserrat: {
