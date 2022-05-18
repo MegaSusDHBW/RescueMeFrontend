@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import { Alert } from 'react-native';
-import { Button, Image, Text, View, useToast } from 'native-base';
+import { Button, Image, Text, View, useToast, VStack } from 'native-base';
 import * as Location from '../helper/LocationHelper';
 import * as SecureStore from 'expo-secure-store';
 import Message from '../components/Message';
@@ -64,28 +64,30 @@ function HomeScreen({ navigation }) {
   };
 
   return (
-    <View style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
-      <View style={style.marginForm}>
-        <Text style={style.textCenter}>Willkommen,</Text>
-        <Text style={style.textCenter}>{email}!</Text>
-      </View>
-      <Image key={new Date().getTime()} source={{
-        uri: 'http://10.0.2.2:5000/create-qrcode?email=' + email + '&date=' + new Date,
-        cache: 'reload'
-      }} style={[{ width: 'auto', height: '55%' }, style.fullWidth, style.marginForm]} />
-      <Button
-        onPress={handleNavigationData}
-        style={[style.fullWidth, style.marginForm]}>
-        <Text>Gesundheitsdaten hinzufügen</Text>
-      </Button>
-      {errorMessage === null &&
-        <View style={style.fullWidth}>
-          <Text style={style.textCenter}>GPS-Position</Text>
-          <Text>what3words:</Text>
-          <Text>///{what3Words}</Text>
-        </View>
-      }
-      {errorMessage !== null && Message(errorMessage)}
+    <View>
+      <VStack style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
+        <VStack style={style.marginForm}>
+          <Text style={style.textCenter}>Willkommen,</Text>
+          <Text style={style.textCenter}>{email}!</Text>
+        </VStack>
+        <Image key={new Date().getTime()} source={{
+          uri: 'http://10.0.2.2:5000/create-qrcode?email=' + email + '&date=' + new Date,
+          cache: 'reload'
+        }} style={[{ width: 'auto', height: '55%' }, style.fullWidth, style.marginForm]} />
+        <Button
+          onPress={handleNavigationData}
+          style={[style.fullWidth, style.marginForm]}>
+          <Text>Gesundheitsdaten hinzufügen</Text>
+        </Button>
+        {errorMessage === null &&
+          <View style={style.fullWidth}>
+            <Text style={style.textCenter}>GPS-Position</Text>
+            <Text>what3words:</Text>
+            <Text>///{what3Words}</Text>
+          </View>
+        }
+        {errorMessage !== null && Message(errorMessage)}
+      </VStack>
     </View>
   )
 }
