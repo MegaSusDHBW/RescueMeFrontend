@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Switch } from 'react-native';
-import { Input, Button, View, Text, Select, HStack, VStack, ScrollView, IconButton, Icon } from 'native-base';
+import { Input, Button, View, Text, Select, HStack, VStack, ScrollView, IconButton, Icon, Checkbox } from 'native-base';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
@@ -62,7 +62,11 @@ function DataScreen({ navigation }) {
   const [bloodGroup, setBloodGroup] = useState(null)
   const [userMail, setUsermail] = useState(null)
   const [diseases, setDisease] = useState([]);
-  const [inputValue, setInputValue] = useState("")
+  const [inputDisease, setInputDisease] = useState("")
+  const [allergies, setAllergy] = useState([]);
+  const [inputAllergy, setInputAllergy] = useState("")
+  const [vaccines, setVaccine] = useState([]);
+  const [inputVaccine, setInputVaccine] = useState("")
   healthData.firstName = firstName;
   healthData.lastName = lastName;
   healthData.organDonorState = organDonorState;
@@ -96,9 +100,9 @@ function DataScreen({ navigation }) {
     }
   };
 
-  const addItem = title => {
+  const addDisease = title => {
     if (title === "") {
-      console.log("EMPTY");
+      console.log("EMPTY DISEASE TITLE");
       return;
     }
 
@@ -109,16 +113,58 @@ function DataScreen({ navigation }) {
     });
   };
 
-  const handleDelete = index => {
+  const handleDeleteDisease = index => {
     setDisease(prevList => {
       const temp = prevList.filter((_, itemI) => itemI !== index);
       return temp;
     });
   };
 
+  const addAllergy = title => {
+    if (title === "") {
+      console.log("EMPTY ALLERGY TITLE");
+      return;
+    }
+
+    setAllergy(prevList => {
+      return [...prevList, {
+        title: title
+      }];
+    });
+  };
+
+  const handleDeleteAllergy = index => {
+    setAllergy(prevList => {
+      const temp = prevList.filter((_, itemI) => itemI !== index);
+      return temp;
+    });
+  };
+
+  const addVaccine = title => {
+    if (title === "") {
+      console.log("EMPTY DISEASE TITLE");
+      return;
+    }
+
+    setVaccine(prevList => {
+      return [...prevList, {
+        title: title
+      }];
+    });
+  };
+
+  const handleDeleteVaccine = index => {
+    setVaccine(prevList => {
+      const temp = prevList.filter((_, itemI) => itemI !== index);
+      return temp;
+    });
+  };
+
+  const deleteIcon = <Icon as={FontAwesome} name="trash" size='md' color='danger.600' />;
+
   return (
     <ScrollView style={[style.wrapper, style.paddingTop]}>
-      <VStack>
+      <VStack style={style.marginBottom}>
         <View style={[style.fullWidth, style.marginForm]}>
           <Text>Vorname</Text>
           <Input onChangeText={(value) => setFirstName(value)} value={firstName} />
@@ -148,7 +194,7 @@ function DataScreen({ navigation }) {
         </View>
         <View style={[style.flexBetween, style.flexHorizontal, style.fullWidth, style.marginForm]}>
           <Text>Organspender</Text>
-          <Switch title="Organd Spender" onValueChange={(value) => setOrganDonorState(value)} value={organDonorState} />
+          <Checkbox isChecked={organDonorState} onChange={(value) => setOrganDonorState(value)} value={organDonorState} />
         </View>
         <Collapse>
           <CollapseHeader>
@@ -168,17 +214,83 @@ function DataScreen({ navigation }) {
                 <Text>- {item.title}</Text>
                 <IconButton
                   size="sm"
-                  icon={
-                    <Icon as={FontAwesome} name="trash" size='md' color='danger.600' />
-                  }
-                  onPress={() => handleDelete(itemI)} />
+                  icon={deleteIcon}
+                  onPress={() => handleDeleteDisease(itemI)} />
               </HStack>)}
               <View style={[style.fullWidth, style.marginForm]}>
                 <Text>Neuer Eintrag</Text>
-                <Input onChangeText={(value) => setInputValue(value)} value={inputValue} />
+                <Input onChangeText={(value) => setInputDisease(value)} value={inputDisease} />
                 <Button onPress={() => {
-                  addItem(inputValue);
-                  setInputValue("");
+                  addDisease(inputDisease);
+                  setInputDisease("");
+                }} style={[style.fullWidth, style.marginForm]}>
+                  <Text>Hinzufügen</Text>
+                </Button>
+              </View>
+            </View>
+          </CollapseBody>
+        </Collapse>
+        <Collapse>
+          <CollapseHeader>
+            <View style={[style.paddingForm, style.dividerTop]}>
+              <Text>Allergien</Text>
+            </View>
+          </CollapseHeader>
+          <CollapseBody>
+            <View style={style.marginForm}>
+              {allergies.length == 0 && <Text>- Keine Einträge -</Text>}
+              {allergies.map((item, itemI) => <HStack
+                key={item.title}
+                display={'flex'}
+                flexDirection={'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}>
+                <Text>- {item.title}</Text>
+                <IconButton
+                  size="sm"
+                  icon={deleteIcon}
+                  onPress={() => handleDeleteAllergy(itemI)} />
+              </HStack>)}
+              <View style={[style.fullWidth, style.marginForm]}>
+                <Text>Neuer Eintrag</Text>
+                <Input onChangeText={(value) => setInputAllergy(value)} value={inputAllergy} />
+                <Button onPress={() => {
+                  addAllergy(inputAllergy);
+                  setInputAllergy("");
+                }} style={[style.fullWidth, style.marginForm]}>
+                  <Text>Hinzufügen</Text>
+                </Button>
+              </View>
+            </View>
+          </CollapseBody>
+        </Collapse>
+        <Collapse>
+          <CollapseHeader>
+            <View style={[style.paddingForm, style.dividerTop]}>
+              <Text>Impfungen</Text>
+            </View>
+          </CollapseHeader>
+          <CollapseBody>
+            <View style={style.marginForm}>
+              {vaccines.length == 0 && <Text>- Keine Einträge -</Text>}
+              {vaccines.map((item, itemI) => <HStack
+                key={item.title}
+                display={'flex'}
+                flexDirection={'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}>
+                <Text>- {item.title}</Text>
+                <IconButton
+                  size="sm"
+                  icon={deleteIcon}
+                  onPress={() => handleDeleteVaccine(itemI)} />
+              </HStack>)}
+              <View style={[style.fullWidth, style.marginForm]}>
+                <Text>Neuer Eintrag</Text>
+                <Input onChangeText={(value) => setInputVaccine(value)} value={inputVaccine} />
+                <Button onPress={() => {
+                  addVaccine(inputVaccine);
+                  setInputVaccine("");
                 }} style={[style.fullWidth, style.marginForm]}>
                   <Text>Hinzufügen</Text>
                 </Button>

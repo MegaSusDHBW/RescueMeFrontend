@@ -27,6 +27,9 @@ module.exports = StyleSheet.create({
         marginHorizontal: 0,
         marginVertical: 5,
     },
+    marginBottom: {
+        marginBottom: 100,
+    },
     paddingForm: {
         paddingHorizontal: 0,
         paddingVertical: 5,
