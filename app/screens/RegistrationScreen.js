@@ -31,7 +31,7 @@ function RegistrationScreen({ navigation }) {
         response.json().then(data => {
           Alert.alert('Post created at : ');
         });
-      }).then(props.navigation.navigate('Login'));
+      }).then(navigation.navigate('Login'));
     } catch (error) {
       console.error(error);
     }
