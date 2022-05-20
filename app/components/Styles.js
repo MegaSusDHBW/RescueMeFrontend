@@ -58,5 +58,9 @@ module.exports = StyleSheet.create({
     dividerTop: {
         borderTopColor: Colors.primary,
         borderTopWidth: 3,
-    }
+    },
+    dividerBot: {
+        borderBottomColor: Colors.primary,
+        borderBottomWidth: 3,
+    },
 })

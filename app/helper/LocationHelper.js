@@ -1,12 +1,12 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 
 
-export function getLocation(){
-    const [location, setLocation] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
+export function getLocation() {
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
-    console.log('entered function');
+  console.log('entered function');
 
   useEffect(() => {
     (async () => {
@@ -18,8 +18,9 @@ export function getLocation(){
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      console.log(location);
+      // console.log(location);
       setLocation(location);
+      return location;
     })();
   }, []);
 
@@ -29,6 +30,6 @@ export function getLocation(){
   } else if (location) {
     text = JSON.stringify(location);
     console.log(text);
-    return(text)
+    return (text)
   }
 }
