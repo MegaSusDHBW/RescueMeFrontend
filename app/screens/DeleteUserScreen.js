@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, SafeAreaView } from 'react-native';
 import { Input, Button, View, Text } from 'native-base';
 import * as SecureStore from 'expo-secure-store';
+import { ipAdress } from '../helper/HttpRequestHelper';
 
 
 function DeleteUserScreen({ navigation }) {
@@ -24,21 +25,22 @@ function DeleteUserScreen({ navigation }) {
         Alert.alert('Passwörter stimmen nicht überein');
         return;
       }
+      let jwt = await SecureStore.getItemAsync('jwt');
       const requestOptions =
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json','jwt':jwt },
       };
       console.log("POST")
       console.log(JSON.stringify(user))
       console.log(requestOptions.body);
       await fetch(
-        'http://10.0.2.2:5000/delete-user?email=' + email,
+        ipAdress+'delete-user?email=' + email,
         requestOptions,
       ).then(response => {
         response.json().then(data => {
           Alert.alert('Post created at : ');
-        }).then(SecureStore.deleteItemAsync('email')).then(navigation.navigate('Login'));
+        }).then(SecureStore.deleteItemAsync('email')).then(SecureStore.deleteItemAsync('jwt')).then(navigation.navigate('Login'));
       });
 
     } catch (error) {

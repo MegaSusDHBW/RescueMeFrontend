@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, TextInput, SafeAreaView } from 'react-native';
 import { Input, Button, View, Text, Image, Icon } from 'native-base';
 import style from "../components/Styles";
+import {ipAdress} from "../helper/HttpRequestHelper"
 
 function RegistrationScreen({ navigation }) {
   //const account = [email, password]
@@ -28,7 +29,7 @@ function RegistrationScreen({ navigation }) {
       console.log(JSON.stringify(user))
       console.log(requestOptions.body);
       await fetch(
-        'http://10.0.2.2:5000/sign-up',
+        ipAdress+'sign-up',
         requestOptions,
       ).then(response => {
         response.json().then(data => {

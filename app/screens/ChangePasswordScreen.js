@@ -18,11 +18,12 @@ function ChangePasswordScreen({ navigation }) {
 
   const handleSubmit = async () => {
     try {
+      let jwt = await SecureStore.getItemAsync('jwt');
       const requestOptions =
       {
 
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'jwt':jwt },
         body: JSON.stringify(newPassword)
       };
       //TODO add URL

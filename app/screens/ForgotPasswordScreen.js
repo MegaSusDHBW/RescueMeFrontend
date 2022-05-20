@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, SafeAreaView } from 'react-native';
 import { Input, Button, View, Text, Image } from 'native-base';
-
+import {ipAdress} from '../helper/HttpRequestHelper'
 function ForgotPasswordScreen({ navigation }) {
   const style = require('../components/Styles');
   const [password, setPassword] = useState(null);
@@ -29,7 +29,7 @@ function ForgotPasswordScreen({ navigation }) {
       console.log(JSON.stringify(newPassword))
       console.log(requestOptions.body);
       await fetch(
-        'http://10.0.2.2:5000/forget-password',
+        ipAdress+'forget-password',
         requestOptions,
       ).then(response => {
         response.json().then(data => {

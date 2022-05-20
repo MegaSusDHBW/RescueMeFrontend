@@ -74,3 +74,4 @@ export async function Put (url, content){
             console.error(error);
           }
 };
+export const ipAdress = 'http://10.0.2.2:5000/';
