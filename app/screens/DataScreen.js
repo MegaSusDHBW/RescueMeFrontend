@@ -52,9 +52,9 @@ function DataScreen({ navigation }) {
     bloodGroup: '',
     userMail: '',
     birthDate: '',
-    diseases:'',
-    allergies:'',
-    vaccines:'',
+    diseases: '',
+    allergies: '',
+    vaccines: '',
   }
 
   const [firstName, setFirstName] = useState(null)
@@ -77,7 +77,7 @@ function DataScreen({ navigation }) {
   healthData.birthDate = birthDate;
   healthData.diseases = diseases;
   healthData.allergies = allergies;
-  healthData.vaccines= vaccines;
+  healthData.vaccines = vaccines;
   const handleSubmit = async () => {
     try {
       const requestOptions =
@@ -86,7 +86,7 @@ function DataScreen({ navigation }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(healthData)
       };
-      
+
       console.log(JSON.stringify(healthData))
 
       await fetch(
@@ -229,7 +229,7 @@ function DataScreen({ navigation }) {
                   addDisease(inputDisease);
                   setInputDisease("");
                 }} style={[style.fullWidth, style.marginForm]}>
-                  <Text>Hinzufügen</Text>
+                  <Text variant={'button'}>Hinzufügen</Text>
                 </Button>
               </View>
             </View>
@@ -263,7 +263,7 @@ function DataScreen({ navigation }) {
                   addAllergy(inputAllergy);
                   setInputAllergy("");
                 }} style={[style.fullWidth, style.marginForm]}>
-                  <Text>Hinzufügen</Text>
+                  <Text variant={'button'}>Hinzufügen</Text>
                 </Button>
               </View>
             </View>
@@ -297,14 +297,14 @@ function DataScreen({ navigation }) {
                   addVaccine(inputVaccine);
                   setInputVaccine("");
                 }} style={[style.fullWidth, style.marginForm]}>
-                  <Text>Hinzufügen</Text>
+                  <Text variant={'button'}>Hinzufügen</Text>
                 </Button>
               </View>
             </View>
           </CollapseBody>
         </Collapse>
         <Button onPress={handleSubmit} style={[style.fullWidth, style.marginForm]}>
-          <Text>Speichern</Text>
+          <Text variant={'button'}>Speichern</Text>
         </Button>
       </VStack>
     </ScrollView>

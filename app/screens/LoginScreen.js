@@ -58,14 +58,14 @@ function LoginScreen({ navigation }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
-      };     
-      const response= await fetch(
+      };
+      const response = await fetch(
         'http://10.0.2.2:5000/login',
         requestOptions,
-      ).then(response  =>  {
+      ).then(response => {
         if (response.ok) {
-          let data =  response.json().then(data =>SecureStore.setItemAsync('jwt', data.jwt));
-                   
+          let data = response.json().then(data => SecureStore.setItemAsync('jwt', data.jwt));
+
           SecureStore.setItemAsync('email', email);
           handleNavigationHome();
         } else {
@@ -103,8 +103,10 @@ function LoginScreen({ navigation }) {
             secureTextEntry={true} />
         </View>
         <View style={style.fullWidth}>
-          <Button style={style.marginForm} onPress={handleSubmit}>
-            <Text>Login</Text>
+          <Button
+            style={style.marginForm}
+            onPress={handleSubmit}>
+            <Text variant={'button'}>Login</Text>
           </Button>
           <Button
             style={[style.marginForm]}

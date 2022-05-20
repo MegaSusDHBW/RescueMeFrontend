@@ -100,6 +100,16 @@ export const RescueMeTheme = extendTheme({
                     color: Colors.textColorLight,
                 },
             },
+            variants: {
+                button: {
+                    _light: {
+                        color: Colors.textColorLight,
+                    },
+                    _dark: {
+                        color: Colors.textColorLight,
+                    },
+                },
+            },
         },
         View: {
             baseStyle: {

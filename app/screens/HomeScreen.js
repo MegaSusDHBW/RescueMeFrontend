@@ -20,7 +20,7 @@ function HomeScreen({ navigation }) {
     try {
       let storeEmail = await SecureStore.getItemAsync('email');
       let jwt = await SecureStore.getItemAsync('jwt');
-      console.log('jwt '+jwt)
+      console.log('jwt ' + jwt)
       setJwt(jwt)
       setEmail(storeEmail);
       if (errorMessage === null && what3Words === null) {
@@ -76,15 +76,15 @@ function HomeScreen({ navigation }) {
           key={new Date().getTime()}
           source={{
             uri: 'http://10.0.2.2:5000/create-qrcode?email=' + email + '&date=' + new Date,
-            cache: 'reload', 
-            headers:{jwt: jwt}
+            cache: 'reload',
+            headers: { jwt: jwt }
           }}
           style={[style.marginForm]}
           alt={'Encrypted QR Code'} />
         <Button
           onPress={handleNavigationData}
           style={[style.marginForm]}>
-          <Text>Gesundheitsdaten hinzufügen</Text>
+          <Text variant={'button'}>Gesundheitsdaten hinzufügen</Text>
         </Button>
         {errorMessage === null &&
           <View style={style.fullWidth}>

@@ -75,7 +75,7 @@ function ForgotPasswordScreen({ navigation }) {
         </View>
         <View style={style.fullWidth}>
           <Button onPress={handleSubmit} style={style.marginForm}>
-            <Text>Bestätigen</Text>
+            <Text variant={'button'}>Bestätigen</Text>
           </Button>
           <Button
             onPress={handleNavigationLogin}

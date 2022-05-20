@@ -131,7 +131,11 @@ function EmergencyContact({ navigation }) {
         />
       </View>
       <View style={style.fullWidth}>
-        <Button style={[style.marginForm, style.marginBottom]} onPress={handleSubmit}><Text>Bestätigen</Text></Button>
+        <Button
+          style={[style.marginForm, style.marginBottom]}
+          onPress={handleSubmit}>
+          <Text variant={'button'}>Bestätigen</Text>
+        </Button>
       </View>
     </ScrollView>
   );
