@@ -6,6 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import { EvilIcons, FontAwesome } from '@expo/vector-icons';
+import {ipAdress}from '../helper/HttpRequestHelper'
 
 function DataScreen({ navigation }) {
   const style = require('../components/Styles');
@@ -15,10 +16,17 @@ function DataScreen({ navigation }) {
   }
 
   useEffect(async () => {
+    let jwt = await SecureStore.getItemAsync('jwt')
     getUserMail();
+    const requestOptions =
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json','jwt':jwt },
+      };
     if (bloodGroup === null) {
       const response = await fetch(
-        'http://10.0.2.2:5000/get-healthdata?email=' + userMail,
+        ipAdress+'get-healthdata?email=' + userMail,
+        requestOptions
       );
       const data = await response.json();
 
@@ -79,18 +87,19 @@ function DataScreen({ navigation }) {
   healthData.allergies = allergies;
   healthData.vaccines = vaccines;
   const handleSubmit = async () => {
+    let jwt = await SecureStore.getItemAsync('jwt');
     try {
       const requestOptions =
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json','jwt':jwt },
         body: JSON.stringify(healthData)
       };
 
       console.log(JSON.stringify(healthData))
 
       await fetch(
-        'http://10.0.2.2:5000/set-healthdata',
+        ipAdress+'set-healthdata',
         requestOptions,
       ).then(response => {
         if (response.ok) {

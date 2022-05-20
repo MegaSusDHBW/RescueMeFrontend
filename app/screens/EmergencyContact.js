@@ -4,15 +4,22 @@ import * as SecureStore from 'expo-secure-store';
 import style from "../components/Styles";
 import { Button, Input, Text, View, ScrollView } from "native-base";
 import DatePicker from "react-native-date-picker";
-
+import {ipAdress} from '../helper/HttpRequestHelper'
 
 function EmergencyContact({ navigation }) {
 
   useEffect(async () => {
     await getUserMail()
+    let jwt = await SecureStore.getItemAsync('jwt');
+    const requestOptions =
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'jwt':jwt },
+      };
     if (birthDate === null) {
       const response = await fetch(
-        'http://10.0.2.2:5000/get-emergencycontact?email=' + userMail,
+        ipAdress+'get-emergencycontact',
+        requestOptions
       );
       const data = await response.json();
       let birthDate = data.emergencyBirthday
@@ -61,25 +68,26 @@ function EmergencyContact({ navigation }) {
 
   const handleSubmit = async () => {
     console.log(JSON.stringify(contact));
-
+    let jwt = await SecureStore.getItemAsync('jwt');
     try {
       const requestOptions =
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'jwt':jwt },
         body: JSON.stringify(contact)
       };
       console.log("POST")
       console.log(JSON.stringify(contact))
 
       await fetch(
-        'http://10.0.2.2:5000/set-emergencycontact',
+        ipAdress+'set-emergencycontact',
         requestOptions,
       ).then(response => {
         if (response.ok) {
           handleNavigationHome();
         } else {
-          Alert.alert('Upps')
+          
+          Alert.alert('Anlegen des Notfallkontaktes fehlgeschlagen')
         }
         ;
       });

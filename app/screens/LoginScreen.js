@@ -4,6 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 import { Input, Button, View, Text, Image, Icon, VStack, ScrollView } from 'native-base';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../components/Colors';
+import {ipAdress} from '../helper/HttpRequestHelper'
 
 function LoginScreen({ navigation }) {
   const style = require('../components/Styles.js');
@@ -48,7 +49,7 @@ function LoginScreen({ navigation }) {
     email: '',
     password: '',
   };
-  //const handleSubmit1 =  httpHelper.Post('',user);
+  
 
   const handleSubmit = async () => {
     try {
@@ -59,8 +60,9 @@ function LoginScreen({ navigation }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
       };
-      const response = await fetch(
-        'http://10.0.2.2:5000/login',
+      
+      const response= await fetch(
+        ipAdress + 'login',
         requestOptions,
       ).then(response => {
         if (response.ok) {

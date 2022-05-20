@@ -6,6 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import Message from '../components/Message';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import style from "../components/Styles";
+import { ipAdress } from '../helper/HttpRequestHelper';
 
 function HomeScreen({ navigation }) {
   const style = require('../components/Styles.js');
@@ -33,11 +34,8 @@ function HomeScreen({ navigation }) {
           headers: { 'Content-Type': 'application/json', 'jwt': jwt },
           body: JSON.stringify(location)
         };
-        // console.log("POST")
-        // console.log(loc)
-
         await fetch(
-          'http://10.0.2.2:5000/get-geodata',
+          ipAdress+'get-geodata',
           requestOptions,
         ).then(async response => {
           if (response.ok) {
@@ -103,6 +101,7 @@ function HomeScreen({ navigation }) {
     navigation.navigate('Data')
   };
 
+if(jwt != null && email != null )
   return (
     <ScrollView>
       <VStack style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
@@ -113,9 +112,10 @@ function HomeScreen({ navigation }) {
         <Image
           key={new Date().getTime()}
           source={{
-            uri: 'http://10.0.2.2:5000/create-qrcode?email=' + email + '&date=' + new Date,
-            cache: 'reload',
-            headers: { jwt: jwt }
+            uri: ipAdress+'create-qrcode?date=' + new Date,
+            headers:{'jwt': jwt},
+            cache: 'reload', 
+
           }}
           style={[style.marginForm]}
           alt={'Encrypted QR Code'} />
@@ -154,6 +154,13 @@ function HomeScreen({ navigation }) {
       </VStack>
     </ScrollView>
   )
+  else{
+    return(
+    <View>
+     <Text>loading</Text>
+  </View>
+    )
+  }
 }
 
 export default HomeScreen;
