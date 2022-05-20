@@ -68,7 +68,7 @@ function HomeScreen({ navigation }) {
 
         console.log("GET HOSPITALS");
         await fetch(
-          'http://10.0.2.2:5000/get-hospitals',
+          ipAdress+'get-hospitals',
           requestOptions,
         ).then(async response => {
           const data = await response.json()

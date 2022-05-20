@@ -11,13 +11,14 @@ function LoginScreen({ navigation }) {
   const [email, setEmail] = useState(null);
   const [auth, setAuth] = useState(null);
   useEffect(async () => {
-    SecureStore.deleteItemAsync('email')
+    
 
     async function checkAuth() {
-
-      console.log('mail from store ' + store);
-      console.log('mail in var ' + email);
-      if (store === null) {
+      
+      let jwt = await SecureStore.getItemAsync('jwt')
+      console.log(jwt);
+      console.log(store)
+      if (jwt === null) {
         setAuth(false);
       } else {
         return setAuth(true)

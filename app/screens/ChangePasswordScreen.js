@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { Input, Button, View, Text, Image } from 'native-base';
+import {ipAdress} from '../helper/HttpRequestHelper'
 
 function ChangePasswordScreen({ navigation }) {
   const style = require('../components/Styles');
@@ -31,7 +32,7 @@ function ChangePasswordScreen({ navigation }) {
       console.log(JSON.stringify(newPassword))
       console.log(requestOptions.body);
       await fetch(
-        'http://10.0.2.2:5000/change-password',
+        ipAdress+'change-password',
         requestOptions,
       ).then(response => {
         response.json().then(data => {

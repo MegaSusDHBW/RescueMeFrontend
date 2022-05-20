@@ -25,7 +25,7 @@ function DataScreen({ navigation }) {
       };
     if (bloodGroup === null) {
       const response = await fetch(
-        ipAdress+'get-healthdata?email=' + userMail,
+        ipAdress+'get-healthdata',
         requestOptions
       );
       const data = await response.json();
@@ -45,6 +45,13 @@ function DataScreen({ navigation }) {
       else {
         setOrganDonorState(false)
       }
+      let diseases = data.diseases
+      setDisease(diseases)
+      let vaccines = data.vaccines
+      setVaccine(vaccines)
+      let allergies = data.allergies
+      setAllergy(allergies)
+      
     }
   });
 
@@ -60,9 +67,10 @@ function DataScreen({ navigation }) {
     bloodGroup: '',
     userMail: '',
     birthDate: '',
-    diseases: '',
-    allergies: '',
-    vaccines: '',
+    diseases: [],
+    allergies: [],
+    vaccines: [],
+
   }
 
   const [firstName, setFirstName] = useState(null)
