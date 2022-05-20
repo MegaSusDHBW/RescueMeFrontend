@@ -60,14 +60,14 @@ function LoginScreen({ navigation }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
       };
-           
+      
       const response= await fetch(
         ipAdress + 'login',
         requestOptions,
-      ).then(response  =>  {
+      ).then(response => {
         if (response.ok) {
-          let data =  response.json().then(data =>SecureStore.setItemAsync('jwt', data.jwt));
-                   
+          let data = response.json().then(data => SecureStore.setItemAsync('jwt', data.jwt));
+
           SecureStore.setItemAsync('email', email);
           handleNavigationHome();
         } else {
@@ -105,8 +105,10 @@ function LoginScreen({ navigation }) {
             secureTextEntry={true} />
         </View>
         <View style={style.fullWidth}>
-          <Button style={style.marginForm} onPress={handleSubmit}>
-            <Text>Login</Text>
+          <Button
+            style={style.marginForm}
+            onPress={handleSubmit}>
+            <Text variant={'button'}>Login</Text>
           </Button>
           <Button
             style={[style.marginForm]}

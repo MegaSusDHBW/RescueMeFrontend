@@ -22,15 +22,16 @@ function StackNavigator(props) {
     const weight = 'bold';
 
     return (
-        <Stack.Navigator _light={{ bg: "danger.600" }}
+        <Stack.Navigator
+            _light={{ bg: "danger.600" }}
             _dark={{ bg: "danger.500" }}>
-            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name="Registrieren" component={RegistrationScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name='Passwort vergessen' component={ForgotPasswordScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name='TabNav' component={TabNavigator} options={{ headerShown: false, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name='Passwort ändern' component={ChangePasswordScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name='Konto löschen' component={DeleteUserScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
-            <Stack.Screen name='QRCodeScanner' component={QRCodeScannerScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight, fontFamily: 'Montserrat' }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name="Registrieren" component={RegistrationScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight, fontFamily: 'Montserrat' }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name='Passwort vergessen' component={ForgotPasswordScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight, fontFamily: 'Montserrat' }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name='TabNav' component={TabNavigator} options={{ headerShown: false, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight, fontFamily: 'Montserrat' }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name='Passwort ändern' component={ChangePasswordScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight, fontFamily: 'Montserrat' }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name='Konto löschen' component={DeleteUserScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight, fontFamily: 'Montserrat' }, cardStyle: { backgroundColor: bgColor } }} />
+            <Stack.Screen name='QRCodeScanner' component={QRCodeScannerScreen} options={{ headerShown: true, headerStyle: { backgroundColor: bgColor, }, headerTintColor: textColor, headerTitleStyle: { fontWeight: weight, fontFamily: 'Montserrat' }, cardStyle: { backgroundColor: bgColor } }} />
         </Stack.Navigator>
     );
 }

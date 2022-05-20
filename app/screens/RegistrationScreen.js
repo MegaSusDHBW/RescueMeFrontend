@@ -67,16 +67,16 @@ function RegistrationScreen({ navigation }) {
         <View style={[style.fullWidth, style.marginForm]}>
           <Text>Vorname</Text>
           <Input style={style.fullWidth}
-                 variant="custom"
-                 onChangeText={(value) => setFirstName(value)}
-                 value={firstName} />
+            variant="custom"
+            onChangeText={(value) => setFirstName(value)}
+            value={firstName} />
         </View>
         <View style={[style.fullWidth, style.marginForm]}>
           <Text>Nachname</Text>
           <Input style={style.fullWidth}
-                 variant="custom"
-                 onChangeText={(value) => setLastName(value)}
-                 value={lastName} />
+            variant="custom"
+            onChangeText={(value) => setLastName(value)}
+            value={lastName} />
         </View>
         <View style={[style.fullWidth, style.marginForm]}>
           <Text>E-Mail</Text>
@@ -103,7 +103,7 @@ function RegistrationScreen({ navigation }) {
         </View>
         <View style={style.fullWidth}>
           <Button onPress={handleSubmit} style={style.marginForm}>
-            <Text>Registrieren</Text>
+            <Text variant={'button'}>Registrieren</Text>
           </Button>
           <Button
             onPress={handleNavigationLogin}
