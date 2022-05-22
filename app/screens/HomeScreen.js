@@ -21,6 +21,25 @@ function HomeScreen({ navigation }) {
   const [hospitals_rest, setHospitalRest] = useState([]);
   const hospital_count_short = 5;
 
+  
+async function getWhat3Words(){
+  let temp = await Location.getLocation()
+  console.log('Temp'+temp);
+  const requestOptions =
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'jwt': jwt },
+          body: JSON.stringify(temp)
+        };
+       const response= await fetch(ipAdress+'get-geodata', requestOptions )
+        const data = await response.json()
+        console.log(data);
+        set3Words(data.words)
+
+}
+
+
+
   useEffect(async () => {
     try {
       let storeEmail = await SecureStore.getItemAsync('email');
