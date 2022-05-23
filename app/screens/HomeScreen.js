@@ -13,32 +13,18 @@ function HomeScreen({ navigation }) {
   const [what3Words, set3Words] = useState(null);
   const [email, setEmail] = useState('test');
   const [location, setLocation] = useState(null);
-  // let location = ;
-  // setLoc
   const [errorMessage, setErrorMessage] = useState(null);
   const [jwt, setJwt] = useState(null)
   const [hospitals_short, setHospitalShort] = useState([]);
   const [hospitals_rest, setHospitalRest] = useState([]);
   const hospital_count_short = 5;
 
-  
-async function getWhat3Words(){
-  let temp = await Location.getLocation()
-  console.log('Temp'+temp);
-  const requestOptions =
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'jwt': jwt },
-          body: JSON.stringify(temp)
-        };
-       const response= await fetch(ipAdress+'get-geodata', requestOptions )
-        const data = await response.json()
-        console.log(data);
-        set3Words(data.words)
+  async function getJWT(){
+    await SecureStore.getItemAsync('jwt')
+  }
 
-}
-
-
+  getJWT()
+  console.log(jwt);
 
   useEffect(async () => {
     try {
@@ -119,8 +105,10 @@ async function getWhat3Words(){
   function handleNavigationData() {
     navigation.navigate('Data')
   };
+  
 
-if(jwt != null && email != null )
+
+if(jwt != undefined && email != undefined )
   return (
     <ScrollView>
       <VStack style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
@@ -131,8 +119,8 @@ if(jwt != null && email != null )
         <Image
           key={new Date().getTime()}
           source={{
-            uri: ipAdress+'create-qrcode?date=' + new Date,
-            headers:{'jwt': jwt},
+            uri: ipAdress+'create-qrcode?date=' + new Date+'&jwt='+jwt,
+            headers:{'jwt':jwt },
             cache: 'reload', 
 
           }}

@@ -13,25 +13,17 @@ function LoginScreen({ navigation }) {
   useEffect(async () => {
     
 
-    async function checkAuth() {
+    
       
-      let jwt = await SecureStore.getItemAsync('jwt')
+      let jwt =  SecureStore.getItemAsync('jwt')
       console.log(jwt);
-      console.log(store)
-      if (jwt === null) {
-        setAuth(false);
-      } else {
-        return setAuth(true)
-      }
-    }
+      
+      if (jwt !== null) {
+        handleNavigationHome()
+      } 
+    
 
-    SecureStore.getItemAsync('email').then((value) => console.log(value));
-    await checkAuth()
-    console.log(auth);
-    if (auth) {
-      console.log('user was already loged in');
-      navigation.navigate('TabNav')
-    }
+    
   });
 
   function handleNavigationRegistry() {
@@ -65,8 +57,9 @@ function LoginScreen({ navigation }) {
       const response= await fetch(
         ipAdress + 'login',
         requestOptions,
-      ).then(response => {
+      ).then(response  => {
         if (response.ok) {
+          SecureStore.deleteItemAsync('jwt').then(() => console.log('deleted'))
           let data = response.json().then(data => SecureStore.setItemAsync('jwt', data.jwt));
 
           SecureStore.setItemAsync('email', email);
