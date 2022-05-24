@@ -75,3 +75,4 @@ export async function Put (url, content){
           }
 };
 export const ipAdress = 'http://10.0.2.2:5000/';
+//export const ipAdress= ' http://178.63.84.123:5000/'

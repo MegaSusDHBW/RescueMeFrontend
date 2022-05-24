@@ -1,12 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
+// import { Alert } from 'react-native';
 import { Button, Image, Text, View, HStack, VStack, ScrollView } from 'native-base';
-import * as Location from '../helper/LocationHelper';
+// import * as Location from '../helper/LocationHelper';
+import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
-import Message from '../components/Message';
+// import GetLocation from 'react-native-get-location'
+// import Message from '../components/Message';
+//import Geolocation from '@react-native-community/geolocation'
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
-import style from "../components/Styles";
+// import style from "../components/Styles";
 import { ipAdress } from '../helper/HttpRequestHelper';
+
+async function GetLocation() {
+  return (async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.log('reject');
+      setErrorMsg('Permission to access location was denied');
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    console.log('LOC ' + JSON.stringify(location));
+    // setLocation(location);
+    return location;
+  })();
+}
 
 function HomeScreen({ navigation }) {
   const style = require('../components/Styles.js');
@@ -25,6 +44,12 @@ function HomeScreen({ navigation }) {
 
   getJWT()
   console.log(jwt);
+
+  if (location === null) {
+    GetLocation().then((loc) => {
+      setLocation(loc);
+    })
+  }
 
   useEffect(async () => {
     try {
@@ -65,11 +90,10 @@ function HomeScreen({ navigation }) {
         // add coords to request body
         requestOptions.body = JSON.stringify({
           coords: {
-            latitude: '48.445124666',//location.coords.latitude,
-            longitude: '8.6969068093'//location.coords.longitude,
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
           }
         });
-        console.log("request body :" + requestOptions.body);
 
         console.log("GET HOSPITALS");
         await fetch(
@@ -106,8 +130,6 @@ function HomeScreen({ navigation }) {
     navigation.navigate('Data')
   };
 
-
-
   if (jwt != undefined && email != undefined)
     return (
       <ScrollView>
@@ -122,7 +144,6 @@ function HomeScreen({ navigation }) {
               uri: ipAdress + 'create-qrcode?date=' + new Date + '&jwt=' + jwt,
               headers: { 'jwt': jwt },
               cache: 'reload',
-
             }}
             style={[style.marginForm]}
             alt={'Encrypted QR Code'} />
@@ -131,14 +152,14 @@ function HomeScreen({ navigation }) {
             style={[style.marginForm]}>
             <Text variant={'button'}>Gesundheitsdaten hinzufügen</Text>
           </Button>
-          {errorMessage === null &&
-            <View style={style.fullWidth}>
-              <Text style={style.textCenter}>GPS-Position</Text>
-              <Text>what3words:</Text>
-              <Text>///{what3Words}</Text>
-            </View>
-          }
-          {errorMessage !== null && Message(errorMessage)}
+          {/* {errorMessage === null && */}
+          <View style={style.fullWidth}>
+            <Text style={style.textCenter}>GPS-Position</Text>
+            <Text>what3words:</Text>
+            <Text>///{what3Words}</Text>
+          </View>
+          {/* } */}
+          {/* {errorMessage !== null && Message(errorMessage)} */}
           <View>
             <Collapse>
               <CollapseHeader>
