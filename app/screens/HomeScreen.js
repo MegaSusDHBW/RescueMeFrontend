@@ -3,7 +3,9 @@ import { Dimensions } from 'react-native';
 import { Button, Image, Text, View, HStack, VStack, ScrollView } from 'native-base';
 import * as Location from '../helper/LocationHelper';
 import * as SecureStore from 'expo-secure-store';
+import RNLocation from 'react-native-location'
 import Message from '../components/Message';
+//import Geolocation from '@react-native-community/geolocation'
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import style from "../components/Styles";
 import { ipAdress } from '../helper/HttpRequestHelper';
@@ -25,6 +27,10 @@ function HomeScreen({ navigation }) {
 
   getJWT()
   console.log(jwt);
+
+
+//Lokalisierung test 1450000
+  //Geolocation.getCurrentPosition(info => console.log('INFOOOOOO'+info))
 
   useEffect(async () => {
     try {
@@ -105,6 +111,24 @@ function HomeScreen({ navigation }) {
   function handleNavigationData() {
     navigation.navigate('Data')
   };
+
+  // const test = RNLocation.requestPermission({
+  //   ios: "whenInUse",
+  //   android: {
+  //     detail: "coarse"
+  //   }}).then(granted => {
+  //     if (granted) {
+  //       this.locationSubscription = RNLocation.subscribeToLocationUpdates(locations => {
+       
+  //        console.log(JSON.stringify( locations)); 
+  //         setLocation(locations[0])
+  //       })
+  //     }
+  //   })
+  
+  // console.log('TESSSSSSSSSTTTTTT'+JSON.stringify(test));
+  // console.log(location);
+
   
 
 
