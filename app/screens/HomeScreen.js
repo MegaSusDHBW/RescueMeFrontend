@@ -144,7 +144,6 @@ function HomeScreen({ navigation }) {
               uri: ipAdress + 'create-qrcode?date=' + new Date + '&jwt=' + jwt,
               headers: { 'jwt': jwt },
               cache: 'reload',
-
             }}
             style={[style.marginForm]}
             alt={'Encrypted QR Code'} />
