@@ -1,14 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
+// import { Alert } from 'react-native';
 import { Button, Image, Text, View, HStack, VStack, ScrollView } from 'native-base';
-import * as Location from '../helper/LocationHelper';
+// import * as Location from '../helper/LocationHelper';
+import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
-import RNLocation from 'react-native-location'
-import Message from '../components/Message';
+// import GetLocation from 'react-native-get-location'
+// import Message from '../components/Message';
 //import Geolocation from '@react-native-community/geolocation'
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
-import style from "../components/Styles";
+// import style from "../components/Styles";
 import { ipAdress } from '../helper/HttpRequestHelper';
+
+async function GetLocation() {
+  return (async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.log('reject');
+      setErrorMsg('Permission to access location was denied');
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    console.log('LOC ' + JSON.stringify(location));
+    // setLocation(location);
+    return location;
+  })();
+}
 
 function HomeScreen({ navigation }) {
   const style = require('../components/Styles.js');
@@ -21,16 +38,18 @@ function HomeScreen({ navigation }) {
   const [hospitals_rest, setHospitalRest] = useState([]);
   const hospital_count_short = 5;
 
-  async function getJWT(){
+  async function getJWT() {
     await SecureStore.getItemAsync('jwt')
   }
 
   getJWT()
   console.log(jwt);
 
-
-//Lokalisierung test 1450000
-  //Geolocation.getCurrentPosition(info => console.log('INFOOOOOO'+info))
+  if (location === null) {
+    GetLocation().then((loc) => {
+      setLocation(loc);
+    })
+  }
 
   useEffect(async () => {
     try {
@@ -46,7 +65,7 @@ function HomeScreen({ navigation }) {
           body: JSON.stringify(location)
         };
         await fetch(
-          ipAdress+'get-geodata',
+          ipAdress + 'get-geodata',
           requestOptions,
         ).then(async response => {
           if (response.ok) {
@@ -71,15 +90,14 @@ function HomeScreen({ navigation }) {
         // add coords to request body
         requestOptions.body = JSON.stringify({
           coords: {
-            latitude: '48.445124666',//location.coords.latitude,
-            longitude: '8.6969068093'//location.coords.longitude,
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
           }
         });
-        console.log("request body :" + requestOptions.body);
 
         console.log("GET HOSPITALS");
         await fetch(
-          ipAdress+'get-hospitals',
+          ipAdress + 'get-hospitals',
           requestOptions,
         ).then(async response => {
           const data = await response.json()
@@ -112,84 +130,64 @@ function HomeScreen({ navigation }) {
     navigation.navigate('Data')
   };
 
-  // const test = RNLocation.requestPermission({
-  //   ios: "whenInUse",
-  //   android: {
-  //     detail: "coarse"
-  //   }}).then(granted => {
-  //     if (granted) {
-  //       this.locationSubscription = RNLocation.subscribeToLocationUpdates(locations => {
-       
-  //        console.log(JSON.stringify( locations)); 
-  //         setLocation(locations[0])
-  //       })
-  //     }
-  //   })
-  
-  // console.log('TESSSSSSSSSTTTTTT'+JSON.stringify(test));
-  // console.log(location);
+  if (jwt != undefined && email != undefined)
+    return (
+      <ScrollView>
+        <VStack style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
+          <VStack style={style.marginForm}>
+            <Text style={style.textCenter}>Willkommen,</Text>
+            <Text style={style.textCenter}>{email}!</Text>
+          </VStack>
+          <Image
+            key={new Date().getTime()}
+            source={{
+              uri: ipAdress + 'create-qrcode?date=' + new Date + '&jwt=' + jwt,
+              headers: { 'jwt': jwt },
+              cache: 'reload',
 
-  
-
-
-if(jwt != undefined && email != undefined )
-  return (
-    <ScrollView>
-      <VStack style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
-        <VStack style={style.marginForm}>
-          <Text style={style.textCenter}>Willkommen,</Text>
-          <Text style={style.textCenter}>{email}!</Text>
-        </VStack>
-        <Image
-          key={new Date().getTime()}
-          source={{
-            uri: ipAdress+'create-qrcode?date=' + new Date+'&jwt='+jwt,
-            headers:{'jwt':jwt },
-            cache: 'reload', 
-
-          }}
-          style={[style.marginForm]}
-          alt={'Encrypted QR Code'} />
-        <Button
-          onPress={handleNavigationData}
-          style={[style.marginForm]}>
-          <Text variant={'button'}>Gesundheitsdaten hinzufügen</Text>
-        </Button>
-        {errorMessage === null &&
+            }}
+            style={[style.marginForm]}
+            alt={'Encrypted QR Code'} />
+          <Button
+            onPress={handleNavigationData}
+            style={[style.marginForm]}>
+            <Text variant={'button'}>Gesundheitsdaten hinzufügen</Text>
+          </Button>
+          {/* {errorMessage === null && */}
           <View style={style.fullWidth}>
             <Text style={style.textCenter}>GPS-Position</Text>
             <Text>what3words:</Text>
             <Text>///{what3Words}</Text>
           </View>
-        }
-        {/* {errorMessage !== null && Message(errorMessage)} */}
-        <View>
-          <Collapse>
-            <CollapseHeader>
-              <View style={[style.paddingForm, style.marginForm]}>
-                <Text>Krankenhäuser in der Nähe</Text>
-                {hospitals_short.map(hospital => {
-                  return <Text style={[style.dividerBot, style.paddingForm]}>─ {hospital.name}</Text>
-                })}
-              </View>
-            </CollapseHeader>
-            <CollapseBody>
-              <VStack style={style.marginForm}>
-                {hospitals_rest.map(hospital => {
-                  return <Text style={[style.paddingForm]}>─ {hospital.name}</Text>
-                })}
-              </VStack>
-            </CollapseBody>
-          </Collapse>
-        </View>
-      </VStack>
-    </ScrollView>
-  )
-  else{
-    return(
-    <View>
-     <Text>loading</Text>
-  </View>
+          {/* } */}
+          {/* {errorMessage !== null && Message(errorMessage)} */}
+          <View>
+            <Collapse>
+              <CollapseHeader>
+                <View style={[style.paddingForm, style.marginForm]}>
+                  <Text>Krankenhäuser in der Nähe</Text>
+                  {hospitals_short.map(hospital => {
+                    return <Text style={[style.dividerBot, style.paddingForm]}>─ {hospital.name}</Text>
+                  })}
+                </View>
+              </CollapseHeader>
+              <CollapseBody>
+                <VStack style={style.marginForm}>
+                  {hospitals_rest.map(hospital => {
+                    return <Text style={[style.paddingForm]}>─ {hospital.name}</Text>
+                  })}
+                </VStack>
+              </CollapseBody>
+            </Collapse>
+          </View>
+        </VStack>
+      </ScrollView>
+    )
+  else {
+    return (
+      <View>
+        <Text>loading</Text>
+      </View>
     )
   }
 }
