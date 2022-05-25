@@ -130,6 +130,10 @@ function HomeScreen({ navigation }) {
     navigation.navigate('Data')
   };
 
+  function handleNavigationGuide() {
+    navigation.navigate('Guide')
+  }
+
   if (jwt != undefined && email != undefined)
     return (
       <ScrollView>
@@ -153,13 +157,18 @@ function HomeScreen({ navigation }) {
             <Text variant={'button'}>Gesundheitsdaten hinzufügen</Text>
           </Button>
           {/* {errorMessage === null && */}
-          <View style={style.fullWidth}>
+          <View style={[style.fullWidth]}>
             <Text style={style.textCenter}>GPS-Position</Text>
             <Text>what3words:</Text>
             <Text>///{what3Words}</Text>
           </View>
           {/* } */}
           {/* {errorMessage !== null && Message(errorMessage)} */}
+          <Button
+            onPress={handleNavigationGuide}
+            style={[style.marginForm]}>
+            <Text variant={'button'}>Erste Hilfe Guide</Text>
+          </Button>
           <View>
             <Collapse>
               <CollapseHeader>
