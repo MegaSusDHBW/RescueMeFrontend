@@ -178,7 +178,7 @@ function HomeScreen({ navigation }) {
                 <View style={[style.paddingForm, style.marginForm]}>
                   <Text>Krankenhäuser in der Nähe</Text>
                   {hospitals_short.map(hospital => {
-                    return <Text style={[style.dividerBot, style.paddingForm]}>─ {hospital.name}</Text>
+                    return <Text style={[style.dividerBot, style.paddingForm]} key={hospital.name}>─ {hospital.name}</Text>
                   })}
                   {!isExpanded && <View style={style.flexBetween}>
                     <Text style={[style.textCenter]}>Mehr anzeigen</Text>
@@ -193,7 +193,7 @@ function HomeScreen({ navigation }) {
               <CollapseBody>
                 <VStack style={style.marginForm}>
                   {hospitals_rest.map(hospital => {
-                    return <Text style={[style.paddingForm]}>─ {hospital.name}</Text>
+                    return <Text style={[style.paddingForm]} key={hospital.name}>─ {hospital.name}</Text>
                   })}
                 </VStack>
               </CollapseBody>
