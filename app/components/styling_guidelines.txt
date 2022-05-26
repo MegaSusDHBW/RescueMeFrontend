@@ -3,10 +3,11 @@ Lightmode bg:   #fafafa
 Snake fill secondary
 Snake outline primary
 
-Primary:	#246c17
-Secondary:	#6c1717
-Text Color:	#fafafa
-Border: 	#c4c4c4
+Primary:	    #246c17
+Secondary:  	#6c1717
+Text Color:	    #fafafa
+Border light: 	#c4c4c4
+Border dark:    #454545
 
 Font Headline / Logo: Lexend Zetta
 Font Text: Montserrat (SemiBold)
