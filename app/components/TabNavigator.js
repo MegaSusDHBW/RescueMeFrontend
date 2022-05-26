@@ -20,12 +20,6 @@ function TabNavigator(props) {
 
     return (
         <Tab.Navigator
-            tabBarOptions={{
-                activeTintColor: textColor,
-                inactiveTintColor: textColor,
-                activeBackgroundColor: Colors.primary,
-                inactiveBackgroundColor: bgColor,
-            }}
             screenOptions={{
                 headerShown: false,
                 headerStyle: {
@@ -36,7 +30,11 @@ function TabNavigator(props) {
                     fontWeight: weight
                 }, cardStyle: {
                     backgroundColor: bgColor
-                }
+                },
+                "tabBarActiveTintColor": textColor,
+                "tabBarInactiveTintColor": textColor,
+                "tabBarActiveBackgroundColor": Colors.primary,
+                "tabBarInactiveBackgroundColor": bgColor,
             }}>
             <Tab.Screen
                 name="Home"
