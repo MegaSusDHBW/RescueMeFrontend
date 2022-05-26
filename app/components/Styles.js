@@ -34,16 +34,17 @@ module.exports = StyleSheet.create({
         paddingTop: 70,
     },
     flexHorizontal: {
-        display: 'flex',
+        flex: 1,
         flexDirection: 'row',
     },
     flexStart: {
         justifyContent: 'flex-start',
     },
     flexBetween: {
-        display: 'flex',
+        flex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
+        flexDirection: 'row',
     },
     textLeft: {
         textAlign: 'left',
