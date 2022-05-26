@@ -41,7 +41,6 @@ module.exports = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     flexBetween: {
-        flex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
