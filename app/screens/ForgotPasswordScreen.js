@@ -1,38 +1,32 @@
 import React, { useState } from 'react';
 import { Alert, SafeAreaView } from 'react-native';
-import { Input, Button, View, Text, Image } from 'native-base';
-import {ipAdress} from '../helper/HttpRequestHelper'
+import { Input, Button, View, Text, VStack } from 'native-base';
+import { ipAddress } from '../helper/HttpRequestHelper'
+
 function ForgotPasswordScreen({ navigation }) {
   const style = require('../components/Styles');
   const [password, setPassword] = useState(null);
   const [passwordConfirm, setPasswordConfirm] = useState(null)
   const [email, setEmail] = useState(null)
   const newPassword = {
-    email: '',
-    password: '',
-    passwordConfirm: '',
+    email: email,
+    password: password,
+    passwordConfirm: passwordConfirm,
   };
-  newPassword.password = password
-  newPassword.passwordConfirm = passwordConfirm
-  newPassword.email = email
-  //TODO add URL
+
   const handleSubmit = async () => {
     try {
-      const requestOptions =
-      {
-
+      const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newPassword)
       };
-      console.log("POST")
-      console.log(JSON.stringify(newPassword))
-      console.log(requestOptions.body);
+
       await fetch(
-        ipAdress+'forget-password',
+        ipAddress + 'forget-password',
         requestOptions,
       ).then(response => {
-        response.json().then(data => {
+        response.json().then(() => {
           Alert.alert('Post created at : ');
         });
       });
@@ -47,33 +41,31 @@ function ForgotPasswordScreen({ navigation }) {
 
   return (
     <SafeAreaView>
-      <View style={[style.wrapper, style.flex]}>
-        {/* <Image source={require('../assets/LogoText.png')}
-            alt="Rescue Me Logo" size={'1/2'} /> */}
-        <View style={[style.fullWidth, style.marginForm]}>
+      <VStack style={[style.wrapper, style.flex]}>
+        <View style={style.marginForm}>
           <Text>E-Mail</Text>
-          <Input style={style.fullWidth}
+          <Input
             variant="custom"
             onChangeText={(value) => setEmail(value)}
             value={email} />
         </View>
-        <View style={[style.fullWidth, style.marginForm]}>
+        <View style={style.marginForm}>
           <Text>Passwort</Text>
-          <Input style={style.fullWidth}
+          <Input
             variant="custom"
             onChangeText={(value) => setPassword(value)}
             value={password}
             secureTextEntry={true} />
         </View>
-        <View style={[style.fullWidth, style.marginForm]}>
-          <Text>Passwort wiederholen</Text>
-          <Input style={style.fullWidth}
+        <View style={style.marginForm}>
+          <Text>Passwort bestätigen</Text>
+          <Input
             variant="custom"
             onChangeText={(value) => setPasswordConfirm(value)}
             value={passwordConfirm}
             secureTextEntry={true} />
         </View>
-        <View style={style.fullWidth}>
+        <View>
           <Button onPress={handleSubmit} style={style.marginForm}>
             <Text variant={'button'}>Bestätigen</Text>
           </Button>
@@ -84,7 +76,7 @@ function ForgotPasswordScreen({ navigation }) {
             <Text>Abbrechen</Text>
           </Button>
         </View>
-      </View>
+      </VStack>
     </SafeAreaView>
   );
 }

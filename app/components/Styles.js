@@ -10,7 +10,7 @@ module.exports = StyleSheet.create({
     flex: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'stretch',
         height: '100%',
         width: '100%',
     },
