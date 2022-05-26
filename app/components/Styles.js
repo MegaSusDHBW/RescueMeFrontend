@@ -2,17 +2,13 @@ import { StyleSheet } from 'react-native';
 import { Colors } from './Colors';
 
 module.exports = StyleSheet.create({
-    wrapper:
-    {
-        width: '100%',
+    wrapper: {
         padding: 20,
     },
     flex: {
-        display: 'flex',
+        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-        width: '100%',
+        alignItems: 'stretch',
     },
     fullWidth: {
         width: '100%',

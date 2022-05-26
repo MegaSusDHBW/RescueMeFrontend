@@ -44,7 +44,6 @@ export const RescueMeTheme = extendTheme({
     components: {
         Button: {
             baseStyle: {
-                width: width,
                 fontSize: 'lg',
                 rounded: 'lg',
                 borderWidth: 2,
