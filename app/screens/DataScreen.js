@@ -217,8 +217,8 @@ function DataScreen({ navigation }) {
         </View>
         <View style={[style.flexBetween, style.flexHorizontal, style.fullWidth, style.marginForm]}>
           <Text>Blutgruppe</Text>
-          <Select w='100' selectedValue={bloodGroup} placeholder='' onValueChange={(value, index) => setBloodGroup(value)}>
-            {/* <Select.Item label='Blutgruppe Auswählen' /> */}
+          <Select w='150' selectedValue={bloodGroup} placeholder='' onValueChange={(value, index) => setBloodGroup(value)}>
+            <Select.Item label='Unbekannt' value={"Unknown"} />
             <Select.Item label='A+' value={"A+"} />
             <Select.Item label='A-' value={"A-"} />
             <Select.Item label='B+' value={"B+"} />
