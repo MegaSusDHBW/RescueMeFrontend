@@ -1,84 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Switch } from 'react-native';
+import { Alert } from 'react-native';
 import { Input, Button, View, Text, Select, HStack, VStack, ScrollView, IconButton, Icon, Checkbox, useColorMode } from 'native-base';
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
-import RNDateTimePicker from '@react-native-community/datetimepicker';
-import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
+import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { ipAddress } from '../helper/HttpRequestHelper'
 import { Colors } from "../components/Colors";
 
 function DataScreen({ navigation }) {
   const style = require('../components/Styles');
-
-  function handleNavigationHome() {
-    navigation.navigate('Home')
-  }
-
-  function formatDate(d) {
-    let month = (d.getMonth() + 1);
-    return d.getDate() + '.' + (month < 10 ? '0' + month : month) + '.' + d.getFullYear();
-  }
-
-  useEffect(async () => {
-    let jwt = await SecureStore.getItemAsync('jwt')
-    getUserMail();
-    const requestOptions =
-    {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json', 'jwt': jwt },
-    };
-    if (bloodGroup === null) {
-      const response = await fetch(
-        ipAddress + 'get-healthdata',
-        requestOptions
-      );
-      const data = await response.json();
-
-      let bloodGroup = data.bloodgroup
-      setBloodGroup(bloodGroup)
-      let firstName = data.firstname
-      setFirstName(firstName)
-      let lastName = data.lastname
-      setLastName(lastName)
-      let birthDate = formatDate(new Date(data.birthdate))
-      setBirthDate(birthDate)
-      let organDonorState = data.organDonorState
-      if (organDonorState == 1) {
-        setOrganDonorState(true)
-      }
-      else {
-        setOrganDonorState(false)
-      }
-      let diseases = data.diseases
-      setDisease(diseases)
-      let vaccines = data.vaccines
-      setVaccine(vaccines)
-      let allergies = data.allergies
-      setAllergy(allergies)
-
-    }
-  });
-
-  async function getUserMail() {
-    let store = await SecureStore.getItemAsync('email');
-    return setUsermail(store)
-  }
-
-  const healthData = {
-    firstName: '',
-    lastName: '',
-    organDonorState: '',
-    bloodGroup: '',
-    userMail: '',
-    birthDate: '',
-    diseases: [],
-    allergies: [],
-    vaccines: [],
-
-  }
-
   const [firstName, setFirstName] = useState(null)
   const [lastName, setLastName] = useState(null)
   const [birthDate, setBirthDate] = useState(formatDate(new Date()))
@@ -94,7 +24,20 @@ function DataScreen({ navigation }) {
   const [vaccines, setVaccine] = useState([]);
   const [inputVaccine, setInputVaccine] = useState("")
   const [isVaccinesExpanded, setVaccinesExpanded] = useState(false);
+  const deleteIcon = <Icon as={FontAwesome} name="trash" size='md' color='danger.600' />;
   let textColor = useColorMode().colorMode === 'dark' ? Colors.textColorLight : Colors.textColorDark;
+
+  const healthData = {
+    firstName: '',
+    lastName: '',
+    organDonorState: '',
+    bloodGroup: '',
+    userMail: '',
+    birthDate: '',
+    diseases: [],
+    allergies: [],
+    vaccines: [],
+  }
 
   healthData.firstName = firstName;
   healthData.lastName = lastName;
@@ -105,27 +48,70 @@ function DataScreen({ navigation }) {
   healthData.diseases = diseases;
   healthData.allergies = allergies;
   healthData.vaccines = vaccines;
+
+  function handleNavigationHome() {
+    navigation.navigate('Home');
+  }
+
+  function formatDate(d) {
+    let month = (d.getMonth() + 1);
+    return d.getDate() + '.' + (month < 10 ? '0' + month : month) + '.' + d.getFullYear();
+  }
+
+  useEffect(async () => {
+    let jwt = await SecureStore.getItemAsync('jwt');
+    getUserMail();
+
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', 'jwt': jwt },
+    };
+
+    if (bloodGroup === null) {
+      const response = await fetch(
+        ipAddress + 'get-healthdata',
+        requestOptions
+      );
+      const data = await response.json();
+
+      setBloodGroup(data.bloodgroup);
+      setFirstName(data.firstname);
+      setLastName(data.lastname);
+      setBirthDate(formatDate(new Date(data.birthdate)));
+      if (data.organDonorState == 1) {
+        setOrganDonorState(true);
+      }
+      else {
+        setOrganDonorState(false);
+      }
+      setDisease(data.diseases);
+      setVaccine(data.vaccines);
+      setAllergy(data.allergies);
+    }
+  });
+
+  async function getUserMail() {
+    let store = await SecureStore.getItemAsync('email');
+    return setUsermail(store);
+  }
+
   const handleSubmit = async () => {
     let jwt = await SecureStore.getItemAsync('jwt');
     try {
-      const requestOptions =
-      {
+      const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'jwt': jwt },
         body: JSON.stringify(healthData)
       };
-
-      console.log(JSON.stringify(healthData))
 
       await fetch(
         ipAddress + 'set-healthdata',
         requestOptions,
       ).then(response => {
         if (response.ok) {
-
           handleNavigationHome();
         } else {
-          Alert.alert('Ups')
+          Alert.alert('Ups');
         };
       });
     } catch (error) {
@@ -193,34 +179,31 @@ function DataScreen({ navigation }) {
     });
   };
 
-  const deleteIcon = <Icon as={FontAwesome} name="trash" size='md' color='danger.600' />;
-
   return (
     <ScrollView style={[style.wrapper, style.paddingTop]}>
       <VStack style={style.marginBottom}>
-        <View style={[style.fullWidth, style.marginForm]}>
+        <View style={style.marginForm}>
           <Text>Vorname</Text>
           <Input
             onChangeText={(value) => setFirstName(value)}
             value={firstName}
             variant="custom" />
         </View>
-        <View style={[style.fullWidth, style.marginForm]}>
+        <View style={style.marginForm}>
           <Text>Nachname</Text>
           <Input
             onChangeText={(value) => setLastName(value)}
             value={lastName}
             variant="custom" />
         </View>
-        <View style={[style.fullWidth, style.marginForm]}>
+        <View style={style.marginForm}>
           <Text>Geburtsdatum</Text>
           <Input
             onChangeText={(value) => setBirthDate(value)}
             value={birthDate}
             variant="custom" />
-          {/* <RNDateTimePicker mode='date' onChange={(value) => setBirthDate(value)} value={new Date()} /> */}
         </View>
-        <View style={[style.flexBetween, style.flexHorizontal, style.fullWidth, style.marginForm]}>
+        <View style={[style.flexBetween, style.flexHorizontal, style.marginForm]}>
           <Text>Blutgruppe</Text>
           <Select w='150' selectedValue={bloodGroup} placeholder='' onValueChange={(value, index) => setBloodGroup(value)}>
             <Select.Item label='Unbekannt' value={"Unknown"} />
@@ -234,7 +217,7 @@ function DataScreen({ navigation }) {
             <Select.Item label='0-' value={"0-"} />
           </Select>
         </View>
-        <View style={[style.flexBetween, style.flexHorizontal, style.fullWidth, style.marginForm]}>
+        <View style={[style.flexBetween, style.flexHorizontal, style.marginForm]}>
           <Text>Organspender</Text>
           <Checkbox isChecked={organDonorState} onChange={(value) => setOrganDonorState(value)} value={organDonorState} />
         </View>
@@ -261,7 +244,7 @@ function DataScreen({ navigation }) {
                   icon={deleteIcon}
                   onPress={() => handleDeleteDisease(itemI)} />
               </HStack>)}
-              <View style={[style.fullWidth, style.marginForm]}>
+              <View style={style.marginForm}>
                 <Text>Neuer Eintrag</Text>
                 <Input
                   onChangeText={(value) => setInputDisease(value)}
@@ -270,7 +253,7 @@ function DataScreen({ navigation }) {
                 <Button onPress={() => {
                   addDisease(inputDisease);
                   setInputDisease("");
-                }} style={[style.fullWidth, style.marginForm]}>
+                }} style={style.marginForm}>
                   <Text variant={'button'}>Hinzufügen</Text>
                 </Button>
               </View>
@@ -300,7 +283,7 @@ function DataScreen({ navigation }) {
                   icon={deleteIcon}
                   onPress={() => handleDeleteAllergy(itemI)} />
               </HStack>)}
-              <View style={[style.fullWidth, style.marginForm]}>
+              <View style={style.marginForm}>
                 <Text>Neuer Eintrag</Text>
                 <Input
                   onChangeText={(value) => setInputAllergy(value)}
@@ -309,7 +292,7 @@ function DataScreen({ navigation }) {
                 <Button onPress={() => {
                   addAllergy(inputAllergy);
                   setInputAllergy("");
-                }} style={[style.fullWidth, style.marginForm]}>
+                }} style={style.marginForm}>
                   <Text variant={'button'}>Hinzufügen</Text>
                 </Button>
               </View>
@@ -339,7 +322,7 @@ function DataScreen({ navigation }) {
                   icon={deleteIcon}
                   onPress={() => handleDeleteVaccine(itemI)} />
               </HStack>)}
-              <View style={[style.fullWidth, style.marginForm]}>
+              <View style={style.marginForm}>
                 <Text>Neuer Eintrag</Text>
                 <Input
                   onChangeText={(value) => setInputVaccine(value)}
@@ -348,14 +331,14 @@ function DataScreen({ navigation }) {
                 <Button onPress={() => {
                   addVaccine(inputVaccine);
                   setInputVaccine("");
-                }} style={[style.fullWidth, style.marginForm]}>
+                }} style={style.marginForm}>
                   <Text variant={'button'}>Hinzufügen</Text>
                 </Button>
               </View>
             </View>
           </CollapseBody>
         </Collapse>
-        <Button onPress={handleSubmit} style={[style.fullWidth, style.marginForm]}>
+        <Button onPress={handleSubmit} style={style.marginForm}>
           <Text variant={'button'}>Speichern</Text>
         </Button>
       </VStack>
