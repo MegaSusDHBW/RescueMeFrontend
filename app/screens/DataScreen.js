@@ -9,45 +9,34 @@ import { Colors } from "../components/Colors";
 
 function DataScreen({ navigation }) {
   const style = require('../components/Styles');
-  const [firstName, setFirstName] = useState(null)
-  const [lastName, setLastName] = useState(null)
-  const [birthDate, setBirthDate] = useState(formatDate(new Date()))
-  const [organDonorState, setOrganDonorState] = useState(false)
-  const [bloodGroup, setBloodGroup] = useState(null)
-  const [userMail, setUsermail] = useState(null)
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [birthDate, setBirthDate] = useState(formatDate(new Date()));
+  const [organDonorState, setOrganDonorState] = useState(false);
+  const [bloodGroup, setBloodGroup] = useState(null);
+  const [userMail, setUsermail] = useState(null);
   const [diseases, setDisease] = useState([]);
-  const [inputDisease, setInputDisease] = useState("")
+  const [inputDisease, setInputDisease] = useState("");
   const [isDiseasesExpanded, setDiseasesExpanded] = useState(false);
   const [allergies, setAllergy] = useState([]);
-  const [inputAllergy, setInputAllergy] = useState("")
+  const [inputAllergy, setInputAllergy] = useState("");
   const [isAllergiesExpanded, setAllergiesExpanded] = useState(false);
   const [vaccines, setVaccine] = useState([]);
-  const [inputVaccine, setInputVaccine] = useState("")
+  const [inputVaccine, setInputVaccine] = useState("");
   const [isVaccinesExpanded, setVaccinesExpanded] = useState(false);
   const deleteIcon = <Icon as={FontAwesome} name="trash" size='md' color='danger.600' />;
   let textColor = useColorMode().colorMode === 'dark' ? Colors.textColorLight : Colors.textColorDark;
-
   const healthData = {
-    firstName: '',
-    lastName: '',
-    organDonorState: '',
-    bloodGroup: '',
-    userMail: '',
-    birthDate: '',
-    diseases: [],
-    allergies: [],
-    vaccines: [],
-  }
-
-  healthData.firstName = firstName;
-  healthData.lastName = lastName;
-  healthData.organDonorState = organDonorState;
-  healthData.bloodGroup = bloodGroup;
-  healthData.userMail = userMail;
-  healthData.birthDate = birthDate;
-  healthData.diseases = diseases;
-  healthData.allergies = allergies;
-  healthData.vaccines = vaccines;
+    firstName: firstName,
+    lastName: lastName,
+    organDonorState: organDonorState,
+    bloodGroup: bloodGroup,
+    userMail: userMail,
+    birthDate: birthDate,
+    diseases: diseases,
+    allergies: allergies,
+    vaccines: vaccines,
+  };
 
   function handleNavigationHome() {
     navigation.navigate('Home');

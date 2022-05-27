@@ -7,8 +7,8 @@ import { ipAddress } from '../helper/HttpRequestHelper';
 function DeleteUserScreen({ navigation }) {
   const style = require('../components/Styles');
   const [password, setPassword] = useState(null);
-  const [passwordConfirm, setPasswordConfirm] = useState(null)
-  const [email, setEmail] = useState(null)
+  const [passwordConfirm, setPasswordConfirm] = useState(null);
+  const [email, setEmail] = useState(null);
   const user = {
     email: email,
     password: password,
