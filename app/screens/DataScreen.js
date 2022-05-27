@@ -43,8 +43,11 @@ function DataScreen({ navigation }) {
   }
 
   function formatDate(d) {
+    let day = d.getDate();
     let month = (d.getMonth() + 1);
-    return d.getDate() + '.' + (month < 10 ? '0' + month : month) + '.' + d.getFullYear();
+    return (day < 10 ? '0' + month : month)
+      + '.' + (month < 10 ? '0' + month : month)
+      + '.' + d.getFullYear();
   }
 
   useEffect(async () => {
