@@ -6,7 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
-import { ipAdress } from '../helper/HttpRequestHelper'
+import { ipAddress } from '../helper/HttpRequestHelper'
 import { Colors } from "../components/Colors";
 
 function DataScreen({ navigation }) {
@@ -14,6 +14,11 @@ function DataScreen({ navigation }) {
 
   function handleNavigationHome() {
     navigation.navigate('Home')
+  }
+
+  function formatDate(d) {
+    let month = (d.getMonth() + 1);
+    return d.getDate() + '.' + (month < 10 ? '0' + month : month) + '.' + d.getFullYear();
   }
 
   useEffect(async () => {
@@ -26,7 +31,7 @@ function DataScreen({ navigation }) {
     };
     if (bloodGroup === null) {
       const response = await fetch(
-        ipAdress + 'get-healthdata',
+        ipAddress + 'get-healthdata',
         requestOptions
       );
       const data = await response.json();
@@ -37,7 +42,7 @@ function DataScreen({ navigation }) {
       setFirstName(firstName)
       let lastName = data.lastname
       setLastName(lastName)
-      let birthDate = data.birthdate
+      let birthDate = formatDate(new Date(data.birthdate))
       setBirthDate(birthDate)
       let organDonorState = data.organDonorState
       if (organDonorState == 1) {
@@ -76,7 +81,7 @@ function DataScreen({ navigation }) {
 
   const [firstName, setFirstName] = useState(null)
   const [lastName, setLastName] = useState(null)
-  const [birthDate, setBirthDate] = useState(null)
+  const [birthDate, setBirthDate] = useState(formatDate(new Date()))
   const [organDonorState, setOrganDonorState] = useState(false)
   const [bloodGroup, setBloodGroup] = useState(null)
   const [userMail, setUsermail] = useState(null)
@@ -113,7 +118,7 @@ function DataScreen({ navigation }) {
       console.log(JSON.stringify(healthData))
 
       await fetch(
-        ipAdress + 'set-healthdata',
+        ipAddress + 'set-healthdata',
         requestOptions,
       ).then(response => {
         if (response.ok) {
