@@ -19,7 +19,7 @@ function LoginScreen({ navigation }) {
 
     // auto login
     if (jwt !== null) {
-      handleNavigationHome();
+      // handleNavigationHome();
     }
   });
 
