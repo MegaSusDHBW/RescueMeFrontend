@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
-import { Input, Button, View, Text, VStack } from 'native-base';
+import { Input, Button, View, Text, VStack, ScrollView } from 'native-base';
 import { ipAddress } from '../helper/HttpRequestHelper'
 
 function ChangePasswordScreen({ navigation }) {
@@ -43,7 +42,7 @@ function ChangePasswordScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView>
+    <ScrollView>
       <VStack style={[style.wrapper, style.flex]}>
         <View style={style.marginForm}>
           <Text>E-Mail</Text>
@@ -80,7 +79,7 @@ function ChangePasswordScreen({ navigation }) {
           </Button>
         </View>
       </VStack>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 

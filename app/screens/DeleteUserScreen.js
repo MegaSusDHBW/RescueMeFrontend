@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Alert, SafeAreaView } from 'react-native';
-import { Input, Button, View, Text, VStack } from 'native-base';
+import { Alert } from 'react-native';
+import { Input, Button, View, Text, VStack, ScrollView} from 'native-base';
 import * as SecureStore from 'expo-secure-store';
 import { ipAddress } from '../helper/HttpRequestHelper';
 
@@ -49,7 +49,7 @@ function DeleteUserScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView>
+    <ScrollView>
       <VStack style={[style.wrapper, style.flex]}>
         <View style={style.marginForm}>
           <Text>E-Mail</Text>
@@ -86,7 +86,7 @@ function DeleteUserScreen({ navigation }) {
           </Button>
         </View>
       </VStack>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
