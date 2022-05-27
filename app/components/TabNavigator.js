@@ -4,20 +4,16 @@ import HomeScreen from '../screens/HomeScreen';
 import DataScreen from '../screens/DataScreen';
 import ProfileScreen from '../screens/ProfileScreen'
 import EmergencyContact from '../screens/EmergencyContact';
-import { Ionicons, Feather, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Colors } from './Colors';
 import { useColorMode } from 'native-base';
 
-
-console.log("entered Container");
 const Tab = createBottomTabNavigator();
-console.log("created Tabs" + Tab);
 
-function TabNavigator(props) {
-    let bgColor = useColorMode()['colorMode'] === 'dark' ? Colors.backgroundColorDark : Colors.backgroundColorLight;
-    let textColor = useColorMode()['colorMode'] === 'dark' ? Colors.textColorLight : Colors.textColorDark;
-    const weight = 'bold';
-
+function TabNavigator() {
+  let bgColor = useColorMode()['colorMode'] === 'dark' ? Colors.backgroundColorDark : Colors.backgroundColorLight;
+  let textColor = useColorMode()['colorMode'] === 'dark' ? Colors.textColorLight : Colors.textColorDark;
+  const weight = 'bold';
     return (
         <Tab.Navigator
             screenOptions={{
@@ -76,5 +72,4 @@ function TabNavigator(props) {
     );
 }
 
-console.log("field Stack" + Tab);
 export default TabNavigator

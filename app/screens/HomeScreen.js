@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from 'react';
-// import { Alert } from 'react-native';
+
 import { Button, Image, Text, View, HStack, VStack, ScrollView, useColorMode } from 'native-base';
-// import * as Location from '../helper/LocationHelper';
 import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
-// import GetLocation from 'react-native-get-location'
-// import Message from '../components/Message';
-//import Geolocation from '@react-native-community/geolocation'
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import { Colors } from "../components/Colors";
 import { ipAdress } from '../helper/HttpRequestHelper';
 import { AntDesign } from '@expo/vector-icons';
+import { ipAddress } from '../helper/HttpRequestHelper';
 
 async function GetLocation() {
   return (async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
+    let status = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      console.log('reject');
-      setErrorMsg('Permission to access location was denied');
+      console.warn('Permission to access location was denied');
       return;
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    console.log('LOC ' + JSON.stringify(location));
-    // setLocation(location);
     return location;
   })();
 }
@@ -34,7 +28,7 @@ function HomeScreen({ navigation }) {
   const [email, setEmail] = useState('test');
   const [location, setLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [jwt, setJwt] = useState(null)
+  const [jwt, setJwt] = useState(null);
   const [hospitals_short, setHospitalShort] = useState([]);
   const [hospitals_rest, setHospitalRest] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -42,11 +36,10 @@ function HomeScreen({ navigation }) {
   let textColor = useColorMode().colorMode === 'dark' ? Colors.textColorLight : Colors.textColorDark;
 
   async function getJWT() {
-    await SecureStore.getItemAsync('jwt')
+    await SecureStore.getItemAsync('jwt');
   }
 
-  getJWT()
-  console.log(jwt);
+  getJWT();
 
   if (location === null) {
     GetLocation().then((loc) => {
@@ -58,35 +51,33 @@ function HomeScreen({ navigation }) {
     try {
       let storeEmail = await SecureStore.getItemAsync('email');
       let jwt = await SecureStore.getItemAsync('jwt');
-      setJwt(jwt)
+
+      setJwt(jwt);
       setEmail(storeEmail);
+
       if (errorMessage === null && what3Words === null) {
-        const requestOptions =
-        {
+        // setup request options
+        const requestOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'jwt': jwt },
           body: JSON.stringify(location)
         };
+
+        // fetch w3w data
         await fetch(
-          ipAdress + 'get-geodata',
+          ipAddress + 'get-geodata',
           requestOptions,
         ).then(async response => {
+          const data = await response.json();
           if (response.ok) {
-            console.log("RESPONSE OKAY")
-            const data = await response.json()
-
-            let what3words = data.words;
-            set3Words(what3words);
+            console.log("W3W RESPONSE OKAY");
+            set3Words(data.words);
           } else {
-            console.log("RESPONSE NOT OKAY")
-            const data = await response.json()
-            let errorMessage = {
+            console.log("W3W RESPONSE NOT OKAY");
+            setErrorMessage({
               status: "error",
               title: data.words
-            };
-            setErrorMessage(errorMessage);
-            console.log("Error msg: " + JSON.stringify(errorMessage));
-            // Alert.alert(errorMessage.title);
+            });
           }
         });
 
@@ -98,18 +89,17 @@ function HomeScreen({ navigation }) {
           }
         });
 
-        console.log("GET HOSPITALS");
+        // fetch hospital data
         await fetch(
-          ipAdress + 'get-hospitals',
+          ipAddress + 'get-hospitals',
           requestOptions,
         ).then(async response => {
-          const data = await response.json()
-
+          const data = await response.json();
           if (response.ok) {
-            console.log("HOSPITAL RESPONSE OKAY")
-            // hospitals_all = data;
+            console.log("HOSPITAL RESPONSE OKAY");
             let tempShort = [];
             let tempRest = [];
+
             for (let index = 0; index < Object.keys(data).length; index++) {
               if (index < hospital_count_short) {
                 tempShort.push(data[index]);
@@ -117,10 +107,15 @@ function HomeScreen({ navigation }) {
                 tempRest.push(data[index]);
               }
             }
+
             setHospitalShort(tempShort);
             setHospitalRest(tempRest);
           } else {
             console.log("HOSPITAL RESPONSE NOT OKAY");
+            setErrorMessage({
+              status: "error",
+              title: data.words
+            });
           }
         });
       }
@@ -137,7 +132,7 @@ function HomeScreen({ navigation }) {
     navigation.navigate('Guide')
   }
 
-  if (jwt != undefined && email != undefined)
+  if (jwt != undefined && email != undefined) {
     return (
       <ScrollView>
         <VStack style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
@@ -148,7 +143,7 @@ function HomeScreen({ navigation }) {
           <Image
             key={new Date().getTime()}
             source={{
-              uri: ipAdress + 'create-qrcode?date=' + new Date + '&jwt=' + jwt,
+              uri: ipAddress + 'create-qrcode?date=' + new Date() + '&jwt=' + jwt,
               headers: { 'jwt': jwt },
               cache: 'reload',
             }}
@@ -159,14 +154,12 @@ function HomeScreen({ navigation }) {
             style={[style.marginForm]}>
             <Text variant={'button'}>Gesundheitsdaten hinzufügen</Text>
           </Button>
-          {/* {errorMessage === null && */}
-          <View style={[style.fullWidth]}>
+          {/* {errorMessage !== null && Message(errorMessage)} */}
+          <View style={[style.fullWidth, style.marginForm]}>
             <Text style={style.textCenter}>GPS-Position</Text>
             <Text>what3words:</Text>
             <Text>///{what3Words}</Text>
           </View>
-          {/* } */}
-          {/* {errorMessage !== null && Message(errorMessage)} */}
           <Button
             onPress={handleNavigationGuide}
             style={[style.marginForm]}>
@@ -202,7 +195,7 @@ function HomeScreen({ navigation }) {
         </VStack>
       </ScrollView>
     )
-  else {
+  } else {
     return (
       <View>
         <Text>loading</Text>
