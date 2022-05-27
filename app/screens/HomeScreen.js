@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Image, Text, View, VStack, ScrollView } from 'native-base';
+
+import { Button, Image, Text, View, HStack, VStack, ScrollView, useColorMode } from 'native-base';
 import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
+import { Colors } from "../components/Colors";
+import { ipAdress } from '../helper/HttpRequestHelper';
+import { AntDesign } from '@expo/vector-icons';
 import { ipAddress } from '../helper/HttpRequestHelper';
 
 async function GetLocation() {
@@ -27,7 +31,9 @@ function HomeScreen({ navigation }) {
   const [jwt, setJwt] = useState(null);
   const [hospitals_short, setHospitalShort] = useState([]);
   const [hospitals_rest, setHospitalRest] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(false);
   const hospital_count_short = 5;
+  let textColor = useColorMode().colorMode === 'dark' ? Colors.textColorLight : Colors.textColorDark;
 
   async function getJWT() {
     await SecureStore.getItemAsync('jwt');
@@ -78,8 +84,8 @@ function HomeScreen({ navigation }) {
         // add coords to request body
         requestOptions.body = JSON.stringify({
           coords: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
+            latitude: location === null ? '48' : location.coords.latitude,
+            longitude: location === null ? '9' : location.coords.longitude,
           }
         });
 
@@ -160,19 +166,27 @@ function HomeScreen({ navigation }) {
             <Text variant={'button'}>Erste Hilfe Guide</Text>
           </Button>
           <View>
-            <Collapse>
+            <Collapse isExpanded={isExpanded} onToggle={(expanded) => { setIsExpanded(expanded) }}>
               <CollapseHeader>
                 <View style={[style.paddingForm, style.marginForm]}>
                   <Text>Krankenhäuser in der Nähe</Text>
                   {hospitals_short.map(hospital => {
-                    return <Text style={[style.dividerBot, style.paddingForm]}>─ {hospital.name}</Text>
+                    return <Text style={[style.dividerBot, style.paddingForm]} key={hospital.name}>─ {hospital.name}</Text>
                   })}
+                  {!isExpanded && <View style={style.flexBetween}>
+                    <Text style={[style.textCenter]}>Mehr anzeigen</Text>
+                    <AntDesign name="pluscircleo" color={textColor} size={20} />
+                  </View>}
+                  {isExpanded && <View style={style.flexBetween}>
+                    <Text style={style.textCenter}>Weniger anzeigen</Text>
+                    <AntDesign name="minuscircleo" color={textColor} size={20} />
+                  </View>}
                 </View>
               </CollapseHeader>
               <CollapseBody>
                 <VStack style={style.marginForm}>
                   {hospitals_rest.map(hospital => {
-                    return <Text style={[style.paddingForm]}>─ {hospital.name}</Text>
+                    return <Text style={[style.paddingForm]} key={hospital.name}>─ {hospital.name}</Text>
                   })}
                 </VStack>
               </CollapseBody>

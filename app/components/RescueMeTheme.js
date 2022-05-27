@@ -44,11 +44,15 @@ export const RescueMeTheme = extendTheme({
     components: {
         Button: {
             baseStyle: {
-                width: width,
                 fontSize: 'lg',
                 rounded: 'lg',
                 borderWidth: 2,
-                borderColor: Colors.borderColor,
+                _dark: {
+                    borderColor: Colors.borderColorLight,
+                },
+                _light: {
+                    borderColor: Colors.borderColorDark,
+                }
             },
             variants: {
                 unstyled: {
@@ -72,10 +76,10 @@ export const RescueMeTheme = extendTheme({
                 rounded: 'lg',
                 borderWidth: 2,
                 _light: {
-                    borderColor: Colors.borderColor,
+                    borderColor: Colors.borderColorDark,
                 },
                 _dark: {
-                    borderColor: Colors.borderColor,
+                    borderColor: Colors.borderColorLight,
                 },
                 _focus: {
                     _light: {
@@ -134,16 +138,16 @@ export const RescueMeTheme = extendTheme({
         Select: {
             baseStyle: {
                 rounded: 'lg',
-                borderWidth: 1,
+                borderWidth: 2,
                 _light: {
                     color: Colors.textColorDark,
                     bg: Colors.backgroundColorLight,
-                    borderColor: Colors.borderColor,
+                    borderColor: Colors.borderColorDark,
                 },
                 _dark: {
                     color: Colors.textColorLight,
                     bg: Colors.backgroundColorDark,
-                    borderColor: Colors.borderColor,
+                    borderColor: Colors.borderColorLight,
                 },
             }
         },

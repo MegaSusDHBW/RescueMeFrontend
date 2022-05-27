@@ -14,65 +14,62 @@ function TabNavigator() {
   let bgColor = useColorMode()['colorMode'] === 'dark' ? Colors.backgroundColorDark : Colors.backgroundColorLight;
   let textColor = useColorMode()['colorMode'] === 'dark' ? Colors.textColorLight : Colors.textColorDark;
   const weight = 'bold';
-
-  return (
-    <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: textColor,
-        inactiveTintColor: textColor,
-        activeBackgroundColor: Colors.primary,
-        inactiveBackgroundColor: bgColor,
-      }}
-      screenOptions={{
-        headerShown: false,
-        headerStyle: {
-          backgroundColor: bgColor,
-        },
-        headerTintColor: textColor,
-        headerTitleStyle: {
-          fontWeight: weight
-        }, cardStyle: {
-          backgroundColor: bgColor
-        }
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarLabel: 'Start',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" color={color} size={size} />
-          ),
-        }} />
-      <Tab.Screen
-        name="Data"
-        component={DataScreen}
-        options={{
-          tabBarLabel: 'Gesundheitsdaten',
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="heartbeat" color={color} size={size} />
-          ),
-        }} />
-      <Tab.Screen
-        name='Notfallkontakt'
-        component={EmergencyContact}
-        options={{
-          tabBarLabel: 'Notfallkontakt',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="phone-in-talk" color={color} size={size} />
-          ),
-        }} />
-      <Tab.Screen
-        name="Profil"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: 'Profil',
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="user" color={color} size={size} />
-          ),
-        }} />
-    </Tab.Navigator>
-  );
+    return (
+        <Tab.Navigator
+            screenOptions={{
+                headerShown: false,
+                headerStyle: {
+                    backgroundColor: bgColor,
+                },
+                headerTintColor: textColor,
+                headerTitleStyle: {
+                    fontWeight: weight
+                }, cardStyle: {
+                    backgroundColor: bgColor
+                },
+                "tabBarActiveTintColor": textColor,
+                "tabBarInactiveTintColor": textColor,
+                "tabBarActiveBackgroundColor": Colors.primary,
+                "tabBarInactiveBackgroundColor": bgColor,
+            }}>
+            <Tab.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{
+                    tabBarLabel: 'Start',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="home" color={color} size={size} />
+                    ),
+                }} />
+            <Tab.Screen
+                name="Data"
+                component={DataScreen}
+                options={{
+                    tabBarLabel: 'Gesundheitsdaten',
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome name="heartbeat" color={color} size={size} />
+                    ),
+                }} />
+            <Tab.Screen
+                name='Notfallkontakt'
+                component={EmergencyContact}
+                options={{
+                    tabBarLabel: 'Notfallkontakt',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name="phone-in-talk" color={color} size={size} />
+                    ),
+                }} />
+            <Tab.Screen
+                name="Profil"
+                component={ProfileScreen}
+                options={{
+                    tabBarLabel: 'Profil',
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome name="user" color={color} size={size} />
+                    ),
+                }} />
+        </Tab.Navigator>
+    );
 }
 
 export default TabNavigator

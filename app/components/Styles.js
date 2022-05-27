@@ -2,17 +2,13 @@ import { StyleSheet } from 'react-native';
 import { Colors } from './Colors';
 
 module.exports = StyleSheet.create({
-    wrapper:
-    {
-        width: '100%',
+    wrapper: {
         padding: 20,
     },
     flex: {
-        display: 'flex',
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'stretch',
-        height: '100%',
-        width: '100%',
     },
     fullWidth: {
         width: '100%',
@@ -38,16 +34,16 @@ module.exports = StyleSheet.create({
         paddingTop: 70,
     },
     flexHorizontal: {
-        display: 'flex',
+        flex: 1,
         flexDirection: 'row',
     },
     flexStart: {
         justifyContent: 'flex-start',
     },
     flexBetween: {
-        display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        flexDirection: 'row',
     },
     textLeft: {
         textAlign: 'left',
