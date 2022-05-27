@@ -77,7 +77,7 @@ function DataScreen({ navigation }) {
       setVaccine(data.vaccines);
       setAllergy(data.allergies);
     }
-  });
+  }, []);
 
   async function getUserMail() {
     let store = await SecureStore.getItemAsync('email');

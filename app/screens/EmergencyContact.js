@@ -3,7 +3,6 @@ import { Alert } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import style from "../components/Styles";
 import { Button, Input, Text, View, ScrollView } from "native-base";
-import DatePicker from "react-native-date-picker";
 import { ipAddress } from '../helper/HttpRequestHelper'
 
 function EmergencyContact({ navigation }) {
@@ -29,7 +28,7 @@ function EmergencyContact({ navigation }) {
       setLastname(data.emergencyLastname);
       setPhoneNumber(data.emergencyPhone);
     }
-  });
+  }, []);
 
   async function getUserMail() {
     let store = await SecureStore.getItemAsync('email');
