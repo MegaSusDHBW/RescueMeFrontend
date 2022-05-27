@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Image, Text, View, HStack, VStack, ScrollView, useColorMode } from 'native-base';
+import { Button, Image, Text, View, VStack, ScrollView, useColorMode } from 'native-base';
 import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
@@ -16,7 +16,6 @@ async function getLocation() {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    console.log('location ' + JSON.stringify(location));
     return location;
   })();
 }
@@ -169,7 +168,6 @@ function HomeScreen({ navigation }) {
             style={[style.marginForm]}>
             <Text variant={'button'}>Gesundheitsdaten hinzufügen</Text>
           </Button>
-          {/* {errorMessage !== null && Message(errorMessage)} */}
           <View style={[style.fullWidth, style.marginForm]}>
             <Text style={style.textCenter}>GPS-Position</Text>
             <Text>what3words:</Text>
