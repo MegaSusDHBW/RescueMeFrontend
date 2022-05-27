@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Button, Image, Text, View, VStack, ScrollView, useColorMode } from 'native-base';
+import { RefreshControl } from 'react-native';
 import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
@@ -78,7 +79,11 @@ async function getHospitals(jwt, location) {
   }
 }
 
-function HomeScreen({ navigation }) {
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve,timeout));
+}
+
+function HomeScreen({ navigation}) {
   const style = require('../components/Styles.js');
   const [what3Words, set3Words] = useState(null);
   const [email, setEmail] = useState('test');
@@ -90,6 +95,14 @@ function HomeScreen({ navigation }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const hospital_count_short = 5;
   let textColor = useColorMode().colorMode === 'dark' ? Colors.textColorLight : Colors.textColorDark;
+
+
+  const [refreshing, setRefreshing] = useState(false)
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false))
+  })
+
 
   async function getJWT() {
     await SecureStore.getItemAsync('jwt');
@@ -111,10 +124,12 @@ function HomeScreen({ navigation }) {
           let loc = await getLocation();
 
           // what3words
+          if(what3Words === null || what3Words === undefined){
           let words = await getW3W(jwt, loc);
           set3Words(words);
-
+        }
           // hospitals
+          if(hospitals_short === [] || hospitals_short === undefined){
           let data = await getHospitals(jwt, loc);
           if (data !== null) {
             let tempShort = [];
@@ -130,6 +145,7 @@ function HomeScreen({ navigation }) {
 
             setHospitalShort(tempShort);
             setHospitalRest(tempRest);
+          }
           }
         }
       }
@@ -148,7 +164,7 @@ function HomeScreen({ navigation }) {
 
   if (jwt != undefined && email != undefined) {
     return (
-      <ScrollView>
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <VStack style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
           <VStack style={style.marginForm}>
             <Text style={style.textCenter}>Willkommen,</Text>
@@ -158,8 +174,8 @@ function HomeScreen({ navigation }) {
             key={new Date().getTime()}
             source={{
               uri: ipAddress + 'create-qrcode?date=' + new Date() + '&jwt=' + jwt,
-              headers: { 'jwt': jwt },
-              cache: 'reload',
+              headers: { 'jwt': jwt, Pragma: 'no-cache' },
+              cache: 'reload', 
             }}
             style={[style.marginForm]}
             alt={'Encrypted QR Code'} />
