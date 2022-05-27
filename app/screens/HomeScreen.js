@@ -142,9 +142,9 @@ function HomeScreen({ navigation }) {
     navigation.navigate('Data')
   };
 
-  function handleNavigationGuide() {
-    navigation.navigate('Guide')
-  }
+  // function handleNavigationGuide() {
+  //   navigation.navigate('Guide')
+  // }
 
   if (jwt != undefined && email != undefined) {
     return (
@@ -173,11 +173,11 @@ function HomeScreen({ navigation }) {
             <Text>what3words:</Text>
             <Text>///{what3Words}</Text>
           </View>
-          <Button
+          {/* <Button
             onPress={handleNavigationGuide}
             style={[style.marginForm]}>
             <Text variant={'button'}>Erste Hilfe Guide</Text>
-          </Button>
+          </Button> */}
           <View>
             <Collapse isExpanded={isExpanded} onToggle={(expanded) => { setIsExpanded(expanded) }}>
               <CollapseHeader>
