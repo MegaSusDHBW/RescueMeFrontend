@@ -26,9 +26,12 @@ function ForgotPasswordScreen({ navigation }) {
         ipAddress + 'forget-password',
         requestOptions,
       ).then(response => {
+        if(response.ok){
+
         response.json().then(() => {
-          Alert.alert('Post created at : ');
+          navigation.navigate('Login')
         });
+      }
       });
     } catch (error) {
       console.error(error);
