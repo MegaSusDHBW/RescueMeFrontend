@@ -1,25 +1,82 @@
 import React, { useEffect, useState } from 'react';
-
 import { Button, Image, Text, View, HStack, VStack, ScrollView, useColorMode } from 'native-base';
 import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import { Colors } from "../components/Colors";
-import { ipAdress } from '../helper/HttpRequestHelper';
 import { AntDesign } from '@expo/vector-icons';
 import { ipAddress } from '../helper/HttpRequestHelper';
 
-async function GetLocation() {
+async function getLocation() {
   return (async () => {
     let status = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
+    if (!status.granted) {
       console.warn('Permission to access location was denied');
       return;
     }
 
     let location = await Location.getCurrentPositionAsync({});
+    console.log('location ' + JSON.stringify(location));
     return location;
   })();
+}
+
+async function getW3W(jwt, location) {
+  // setup request options
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'jwt': jwt },
+    body: JSON.stringify({
+      coords: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      }
+    })
+  };
+
+  // fetch w3w data
+  let response = await fetch(
+    ipAddress + 'get-geodata',
+    requestOptions,
+  );
+
+  const data = await response.json();
+  if (response.ok) {
+    console.log("W3W RESPONSE OKAY");
+    return data.words;
+  } else {
+    console.log("W3W RESPONSE NOT OKAY");
+    return null;
+  }
+}
+
+async function getHospitals(jwt, location) {
+  // add coords to request body
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'jwt': jwt },
+    body: JSON.stringify({
+      coords: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      }
+    })
+  };
+
+  // fetch hospital data
+  let response = await fetch(
+    ipAddress + 'get-hospitals',
+    requestOptions,
+  );
+
+  const data = await response.json();
+  if (response.ok) {
+    console.log("HOSPITAL RESPONSE OKAY");
+    return data;
+  } else {
+    console.log("HOSPITAL RESPONSE NOT OKAY");
+    return null;
+  }
 }
 
 function HomeScreen({ navigation }) {
@@ -41,12 +98,6 @@ function HomeScreen({ navigation }) {
 
   getJWT();
 
-  if (location === null) {
-    GetLocation().then((loc) => {
-      setLocation(loc);
-    })
-  }
-
   useEffect(async () => {
     try {
       let storeEmail = await SecureStore.getItemAsync('email');
@@ -56,47 +107,17 @@ function HomeScreen({ navigation }) {
       setEmail(storeEmail);
 
       if (errorMessage === null && what3Words === null) {
-        // setup request options
-        const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'jwt': jwt },
-          body: JSON.stringify(location)
-        };
+        if (location === null || location === undefined) {
+          // location
+          let loc = await getLocation();
 
-        // fetch w3w data
-        await fetch(
-          ipAddress + 'get-geodata',
-          requestOptions,
-        ).then(async response => {
-          const data = await response.json();
-          if (response.ok) {
-            console.log("W3W RESPONSE OKAY");
-            set3Words(data.words);
-          } else {
-            console.log("W3W RESPONSE NOT OKAY");
-            setErrorMessage({
-              status: "error",
-              title: data.words
-            });
-          }
-        });
+          // what3words
+          let words = await getW3W(jwt, loc);
+          set3Words(words);
 
-        // add coords to request body
-        requestOptions.body = JSON.stringify({
-          coords: {
-            latitude: location === null ? '48' : location.coords.latitude,
-            longitude: location === null ? '9' : location.coords.longitude,
-          }
-        });
-
-        // fetch hospital data
-        await fetch(
-          ipAddress + 'get-hospitals',
-          requestOptions,
-        ).then(async response => {
-          const data = await response.json();
-          if (response.ok) {
-            console.log("HOSPITAL RESPONSE OKAY");
+          // hospitals
+          let data = await getHospitals(jwt, loc);
+          if (data !== null) {
             let tempShort = [];
             let tempRest = [];
 
@@ -110,14 +131,8 @@ function HomeScreen({ navigation }) {
 
             setHospitalShort(tempShort);
             setHospitalRest(tempRest);
-          } else {
-            console.log("HOSPITAL RESPONSE NOT OKAY");
-            setErrorMessage({
-              status: "error",
-              title: data.words
-            });
           }
-        });
+        }
       }
     } catch (error) {
       console.error(error);
