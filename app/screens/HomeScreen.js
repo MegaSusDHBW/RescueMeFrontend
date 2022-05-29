@@ -127,7 +127,7 @@ function HomeScreen({ navigation }) {
             set3Words(words);
           }
           // hospitals
-          if (hospitals_short === [] || hospitals_short === undefined) {
+          // if (hospitals_short === [] || hospitals_short === undefined) {
             let data = await getHospitals(jwt, loc);
             if (data !== null) {
               let tempShort = [];
@@ -144,7 +144,7 @@ function HomeScreen({ navigation }) {
               setHospitalShort(tempShort);
               setHospitalRest(tempRest);
             }
-          }
+          // }
         }
       }
     } catch (error) {
