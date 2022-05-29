@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, Switch, useColorMode } from 'native-base';
+import { VStack, View, Button, Text, Switch, useColorMode } from 'native-base';
 import style from "../components/Styles";
 
 function ProfileScreen({ navigation }) {
@@ -11,24 +11,26 @@ function ProfileScreen({ navigation }) {
 
   return (
     <View style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
-      <View style={[style.flexBetween, style.flexHorizontal, style.fullWidth, style.marginForm]}>
-        <Text>Darkmode</Text>
-        <Switch
-          isChecked={colorMode === "dark" ? true : false}
-          onChange={toggleColorMode}
-        />
-      </View>
-      <Button
-        onPress={handleChangePassword}
-        style={[style.fullWidth, style.marginForm]}>
-        <Text variant={'button'}>Passwort ändern</Text>
-      </Button>
-      <Button
-        onPress={handleDeleteUser}
-        style={[style.fullWidth, style.marginForm]}
-        colorScheme={"secondary"}>
-        <Text variant={'button'}>Konto löschen</Text>
-      </Button>
+      <VStack>
+        <View style={[style.flexBetween]}>
+          <Text>Darkmode</Text>
+          <Switch
+            isChecked={colorMode === "dark" ? true : false}
+            onChange={toggleColorMode}
+          />
+        </View>
+        <Button
+          onPress={handleChangePassword}
+          style={[style.marginForm]}>
+          <Text variant={'button'}>Passwort ändern</Text>
+        </Button>
+        <Button
+          onPress={handleDeleteUser}
+          style={[style.marginForm]}
+          colorScheme={"secondary"}>
+          <Text variant={'button'}>Konto löschen</Text>
+        </Button>
+      </VStack>
     </View>
   );
 }

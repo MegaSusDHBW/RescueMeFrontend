@@ -1,30 +1,86 @@
-import React, { useEffect, useState } from 'react';
-// import { Alert } from 'react-native';
-import { Button, Image, Text, View, HStack, VStack, ScrollView } from 'native-base';
-// import * as Location from '../helper/LocationHelper';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Button, Image, Text, View, VStack, ScrollView, useColorMode } from 'native-base';
+import { RefreshControl } from 'react-native';
 import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
-// import GetLocation from 'react-native-get-location'
-// import Message from '../components/Message';
-//import Geolocation from '@react-native-community/geolocation'
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
-// import style from "../components/Styles";
-import { ipAdress } from '../helper/HttpRequestHelper';
+import { Colors } from "../components/Colors";
+import { AntDesign } from '@expo/vector-icons';
+import { ipAddress } from '../helper/HttpRequestHelper';
 
-async function GetLocation() {
+async function getLocation() {
   return (async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      console.log('reject');
-      setErrorMsg('Permission to access location was denied');
+    let status = await Location.requestForegroundPermissionsAsync();
+    if (!status.granted) {
+      console.warn('Permission to access location was denied');
       return;
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    console.log('LOC ' + JSON.stringify(location));
-    // setLocation(location);
     return location;
   })();
+}
+
+async function getW3W(jwt, location) {
+  // setup request options
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'jwt': jwt },
+    body: JSON.stringify({
+      coords: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      }
+    })
+  };
+
+  // fetch w3w data
+  let response = await fetch(
+    ipAddress + 'get-geodata',
+    requestOptions,
+  );
+
+  const data = await response.json();
+  if (response.ok) {
+    console.log("W3W RESPONSE OKAY");
+    return data.words;
+  } else {
+    console.log("W3W RESPONSE NOT OKAY");
+    return null;
+  }
+}
+
+async function getHospitals(jwt, location) {
+  // add coords to request body
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'jwt': jwt },
+    body: JSON.stringify({
+      coords: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      }
+    })
+  };
+
+  // fetch hospital data
+  let response = await fetch(
+    ipAddress + 'get-hospitals',
+    requestOptions,
+  );
+
+  const data = await response.json();
+  if (response.ok) {
+    console.log("HOSPITAL RESPONSE OKAY");
+    return data;
+  } else {
+    console.log("HOSPITAL RESPONSE NOT OKAY");
+    return null;
+  }
+}
+
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
 function HomeScreen({ navigation }) {
@@ -33,110 +89,80 @@ function HomeScreen({ navigation }) {
   const [email, setEmail] = useState('test');
   const [location, setLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [jwt, setJwt] = useState(null)
+  const [jwt, setJwt] = useState(null);
   const [hospitals_short, setHospitalShort] = useState([]);
   const [hospitals_rest, setHospitalRest] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(false);
   const hospital_count_short = 5;
+  let textColor = useColorMode().colorMode === 'dark' ? Colors.textColorLight : Colors.textColorDark;
+
+  const [refreshing, setRefreshing] = useState(false)
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false))
+  })
 
   async function getJWT() {
-    await SecureStore.getItemAsync('jwt')
+    await SecureStore.getItemAsync('jwt');
   }
 
-  getJWT()
-  console.log(jwt);
-
-  if (location === null) {
-    GetLocation().then((loc) => {
-      setLocation(loc);
-    })
-  }
+  getJWT();
 
   useEffect(async () => {
     try {
       let storeEmail = await SecureStore.getItemAsync('email');
       let jwt = await SecureStore.getItemAsync('jwt');
-      setJwt(jwt)
+
+      setJwt(jwt);
       setEmail(storeEmail);
+
       if (errorMessage === null && what3Words === null) {
-        const requestOptions =
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'jwt': jwt },
-          body: JSON.stringify(location)
-        };
-        await fetch(
-          ipAdress + 'get-geodata',
-          requestOptions,
-        ).then(async response => {
-          if (response.ok) {
-            console.log("RESPONSE OKAY")
-            const data = await response.json()
+        if (location === null || location === undefined) {
+          // location
+          let loc = await getLocation();
 
-            let what3words = data.words;
-            set3Words(what3words);
-          } else {
-            console.log("RESPONSE NOT OKAY")
-            const data = await response.json()
-            let errorMessage = {
-              status: "error",
-              title: data.words
-            };
-            setErrorMessage(errorMessage);
-            console.log("Error msg: " + JSON.stringify(errorMessage));
-            // Alert.alert(errorMessage.title);
+          // what3words
+          if (what3Words === null || what3Words === undefined) {
+            let words = await getW3W(jwt, loc);
+            set3Words(words);
           }
-        });
+          // hospitals
+          // if (hospitals_short === [] || hospitals_short === undefined) {
+            let data = await getHospitals(jwt, loc);
+            if (data !== null) {
+              let tempShort = [];
+              let tempRest = [];
 
-        // add coords to request body
-        requestOptions.body = JSON.stringify({
-          coords: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-          }
-        });
-
-        console.log("GET HOSPITALS");
-        await fetch(
-          ipAdress + 'get-hospitals',
-          requestOptions,
-        ).then(async response => {
-          const data = await response.json()
-
-          if (response.ok) {
-            console.log("HOSPITAL RESPONSE OKAY")
-            // hospitals_all = data;
-            let tempShort = [];
-            let tempRest = [];
-            for (let index = 0; index < Object.keys(data).length; index++) {
-              if (index < hospital_count_short) {
-                tempShort.push(data[index]);
-              } else {
-                tempRest.push(data[index]);
+              for (let index = 0; index < Object.keys(data).length; index++) {
+                if (index < hospital_count_short) {
+                  tempShort.push(data[index]);
+                } else {
+                  tempRest.push(data[index]);
+                }
               }
+
+              setHospitalShort(tempShort);
+              setHospitalRest(tempRest);
             }
-            setHospitalShort(tempShort);
-            setHospitalRest(tempRest);
-          } else {
-            console.log("HOSPITAL RESPONSE NOT OKAY");
-          }
-        });
+          // }
+        }
       }
     } catch (error) {
       console.error(error);
     }
-  });
+  }, []);
 
   function handleNavigationData() {
     navigation.navigate('Data')
   };
 
-  function handleNavigationGuide() {
-    navigation.navigate('Guide')
-  }
+  // function handleNavigationGuide() {
+  //   navigation.navigate('Guide')
+  // }
 
-  if (jwt != undefined && email != undefined)
+  if (jwt != undefined && email != undefined) {
     return (
-      <ScrollView>
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <VStack style={[style.wrapper, style.flex, style.flexStart, style.paddingTop]}>
           <VStack style={style.marginForm}>
             <Text style={style.textCenter}>Willkommen,</Text>
@@ -145,8 +171,8 @@ function HomeScreen({ navigation }) {
           <Image
             key={new Date().getTime()}
             source={{
-              uri: ipAdress + 'create-qrcode?date=' + new Date + '&jwt=' + jwt,
-              headers: { 'jwt': jwt },
+              uri: ipAddress + 'create-qrcode?date=' + new Date() + '&jwt=' + jwt,
+              headers: { 'jwt': jwt, Pragma: 'no-cache' },
               cache: 'reload',
             }}
             style={[style.marginForm]}
@@ -156,33 +182,38 @@ function HomeScreen({ navigation }) {
             style={[style.marginForm]}>
             <Text variant={'button'}>Gesundheitsdaten hinzufügen</Text>
           </Button>
-          {/* {errorMessage === null && */}
-          <View style={[style.fullWidth]}>
+          <View style={[style.fullWidth, style.marginForm]}>
             <Text style={style.textCenter}>GPS-Position</Text>
             <Text>what3words:</Text>
             <Text>///{what3Words}</Text>
           </View>
-          {/* } */}
-          {/* {errorMessage !== null && Message(errorMessage)} */}
-          <Button
+          {/* <Button
             onPress={handleNavigationGuide}
             style={[style.marginForm]}>
             <Text variant={'button'}>Erste Hilfe Guide</Text>
-          </Button>
+          </Button> */}
           <View>
-            <Collapse>
+            <Collapse isExpanded={isExpanded} onToggle={(expanded) => { setIsExpanded(expanded) }}>
               <CollapseHeader>
                 <View style={[style.paddingForm, style.marginForm]}>
                   <Text>Krankenhäuser in der Nähe</Text>
                   {hospitals_short.map(hospital => {
-                    return <Text style={[style.dividerBot, style.paddingForm]}>─ {hospital.name}</Text>
+                    return <Text style={[style.dividerBot, style.paddingForm]} key={hospital.name}>─ {hospital.name}</Text>
                   })}
+                  {!isExpanded && <View style={style.flexBetween}>
+                    <Text style={[style.textCenter]}>Mehr anzeigen</Text>
+                    <AntDesign name="pluscircleo" color={textColor} size={20} />
+                  </View>}
+                  {isExpanded && <View style={style.flexBetween}>
+                    <Text style={style.textCenter}>Weniger anzeigen</Text>
+                    <AntDesign name="minuscircleo" color={textColor} size={20} />
+                  </View>}
                 </View>
               </CollapseHeader>
               <CollapseBody>
                 <VStack style={style.marginForm}>
                   {hospitals_rest.map(hospital => {
-                    return <Text style={[style.paddingForm]}>─ {hospital.name}</Text>
+                    return <Text style={[style.paddingForm]} key={hospital.name}>─ {hospital.name}</Text>
                   })}
                 </VStack>
               </CollapseBody>
@@ -191,7 +222,7 @@ function HomeScreen({ navigation }) {
         </VStack>
       </ScrollView>
     )
-  else {
+  } else {
     return (
       <View>
         <Text>loading</Text>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
-import { Input, Button, View, Text, Image } from 'native-base';
-import {ipAdress} from '../helper/HttpRequestHelper'
+import { Input, Button, View, Text, VStack, ScrollView } from 'native-base';
+import { ipAddress } from '../helper/HttpRequestHelper'
 
 function ChangePasswordScreen({ navigation }) {
   const style = require('../components/Styles');
@@ -9,33 +8,27 @@ function ChangePasswordScreen({ navigation }) {
   const [passwordConfirm, setPasswordConfirm] = useState(null)
   const [email, setEmail] = useState(null)
   const newPassword = {
-    email: '',
-    password: '',
-    passwordConfirm: '',
+    email: email,
+    password: password,
+    passwordConfirm: passwordConfirm,
   };
-  newPassword.password = password
-  newPassword.passwordConfirm = passwordConfirm
-  newPassword.email = email
 
   const handleSubmit = async () => {
     try {
       let jwt = await SecureStore.getItemAsync('jwt');
-      const requestOptions =
-      {
 
+      const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'jwt':jwt },
+        headers: { 'Content-Type': 'application/json', 'jwt': jwt },
         body: JSON.stringify(newPassword)
       };
-      //TODO add URL
-      console.log("POST")
-      console.log(JSON.stringify(newPassword))
-      console.log(requestOptions.body);
+
+      // fetch data
       await fetch(
-        ipAdress+'change-password',
+        ipAddress + 'change-password',
         requestOptions,
       ).then(response => {
-        response.json().then(data => {
+        response.json().then(() => {
           Alert.alert('Post created at : ');
         });
       });
@@ -49,40 +42,32 @@ function ChangePasswordScreen({ navigation }) {
   }
 
   return (
-    // <SafeAreaView style={styles.container}>    
-    // <View>
-    // <TextInput placeholder='Email' onChangeText={(value) => setEmail(value)} value={email} />
-    // <TextInput placeholder='Passwort' onChangeText={(value) => setPassword(value )} value={password} secureTextEntry={true}/>
-    // <TextInput placeholder='Passwort wiederholen' onChangeText={(value) => setPasswordConfirm(value )} value={passwordConfirm} secureTextEntry={true}/>
-    // <Button title='Bestätigen' onPress={handleSubmit}/>
-    // </View>
-    // </SafeAreaView>
-    <SafeAreaView>
-      <View style={[style.wrapper, style.flex]}>
-        <View style={[style.fullWidth, style.marginForm]}>
+    <ScrollView>
+      <VStack style={[style.wrapper, style.flex]}>
+        <View style={style.marginForm}>
           <Text>E-Mail</Text>
-          <Input style={style.fullWidth}
+          <Input
             variant="custom"
             onChangeText={(value) => setEmail(value)}
             value={email} />
         </View>
-        <View style={[style.fullWidth, style.marginForm]}>
+        <View style={style.marginForm}>
           <Text>Passwort</Text>
-          <Input style={style.fullWidth}
+          <Input
             variant="custom"
             onChangeText={(value) => setPassword(value)}
             value={password}
             secureTextEntry={true} />
         </View>
-        <View style={[style.fullWidth, style.marginForm]}>
-          <Text>Passwort wiederholen</Text>
-          <Input style={style.fullWidth}
+        <View style={style.marginForm}>
+          <Text>Passwort bestätigen</Text>
+          <Input
             variant="custom"
             onChangeText={(value) => setPasswordConfirm(value)}
             value={passwordConfirm}
             secureTextEntry={true} />
         </View>
-        <View style={style.fullWidth}>
+        <View>
           <Button onPress={handleSubmit} style={style.marginForm}>
             <Text>Bestätigen</Text>
           </Button>
@@ -93,8 +78,8 @@ function ChangePasswordScreen({ navigation }) {
             <Text>Abbrechen</Text>
           </Button>
         </View>
-      </View>
-    </SafeAreaView>
+      </VStack>
+    </ScrollView>
   );
 }
 
