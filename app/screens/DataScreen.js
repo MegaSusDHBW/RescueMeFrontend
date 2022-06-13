@@ -45,7 +45,7 @@ function DataScreen({ navigation }) {
   function formatDate(d) {
     let day = d.getDate();
     let month = (d.getMonth() + 1);
-    return (day < 10 ? '0' + month : month)
+    return (day < 10 ? '0' + day : day)
       + '.' + (month < 10 ? '0' + month : month)
       + '.' + d.getFullYear();
   }
@@ -69,6 +69,8 @@ function DataScreen({ navigation }) {
       setBloodGroup(data.bloodgroup);
       setFirstName(data.firstname);
       setLastName(data.lastname);
+      console.log("DATA " + data.birthdate)
+      console.log("DATE " + new Date(data.birthdate))
       setBirthDate(formatDate(new Date(data.birthdate)));
       if (data.organDonorState == 1) {
         setOrganDonorState(true);

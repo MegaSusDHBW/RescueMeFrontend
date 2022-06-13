@@ -6,6 +6,14 @@ import { Button, Input, Text, View, ScrollView } from "native-base";
 import { ipAddress } from '../helper/HttpRequestHelper'
 
 function EmergencyContact({ navigation }) {
+  function formatDate(d) {
+    let day = d.getDate();
+    let month = (d.getMonth() + 1);
+    return (day < 10 ? '0' + day : day)
+      + '.' + (month < 10 ? '0' + month : month)
+      + '.' + d.getFullYear();
+  }
+
   useEffect(async () => {
     await getUserMail();
     let jwt = await SecureStore.getItemAsync('jwt');
@@ -44,7 +52,7 @@ function EmergencyContact({ navigation }) {
   const contact = {
     firstName: firstName,
     lastName: lastName,
-    birthDate: birthDate,
+    birthDate: formatDate(new Date()),
     phoneNumber: phoneNumber,
     email: email,
     userMail: userMail,
@@ -97,14 +105,14 @@ function EmergencyContact({ navigation }) {
           value={lastName}
         />
       </View>
-      <View style={style.marginForm}>
+      {/* <View style={style.marginForm}>
         <Text>Geburtsdatum</Text>
         <Input
           variant="custom"
           onChangeText={(value) => setBirthDate(value)}
           value={birthDate}
         />
-      </View>
+      </View> */}
       <View style={style.marginForm}>
         <Text>Telefonnummer</Text>
         <Input
