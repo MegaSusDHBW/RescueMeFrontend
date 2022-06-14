@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
-import {Input, Button, View, Text, VStack, ScrollView} from 'native-base';
+import {Button, Input, ScrollView, Text, View, VStack} from 'native-base';
 import {ipAddress} from "../helper/HttpRequestHelper"
 
 function RegistrationScreen({navigation}) {
@@ -39,7 +39,7 @@ function RegistrationScreen({navigation}) {
                 requestOptions,
             ).then(response => {
                 response.json().then(() => {
-                   
+
                 });
             }).then(navigation.navigate('Login'));
         } catch (error) {
